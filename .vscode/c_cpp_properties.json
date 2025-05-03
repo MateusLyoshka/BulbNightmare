@@ -1,0 +1,24 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${GDK}/inc", // SGDK includes
+                "${workspaceFolder}/res", // Include folder for resources
+                "${GDK}/res" // SGDK resources path
+            ],
+            "defines": [],
+            "compilerPath": "C:/sgdk200/bin/gcc.exe",
+            "intelliSenseMode": "gcc-x64",
+            "browse": {
+                "path": [
+                    "${workspaceFolder}/**",
+                    "${GDK}/inc",
+                    "${GDK}/res"
+                ]
+            }
+        }
+    ],
+    "version": 4
+}
