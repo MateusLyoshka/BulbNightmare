@@ -7,10 +7,11 @@
 u8 gRoom;		  // Sala atual
 u32 gFrames;	  // Frame counter
 u16 gInd_tileset; // Carrega dados do background
-Sprite *gButtonCred;
-Sprite *gButtonCtrl;
+Sprite *gButtonStart;
+Sprite *gButtonMenu;
 u16 curlInput = 0; // Estado atual do botão
 u16 prevInput;	   // Estado anterior
+u8 gMainMenuOptions;
 
 int main(bool resetType)
 {
@@ -39,15 +40,45 @@ int main(bool resetType)
 				PAL_setPalette(PAL0, img_bg.palette->data, DMA);
 				gInd_tileset += img_bg.tileset->numTile;
 
-				gButtonCtrl = SPR_addSprite(&button_ctrl, 207, 200, TILE_ATTR(PAL1, FALSE, FALSE, FALSE));
-				PAL_setPalette(PAL1, button_ctrl.palette->data, DMA);
-
-				gButtonCred = SPR_addSprite(&button_cred, 263, 200, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
-				PAL_setPalette(PAL2, button_cred.palette->data, DMA);
+				gButtonStart = SPR_addSprite(&button_start, 98, 88, TILE_ATTR(PAL1, FALSE, FALSE, FALSE));
+				PAL_setPalette(PAL1, button_start.palette->data, DMA);
 			}
-		}
+			curlInput = JOY_readJoypad(JOY_1);
 
-		curlInput = JOY_readJoypad(JOY_1);
+			if (((curlInput & BUTTON_START) && !(prevInput & BUTTON_START)))
+			{
+				gButtonMenu = SPR_addSprite(&buttons_menu, 98, 72, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
+				PAL_setPalette(PAL2, buttons_menu.palette->data, DMA);
+				SPR_setVisibility(gButtonStart, HIDDEN);
+				gMainMenuOptions = 0;
+			}
+			if (((curlInput & BUTTON_DOWN) && !(prevInput & BUTTON_DOWN)) && gMainMenuOptions == 0)
+			{
+				gMainMenuOptions = 1;
+				SPR_setAnim(gButtonMenu, gMainMenuOptions);
+				prevInput = curlInput;
+			}
+			if (((curlInput & BUTTON_DOWN) && !(prevInput & BUTTON_DOWN)) && gMainMenuOptions == 1)
+			{
+				gMainMenuOptions = 2;
+				SPR_setAnim(gButtonMenu, gMainMenuOptions);
+				prevInput = curlInput;
+			}
+			if (((curlInput & BUTTON_UP) && !(prevInput & BUTTON_UP)) && gMainMenuOptions == 2)
+			{
+				gMainMenuOptions = 1;
+				SPR_setAnim(gButtonMenu, gMainMenuOptions);
+				prevInput = curlInput;
+			}
+			if (((curlInput & BUTTON_UP) && !(prevInput & BUTTON_UP)) && gMainMenuOptions == 1)
+			{
+				gMainMenuOptions = 0;
+				SPR_setAnim(gButtonMenu, gMainMenuOptions);
+				prevInput = curlInput;
+			}
+
+			prevInput = curlInput;
+		}
 
 		if (gRoom == 2) //
 		{

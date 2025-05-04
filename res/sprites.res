@@ -1,2 +1,2 @@
-SPRITE button_cred "sprites/cred.png" 7 3 FAST
-SPRITE button_ctrl "sprites/ctrl.png" 7 3 FAST
+SPRITE buttons_menu "sprites/buttons_menu.png" 7 7 FAST 6
+SPRITE button_start "sprites/start.png" 7 3 FAST 6
