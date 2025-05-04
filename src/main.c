@@ -11,7 +11,7 @@ Sprite *gButtonStart;
 Sprite *gButtonMenu;
 u16 curlInput = 0; // Estado atual do botão
 u16 prevInput;	   // Estado anterior
-u8 gMainMenuOptions;
+s8 gMainMenuOptions = -1;
 
 int main(bool resetType)
 {
@@ -32,6 +32,7 @@ int main(bool resetType)
 		gFrames++;
 		if (gRoom == 1) // Main Menu
 		{
+
 			if (gFrames == 1)
 			{
 				VDP_setScreenWidth320();
@@ -45,7 +46,7 @@ int main(bool resetType)
 			}
 			curlInput = JOY_readJoypad(JOY_1);
 
-			if (((curlInput & BUTTON_START) && !(prevInput & BUTTON_START)))
+			if (((curlInput & BUTTON_START) && !(prevInput & BUTTON_START)) && gMainMenuOptions == -1)
 			{
 				gButtonMenu = SPR_addSprite(&buttons_menu, 98, 72, TILE_ATTR(PAL2, FALSE, FALSE, FALSE));
 				PAL_setPalette(PAL2, buttons_menu.palette->data, DMA);
