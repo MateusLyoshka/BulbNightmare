@@ -5,7 +5,8 @@
 // Associa numero de BGS a imagem
 static const Image *backgrounds[BG_COUNT] = {
     &menu_bg,
-    &game_bg};
+    &game_bg,
+    &white_bg};
 
 u16 BACKGROUND_show(BackgroundType type, u16 tile_index)
 {

@@ -3,6 +3,7 @@
 #include <sprite_eng.h>
 #include "resources.h"
 #include "background.h"
+#include "player.h"
 
 u16 gInd_tileset; // Carrega dados do background
 Sprite *gButtonStart;
@@ -15,17 +16,12 @@ u16 ind = TILE_USER_INDEX;
 
 void game_init()
 {
-	// VDP_setScreenWidth320();
 	SPR_init();
 
-#ifndef DEBUG
-	ind += BACKGROUND_show(BG_TITLE, ind);
-
-#endif
-
-#ifdef DEBUG
-	LEVEL_draw_collision_map();
-#endif
+	// ind += BACKGROUND_show(BG_TITLE, ind);
+	ind += BACKGROUND_show(BG_WHITE, ind);
+	ind += PLAYER_init(ind);
+	kprintf("ind: %d\n", ind);
 }
 
 int main(bool resetType)
@@ -36,7 +32,6 @@ int main(bool resetType)
 		SYS_hardReset();
 	}
 
-	// VDP_setPlaneSize(64, 64, TRUE);
 	game_init();
 
 	SYS_doVBlankProcess();
