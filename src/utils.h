@@ -23,4 +23,35 @@ inline Box UTILS_get_box(int x, int y, int w, int h)
     return (Box){x, x + w, y, y + h};
 }
 
+// GAMEPAD INPUT
+
+inline void update_input()
+{
+    for (int i = NUMBER_OF_JOYPADS - 1; i >= 0; i--)
+    {
+        buttons_old[i] = buttons[i];
+        buttons[i] = JOY_readJoypad(i);
+    }
+}
+
+inline bool is_bitset(u8 value, u8 bit)
+{
+    return ((value & bit) == bit);
+}
+
+inline bool key_down(u8 joy_id, u8 key)
+{
+    return is_bitset(buttons[joy_id], key);
+}
+
+inline bool key_pressed(u8 joy_id, u8 key)
+{
+    return is_bitset(buttons[joy_id], key) && !is_bitset(buttons_old[joy_id], key);
+}
+
+inline bool key_released(u8 joy_id, u8 key)
+{
+    return !is_bitset(buttons[joy_id], key) && is_bitset(buttons_old[joy_id], key);
+}
+
 #endif

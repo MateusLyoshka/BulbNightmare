@@ -31,6 +31,6 @@ extern char text[5];
 #define PAL_MAP PAL2
 #define PAL_BACKGROUND PAL3
 
-#define NUMBER_OF_JOYPADS 3
+#define NUMBER_OF_JOYPADS 2
 
 #endif

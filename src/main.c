@@ -4,6 +4,7 @@
 #include "resources.h"
 #include "background.h"
 #include "player.h"
+#include "utils.h"
 
 u16 gInd_tileset; // Carrega dados do background
 Sprite *gButtonStart;
@@ -20,7 +21,7 @@ void game_init()
 
 	// ind += BACKGROUND_show(BG_TITLE, ind);
 	ind += BACKGROUND_show(BG_WHITE, ind);
-	ind += PLAYER_init(ind);
+	PLAYER_init(ind);
 	kprintf("ind: %d\n", ind);
 }
 
@@ -38,7 +39,8 @@ int main(bool resetType)
 
 	while (true)
 	{
-
+		update_input();
+		PLAYER_update();
 		SPR_update();
 		SYS_doVBlankProcess();
 	}

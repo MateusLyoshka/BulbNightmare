@@ -13,6 +13,6 @@ u16 PLAYER_init(u16 ind);
 
 void PLAYER_update();
 
-void PLAYER_get_input_dir2();
+void PLAYER_get_input_lr();
 
 #endif
