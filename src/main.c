@@ -29,6 +29,35 @@ void game_init()
 	kprintf("ind: %d\n", ind);
 }
 
+inline void update_camera(GameObject *obj)
+{
+	if (obj->x > (FIX16(SCREEN_W) - obj->w / 2))
+	{
+		obj->x = 0;
+		screen_x += SCREEN_W;
+		MAP_scrollTo(map, screen_x, screen_y);
+	}
+	else if (obj->x < (FIX16(-obj->w / 2)))
+	{
+		obj->x = FIX16(SCREEN_W - obj->w);
+		screen_x -= SCREEN_W;
+		MAP_scrollTo(map, screen_x, screen_y);
+	}
+
+	if (obj->y > (FIX16(SCREEN_H) - obj->h / 2))
+	{
+		obj->y = 0;
+		screen_y += SCREEN_H;
+		MAP_scrollTo(map, screen_x, screen_y);
+	}
+	else if (obj->y < (FIX16(-obj->h / 2)))
+	{
+		obj->y = FIX16(SCREEN_H - obj->h);
+		screen_y -= SCREEN_H;
+		MAP_scrollTo(map, screen_x, screen_y);
+	}
+}
+
 int main(bool resetType)
 {
 	// Soft reset doesn't clear RAM. Can lead to bugs.
@@ -45,6 +74,7 @@ int main(bool resetType)
 	{
 		update_input();
 		PLAYER_update();
+		update_camera(&player);
 		SPR_update();
 		SYS_doVBlankProcess();
 	}
