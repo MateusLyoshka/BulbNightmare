@@ -1,10 +1,13 @@
 
 #include <genesis.h>
 #include <sprite_eng.h>
+
 #include "resources.h"
+
 #include "background.h"
 #include "player.h"
 #include "utils.h"
+#include "level.h"
 
 u16 gInd_tileset; // Carrega dados do background
 Sprite *gButtonStart;
@@ -17,10 +20,11 @@ u16 ind = TILE_USER_INDEX;
 
 void game_init()
 {
+	VDP_setScreenWidth320();
 	SPR_init();
 
-	// ind += BACKGROUND_show(BG_TITLE, ind);
-	ind += BACKGROUND_show(BG_WHITE, ind);
+	ind += BACKGROUND_show(BG_GAME, ind);
+	ind += LEVEL_init(ind);
 	PLAYER_init(ind);
 	kprintf("ind: %d\n", ind);
 }

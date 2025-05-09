@@ -36,11 +36,19 @@ void PLAYER_get_input_lr()
     if (key_down(0, BUTTON_RIGHT))
     {
         player.speed_x = PLAYER_SPEED;
-        player.anim = 1;
+        player.anim = 2;
     }
     if (key_down(0, BUTTON_LEFT))
     {
         player.speed_x = -PLAYER_SPEED;
+        player.anim = 2;
+    }
+    if (key_released(0, BUTTON_RIGHT))
+    {
+        player.anim = 0;
+    }
+    if (key_released(0, BUTTON_LEFT))
+    {
         player.anim = 0;
     }
 }
