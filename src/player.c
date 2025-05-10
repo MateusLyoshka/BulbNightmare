@@ -6,7 +6,8 @@
 #include "utils.h"
 
 GameObject player;
-f16 player_gravity = 2;
+f16 player_gravity = 30;
+f16 player_speed = 70;
 
 u16 PLAYER_init(u16 ind)
 {
@@ -16,12 +17,25 @@ u16 PLAYER_init(u16 ind)
 
 void PLAYER_update()
 {
-    player.speed_y += 2;
-    player.next_y = player.y + player.speed_y;
+    if (player_gravity > 0)
+    {
+        if (player.speed_y < 300)
+        {
+            player.speed_y += player_gravity;
+        }
+    }
+    else
+    {
+        if (player.speed_y > -300)
+        {
+            player.speed_y += player_gravity;
+        }
+    }
+    kprintf("speed: %i", player.speed_y);
     PLAYER_get_input_lr();
 
     player.next_x = player.x + player.speed_x;
-    // player.next_y = player.y + player.speed_y;
+    player.next_y = player.y + player.speed_y;
 
     LEVEL_move_and_slide(&player);
 
@@ -35,31 +49,32 @@ void PLAYER_update()
 void PLAYER_get_input_lr()
 {
     player.speed_x = 0;
-    player.speed_y = 0;
+    // player.speed_y = 0;
 
     if (key_down(0, BUTTON_RIGHT))
     {
-        player.speed_x = PLAYER_SPEED;
-        player.anim = 0;
+        player.speed_x = player_speed;
+        player.anim = 2;
     }
     if (key_down(0, BUTTON_LEFT))
     {
-        player.speed_x = -PLAYER_SPEED;
-        player.anim = 0;
+        player.speed_x = -player_speed;
+        player.anim = 2;
     }
     if (key_pressed(0, BUTTON_A))
     {
+        player.speed_y = 0;
         player_gravity = -player_gravity;
         SPR_setVFlip(player.sprite, player_gravity < 0);
     }
     // if (key_down(0, BUTTON_UP))
     // {
-    //     player.speed_y = -PLAYER_SPEED;
+    //     player.speed_y = -player_speed;
     //     player.anim = 0;
     // }
     // if (key_down(0, BUTTON_DOWN))
     // {
-    //     player.speed_y = PLAYER_SPEED;
+    //     player.speed_y = player_speed;
     //     player.anim = 0;
     // }
     if (key_released(0, BUTTON_RIGHT))

@@ -5,10 +5,9 @@
 #include "gameobject.h"
 #include "resources.h"
 
-#define PLAYER_SPEED FIX16(2)
-
 extern GameObject player;
 extern f16 player_gravity;
+extern f16 player_speed;
 
 u16 PLAYER_init(u16 ind);
 
