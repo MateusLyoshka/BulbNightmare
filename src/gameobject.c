@@ -9,6 +9,7 @@ u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite,
     obj->next_y = obj->y;
     obj->speed_x = 0;
     obj->speed_y = 0;
+    obj->gravity = FIX16(2);
     obj->anim = 0;
     PAL_setPalette(pal, sprite->palette->data, DMA);
 

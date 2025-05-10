@@ -22,6 +22,7 @@ typedef struct
     f16 next_y;
     f16 speed_x;
     f16 speed_y;
+    f16 gravity; // ...
     u8 w;
     u8 h;
     BoundBox box;
