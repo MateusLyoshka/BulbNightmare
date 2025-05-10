@@ -8,11 +8,27 @@
 
 #define NUMBER_OF_LEVELS 5
 
+extern u8 collision_result;
+
 extern Map *map;
+extern u8 collision_map[SCREEN_METATILES_W][SCREEN_METATILES_H];
+
+#define COLLISION_LEFT 0b0001
+#define COLLISION_RIGHT 0b0010
+#define COLLISION_TOP 0b0100
+#define COLLISION_BOTTOM 0b1000
 
 extern u16 screen_x;
 extern u16 screen_y;
 
 u16 LEVEL_init(u16 ind);
+void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index);
+void LEVEL_draw_collision_map();
+void LEVEL_move_and_slide(GameObject *obj);
+
+inline u8 LEVEL_wall_at(s16 x, s16 y)
+{
+    return collision_map[x / METATILE_W][y / METATILE_W];
+}
 
 #endif

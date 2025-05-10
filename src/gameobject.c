@@ -9,7 +9,6 @@ u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite,
     obj->next_y = obj->y;
     obj->speed_x = 0;
     obj->speed_y = 0;
-    obj->gravity = FIX16(2);
     obj->anim = 0;
     PAL_setPalette(pal, sprite->palette->data, DMA);
 
@@ -18,4 +17,12 @@ u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite,
     obj->h = obj->sprite->definition->h;
 
     return obj->sprite->definition->maxNumTile;
+}
+
+void GAMEOBJECT_update_boundbox(f16 x, f16 y, GameObject *obj)
+{
+    obj->box.left = fix16ToInt(x);
+    obj->box.top = fix16ToInt(y);
+    obj->box.right = fix16ToInt(x) + obj->w;  // - 1;
+    obj->box.bottom = fix16ToInt(y) + obj->h; // - 1;
 }

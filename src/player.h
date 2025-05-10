@@ -8,6 +8,7 @@
 #define PLAYER_SPEED FIX16(2)
 
 extern GameObject player;
+extern f16 player_gravity;
 
 u16 PLAYER_init(u16 ind);
 

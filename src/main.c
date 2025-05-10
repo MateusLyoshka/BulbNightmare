@@ -26,6 +26,9 @@ void game_init()
 	ind += BACKGROUND_show(BG_GAME, ind);
 	ind += LEVEL_init(ind);
 	PLAYER_init(ind);
+	LEVEL_generate_screen_collision_map(0, 4);
+	LEVEL_draw_collision_map();
+
 	kprintf("ind: %d\n", ind);
 }
 

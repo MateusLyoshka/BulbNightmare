@@ -2,9 +2,11 @@
 #include <maths.h>
 
 #include "player.h"
+#include "level.h"
 #include "utils.h"
 
 GameObject player;
+f16 player_gravity = 2;
 
 u16 PLAYER_init(u16 ind)
 {
@@ -14,11 +16,14 @@ u16 PLAYER_init(u16 ind)
 
 void PLAYER_update()
 {
-
+    player.speed_y += 2;
+    player.next_y = player.y + player.speed_y;
     PLAYER_get_input_lr();
 
     player.next_x = player.x + player.speed_x;
-    player.next_y = player.y + player.gravity;
+    // player.next_y = player.y + player.speed_y;
+
+    LEVEL_move_and_slide(&player);
 
     player.x = player.next_x;
     player.y = player.next_y;
@@ -44,8 +49,8 @@ void PLAYER_get_input_lr()
     }
     if (key_pressed(0, BUTTON_A))
     {
-        player.gravity = -player.gravity;
-        SPR_setVFlip(player.sprite, player.gravity < 0);
+        player_gravity = -player_gravity;
+        SPR_setVFlip(player.sprite, player_gravity < 0);
     }
     // if (key_down(0, BUTTON_UP))
     // {

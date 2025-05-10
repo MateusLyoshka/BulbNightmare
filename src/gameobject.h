@@ -22,7 +22,6 @@ typedef struct
     f16 next_y;
     f16 speed_x;
     f16 speed_y;
-    f16 gravity; // ...
     u8 w;
     u8 h;
     BoundBox box;
@@ -30,5 +29,6 @@ typedef struct
 } GameObject;
 
 u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite, s16 x, s16 y, u8 pal, u16 ind);
+void GAMEOBJECT_update_boundbox(f16 x, f16 y, GameObject *obj);
 
 #endif
