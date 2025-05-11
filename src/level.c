@@ -27,7 +27,14 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
             // }
             if (tile_index >= first_index && tile_index <= last_index)
             {
-                collision_map[x][y] = 1;
+                if (tile_index == 0)
+                {
+                    collision_map[x][y] = 1;
+                }
+                else
+                {
+                    collision_map[x][y] = 2;
+                }
             }
         }
     }
@@ -77,13 +84,21 @@ void LEVEL_move_and_slide(GameObject *obj)
 
     if (obj->speed_y < 0)
     { // moving up
-        if (LEVEL_wall_at(obj->box.left, obj->box.top) ||
-            LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) ||
-            LEVEL_wall_at(obj->box.right - 1, obj->box.top))
+        if ((LEVEL_wall_at(obj->box.left, obj->box.top) ||
+             LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) ||
+             LEVEL_wall_at(obj->box.right - 1, obj->box.top)) == 1)
+        {
+
+            obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W);
+        }
+        if ((LEVEL_wall_at(obj->box.left, obj->box.top) ||
+             LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) ||
+             LEVEL_wall_at(obj->box.right - 1, obj->box.top)) > 1)
         {
             obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W);
-            collision_result |= COLLISION_TOP;
+            kprintf("espinho %i", (obj->box.top / METATILE_W + 1) * METATILE_W);
         }
+        collision_result |= COLLISION_TOP;
     }
 
     else if (obj->speed_y > 0)

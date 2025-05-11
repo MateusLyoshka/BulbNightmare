@@ -5,6 +5,8 @@
 #include "gameobject.h"
 #include "resources.h"
 
+#define PLAYER_MAX_GRAVITY 300
+
 extern GameObject player;
 extern f16 player_gravity;
 extern f16 player_speed;

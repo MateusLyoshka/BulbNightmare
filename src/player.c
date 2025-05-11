@@ -17,21 +17,25 @@ u16 PLAYER_init(u16 ind)
 
 void PLAYER_update()
 {
+    // if (collision_result >= 4)
+    // {
+    //     player.speed_y = 1;
+    // }
     if (player_gravity > 0)
     {
-        if (player.speed_y < 300)
+        if (player.speed_y < PLAYER_MAX_GRAVITY)
         {
             player.speed_y += player_gravity;
         }
     }
     else
     {
-        if (player.speed_y > -300)
+        if (player.speed_y > -PLAYER_MAX_GRAVITY)
         {
             player.speed_y += player_gravity;
         }
     }
-    kprintf("speed: %i", player.speed_y);
+    // kprintf("speed: %i", player.speed_y);
     PLAYER_get_input_lr();
 
     player.next_x = player.x + player.speed_x;
