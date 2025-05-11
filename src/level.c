@@ -53,6 +53,8 @@ u16 LEVEL_init(u16 ind)
     return ind;
 }
 
+u8 LEVEL_wall_at(s16 x, s16 y);
+
 void LEVEL_move_and_slide(GameObject *obj)
 {
     collision_result = 0;
@@ -84,18 +86,15 @@ void LEVEL_move_and_slide(GameObject *obj)
 
     if (obj->speed_y < 0)
     { // moving up
-        if ((LEVEL_wall_at(obj->box.left, obj->box.top) ||
-             LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) ||
-             LEVEL_wall_at(obj->box.right - 1, obj->box.top)) == 1)
+        if (LEVEL_wall_at(obj->box.left, obj->box.top) == 1 ||
+            LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) == 1 ||
+            LEVEL_wall_at(obj->box.right - 1, obj->box.top) == 1)
         {
-
             obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W);
         }
-        if ((LEVEL_wall_at(obj->box.left, obj->box.top) ||
-             LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) ||
-             LEVEL_wall_at(obj->box.right - 1, obj->box.top)) > 1)
+        if (LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) > 1)
         {
-            obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W);
+            obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W + obj->h);
             kprintf("espinho %i", (obj->box.top / METATILE_W + 1) * METATILE_W);
         }
         collision_result |= COLLISION_TOP;
@@ -103,13 +102,18 @@ void LEVEL_move_and_slide(GameObject *obj)
 
     else if (obj->speed_y > 0)
     { // moving down
-        if (LEVEL_wall_at(obj->box.left, obj->box.bottom) ||
-            LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.bottom) ||
-            LEVEL_wall_at(obj->box.right - 1, obj->box.bottom))
+        if (LEVEL_wall_at(obj->box.left, obj->box.bottom) == 1 ||
+            LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.bottom) == 1 ||
+            LEVEL_wall_at(obj->box.right - 1, obj->box.bottom) == 1)
         {
-            obj->next_y = FIX16((obj->box.bottom / METATILE_W) * METATILE_W - obj->h);
-            collision_result |= COLLISION_BOTTOM;
+            obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W - obj->h);
         }
+        if (LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.bottom) > 1)
+        {
+            obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W - obj->h / 2);
+            kprintf("espinho bottom %i", (obj->box.top / METATILE_W + 1) * METATILE_W - obj->h / 2);
+        }
+        collision_result |= COLLISION_TOP;
     }
 }
 
@@ -125,4 +129,10 @@ void LEVEL_draw_collision_map()
             VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
         }
     }
+}
+
+u8 LEVEL_wall_at(s16 x, s16 y)
+{
+    u8 value = collision_map[x / METATILE_W][y / METATILE_W];
+    return value;
 }

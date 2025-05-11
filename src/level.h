@@ -26,9 +26,4 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index);
 void LEVEL_draw_collision_map();
 void LEVEL_move_and_slide(GameObject *obj);
 
-inline u8 LEVEL_wall_at(s16 x, s16 y)
-{
-    return collision_map[x / METATILE_W][y / METATILE_W];
-}
-
 #endif
