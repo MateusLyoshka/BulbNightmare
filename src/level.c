@@ -27,11 +27,11 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
             // }
             if (tile_index >= first_index && tile_index <= last_index)
             {
-                if (tile_index == 0)
+                if (tile_index == BLOCKS_LEVEL_INDEX)
                 {
                     collision_map[x][y] = 1;
                 }
-                else
+                else if (BOTTOM_SPIKE_LEVEL_INDEX == tile_index || tile_index == TOP_SPIKE_LEVEL_INDEX)
                 {
                     collision_map[x][y] = 2;
                 }
@@ -44,7 +44,7 @@ u16 LEVEL_init(u16 ind)
 {
     PAL_setPalette(PAL_MAP, levels_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
-    map = MAP_create(&level1_map, BG_A, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+    map = MAP_create(&level1_map, BG_B, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
 
     MAP_scrollToEx(map, 0, 0, TRUE);
 
@@ -71,7 +71,7 @@ void LEVEL_move_and_slide(GameObject *obj)
         }
     }
 
-    else if (obj->speed_x < 0)
+    if (obj->speed_x < 0)
     { // moving left
         if (LEVEL_wall_at(obj->box.left, obj->box.top) ||
             LEVEL_wall_at(obj->box.left, obj->box.top + obj->h / 2) ||
@@ -86,40 +86,30 @@ void LEVEL_move_and_slide(GameObject *obj)
 
     if (obj->speed_y < 0)
     { // moving up
-        if (LEVEL_wall_at(obj->box.left, obj->box.top) == 1 ||
-            LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) == 1 ||
-            LEVEL_wall_at(obj->box.right - 1, obj->box.top) == 1)
+        if (LEVEL_wall_at(obj->box.left, obj->box.top) ||
+            LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) ||
+            LEVEL_wall_at(obj->box.right - 1, obj->box.top))
         {
             obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W);
+            collision_result |= COLLISION_TOP;
         }
-        if (LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.top) > 1)
-        {
-            obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W + obj->h);
-            kprintf("espinho %i", (obj->box.top / METATILE_W + 1) * METATILE_W);
-        }
-        collision_result |= COLLISION_TOP;
     }
 
     else if (obj->speed_y > 0)
     { // moving down
-        if (LEVEL_wall_at(obj->box.left, obj->box.bottom) == 1 ||
-            LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.bottom) == 1 ||
-            LEVEL_wall_at(obj->box.right - 1, obj->box.bottom) == 1)
+        if (LEVEL_wall_at(obj->box.left, obj->box.bottom) ||
+            LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.bottom) ||
+            LEVEL_wall_at(obj->box.right - 1, obj->box.bottom))
         {
-            obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W - obj->h);
+            obj->next_y = FIX16((obj->box.bottom / METATILE_W) * METATILE_W - obj->h);
+            collision_result |= COLLISION_BOTTOM;
         }
-        if (LEVEL_wall_at(obj->box.left + obj->w / 2, obj->box.bottom) > 1)
-        {
-            obj->next_y = FIX16((obj->box.top / METATILE_W + 1) * METATILE_W - obj->h / 2);
-            kprintf("espinho bottom %i", (obj->box.top / METATILE_W + 1) * METATILE_W - obj->h / 2);
-        }
-        collision_result |= COLLISION_TOP;
     }
 }
 
 void LEVEL_draw_collision_map()
 {
-    VDP_setTextPlane(BG_B);
+    VDP_setTextPlane(BG_A);
     PAL_setColor(15, RGB24_TO_VDPCOLOR(0xFFFFFF));
     for (u8 x = 0; x < SCREEN_METATILES_W; ++x)
     {
@@ -134,5 +124,10 @@ void LEVEL_draw_collision_map()
 u8 LEVEL_wall_at(s16 x, s16 y)
 {
     u8 value = collision_map[x / METATILE_W][y / METATILE_W];
-    return value;
+    if (value == 1)
+    {
+        return 1;
+    }
+    else
+        return 0;
 }

@@ -3,7 +3,6 @@
 
 extern const u8 snd_start[25600];
 extern const Image menu_bg;
-extern const Image game_bg;
 extern const Image white_bg;
 extern const SpriteDefinition buttons_menu;
 extern const SpriteDefinition button_start;

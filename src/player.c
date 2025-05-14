@@ -21,6 +21,11 @@ void PLAYER_update()
     // {
     //     player.speed_y = 1;
     // }
+    if (collision_map[player.x][player.y] == 2)
+    {
+        kprintf("caiu no espingas");
+    }
+
     if (player_gravity > 0)
     {
         if (player.speed_y < PLAYER_MAX_GRAVITY)

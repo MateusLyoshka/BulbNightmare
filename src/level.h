@@ -18,6 +18,11 @@ extern u8 collision_map[SCREEN_METATILES_W][SCREEN_METATILES_H];
 #define COLLISION_TOP 0b0100
 #define COLLISION_BOTTOM 0b1000
 
+#define BLOCKS_LEVEL_INDEX 0
+#define BOTTOM_SPIKE_LEVEL_INDEX 2
+#define TOP_SPIKE_LEVEL_INDEX 3
+#define BACKGROUND_LEVEL_INDEX 4
+
 extern u16 screen_x;
 extern u16 screen_y;
 

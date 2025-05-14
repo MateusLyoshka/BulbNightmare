@@ -7,7 +7,6 @@
 typedef enum
 {
     BG_TITLE,
-    BG_GAME,
     BG_WHITE,
     // BG_OPTIONS,
     // BG_CREDITS,
