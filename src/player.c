@@ -17,13 +17,14 @@ u16 PLAYER_init(u16 ind)
 
 void PLAYER_update()
 {
-    // if (collision_result >= 4)
-    // {
-    //     player.speed_y = 1;
-    // }
     if (collision_map[player.x][player.y] == 2)
     {
         kprintf("caiu no espingas");
+    }
+
+    if (PLAYER_on_ground())
+    {
+        kprintf("oi blocos");
     }
 
     if (player_gravity > 0)
@@ -70,7 +71,7 @@ void PLAYER_get_input_lr()
         player.speed_x = -player_speed;
         player.anim = 2;
     }
-    if (key_pressed(0, BUTTON_A))
+    if (key_pressed(0, BUTTON_A) && PLAYER_on_ground())
     {
         player.speed_y = 0;
         player_gravity = -player_gravity;
@@ -94,4 +95,14 @@ void PLAYER_get_input_lr()
     {
         player.anim = 0;
     }
+}
+
+u8 PLAYER_on_ground()
+{
+    return ((LEVEL_wall_at(player.box.left, player.box.top) ||
+             LEVEL_wall_at(player.box.left + player.w / 2, player.box.top) ||
+             LEVEL_wall_at(player.box.right - 1, player.box.top)) ||
+            (LEVEL_wall_at(player.box.left, player.box.bottom) ||
+             LEVEL_wall_at(player.box.left + player.w / 2, player.box.bottom) ||
+             LEVEL_wall_at(player.box.right - 1, player.box.bottom)));
 }

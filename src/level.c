@@ -23,7 +23,7 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
             collision_map[x][y] = 0;
 
             // if (tile_index != 8) {
-            KLog_U1("No zero tile: ", tile_index);
+            // KLog_U1("No zero tile: ", tile_index);
             // }
             if (tile_index >= first_index && tile_index <= last_index)
             {
@@ -52,8 +52,6 @@ u16 LEVEL_init(u16 ind)
 
     return ind;
 }
-
-u8 LEVEL_wall_at(s16 x, s16 y);
 
 void LEVEL_move_and_slide(GameObject *obj)
 {

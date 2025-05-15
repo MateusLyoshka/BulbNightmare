@@ -12,9 +12,8 @@ extern f16 player_gravity;
 extern f16 player_speed;
 
 u16 PLAYER_init(u16 ind);
-
 void PLAYER_update();
-
 void PLAYER_get_input_lr();
+u8 PLAYER_on_ground();
 
 #endif
