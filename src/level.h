@@ -31,5 +31,6 @@ u16 LEVEL_init(u16 ind);
 void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index);
 void LEVEL_draw_collision_map();
 void LEVEL_move_and_slide(GameObject *obj);
+void LEVEL_draw_map();
 
 #endif

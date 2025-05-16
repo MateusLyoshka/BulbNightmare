@@ -27,7 +27,8 @@ void game_init()
 	ind += LEVEL_init(ind);
 	PLAYER_init(ind);
 	LEVEL_generate_screen_collision_map(0, 5);
-	LEVEL_draw_collision_map();
+	// LEVEL_draw_collision_map();
+	// LEVEL_draw_map();
 
 	// kprintf("ind: %d\n", ind);
 }

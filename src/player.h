@@ -10,6 +10,7 @@
 extern GameObject player;
 extern f16 player_gravity;
 extern f16 player_speed;
+extern u8 player_is_alive;
 
 u16 PLAYER_init(u16 ind);
 void PLAYER_update();

@@ -42,9 +42,9 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
 
 u16 LEVEL_init(u16 ind)
 {
-    PAL_setPalette(PAL_MAP, levels_pal.data, DMA);
+    PAL_setPalette(PAL_BACKGROUND_B, levels_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
-    map = MAP_create(&level1_map, BG_B, TILE_ATTR_FULL(PAL_MAP, FALSE, FALSE, FALSE, ind));
+    map = MAP_create(&level1_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
 
     MAP_scrollToEx(map, 0, 0, TRUE);
 
@@ -115,6 +115,27 @@ void LEVEL_draw_collision_map()
         {
             intToStr(collision_map[x][y], text, 1);
             VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
+        }
+    }
+}
+
+void LEVEL_draw_map()
+{
+    char text[4]; // Para valores de 0 a 99 (2 dígitos + \0)
+    VDP_setTextPlane(BG_A);
+    PAL_setColor(15, RGB24_TO_VDPCOLOR(0xFFFFFF));
+
+    for (u8 x = 0; x < SCREEN_METATILES_W; ++x)
+    {
+        for (u8 y = 0; y < SCREEN_METATILES_H; ++y)
+        {
+            // Converte X para string e desenha
+            intToStr(x, text, 1);
+            VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
+
+            // Converte Y para string e desenha um pouco mais à direita
+            intToStr(y, text, 1);
+            VDP_drawText(text, x * METATILE_W / 8 + 2, y * METATILE_W / 8);
         }
     }
 }

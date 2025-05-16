@@ -19,12 +19,12 @@ u16 BACKGROUND_show(BackgroundType type, u16 tile_index)
     VDP_drawImageEx(
         BG_B,
         bg,
-        TILE_ATTR_FULL(PAL1, 0, 0, 0, tile_index),
+        TILE_ATTR_FULL(PAL_BACKGROUND_A, 0, 0, 0, tile_index),
         0, 0,
         TRUE,
         DMA);
 
-    PAL_setPalette(PAL_BACKGROUND, bg->palette->data, DMA);
+    PAL_setPalette(PAL_BACKGROUND_A, bg->palette->data, DMA);
 
     return tile_index + bg->tileset->numTile;
 }

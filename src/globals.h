@@ -28,8 +28,8 @@ extern char text[5];
 
 #define PAL_PLAYER PAL0
 #define PAL_NPC PAL1
-#define PAL_MAP PAL2
-#define PAL_BACKGROUND PAL3
+#define PAL_BACKGROUND_A PAL2
+#define PAL_BACKGROUND_B PAL3
 
 #define NUMBER_OF_JOYPADS 2
 
