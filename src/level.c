@@ -1,6 +1,7 @@
 #include <genesis.h>
 #include "level.h"
 #include "map.h"
+#define DEBUG
 
 Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
@@ -27,13 +28,7 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
             u16 tile_pos_x = map_start_x + x + OFFSCREEN_TILES;
             u16 tile_pos_y = map_start_y + y + OFFSCREEN_TILES;
 
-            u16 tile_index = MAP_getTile(map,
-                                         tile_pos_x * (METATILE_W / 8),
-                                         tile_pos_y * (METATILE_W / 8)) &
-                             0x03FF;
-
-            // Armazena no mapa de colisão (com offset das bordas)
-            collision_map[x + OFFSCREEN_TILES][y + OFFSCREEN_TILES] = 0;
+            u16 tile_index = MAP_getTile(map, tile_pos_x * (METATILE_W / 8), tile_pos_y * (METATILE_W / 8)) & 0x03FF;
 
             if (tile_index >= first_index && tile_index <= last_index)
             {
@@ -41,6 +36,10 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
                     collision_map[x][y] = 1;
                 else if (tile_index == BOTTOM_SPIKE_LEVEL_INDEX || tile_index == TOP_SPIKE_LEVEL_INDEX)
                     collision_map[x][y] = 2;
+            }
+            else
+            {
+                collision_map[x + OFFSCREEN_TILES][y + OFFSCREEN_TILES] = 0;
             }
         }
     }
@@ -117,6 +116,10 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
     screen_y += offset_y;
     MAP_scrollTo(map, screen_x, screen_y);
     LEVEL_generate_screen_collision_map(0, 5);
+
+#ifdef DEBUG
+    LEVEL_draw_collision_map();
+#endif
 }
 
 void LEVEL_update_camera(GameObject *obj)
