@@ -15,6 +15,7 @@ u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite,
     obj->sprite = SPR_addSprite(sprite, x, y, TILE_ATTR_FULL(pal, FALSE, FALSE, 0, ind));
     obj->w = obj->sprite->definition->w;
     obj->h = obj->sprite->definition->h;
+    SPR_setDepth(obj->sprite, 0);
 
     return obj->sprite->definition->maxNumTile;
 }

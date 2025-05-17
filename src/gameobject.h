@@ -26,6 +26,7 @@ typedef struct
     u8 h;
     BoundBox box;
     u8 anim;
+    u8 depth;
 } GameObject;
 
 u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite, s16 x, s16 y, u8 pal, u16 ind);

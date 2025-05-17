@@ -6,6 +6,8 @@
 
 extern char text[5];
 
+#define PLAYER_MAX_HEALTH 10
+#define HUD_TILES 2
 #define SCREEN_W 320
 #define SCREEN_H 224
 

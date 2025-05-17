@@ -21,13 +21,13 @@ void PLAYER_update()
     s16 player_center_x = fix16ToInt(player.x) + player.w / 2;
     s16 player_center_y = fix16ToInt(player.y) + player.h / 2;
 
-    u16 tile_x = player_center_x / METATILE_W;
-    u16 tile_y = player_center_y / METATILE_W;
+    u16 center_x = player_center_x / METATILE_W;
+    u16 center_y = player_center_y / METATILE_W;
 
-    if (collision_map[tile_x][tile_y] == 2)
+    if (collision_map[center_x][center_y] == 2)
     {
-        kprintf("Espinho no centro do player! (%d, %d)", tile_x, tile_y);
-        player_is_alive = 0;
+        kprintf("Espinho no centro do player! (%d, %d)", center_x, center_y);
+        // player_is_alive = 0;
     }
 
     if (player_is_alive)
