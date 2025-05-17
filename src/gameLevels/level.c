@@ -1,6 +1,5 @@
 #include <genesis.h>
 #include "level.h"
-#include "map.h"
 #define DEBUG
 
 Map *map;

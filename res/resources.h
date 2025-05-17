@@ -10,6 +10,8 @@ extern const SpriteDefinition button_start;
 extern const SpriteDefinition spr_player;
 extern const SpriteDefinition spr_hud_itens;
 extern const SpriteDefinition spr_hud_font;
+extern const SpriteDefinition spr_g_enemy;
+extern const SpriteDefinition spr_f_enemy;
 extern const TileSet tiles;
 extern const Palette levels_pal;
 extern const MapDefinition level1_map;

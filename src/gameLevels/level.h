@@ -2,7 +2,8 @@
 #define _LEVEL_H_
 
 #include <genesis.h>
-#include "globals.h"
+#include "../utils/globals.h"
+#include "map.h"
 #include "gameobject.h"
 #include "resources.h"
 

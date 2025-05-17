@@ -3,6 +3,7 @@
 
 #include <genesis.h>
 #include "resources.h"
+#include "../utils/globals.h"
 
 typedef enum
 {

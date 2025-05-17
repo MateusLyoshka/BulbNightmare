@@ -4,10 +4,13 @@
 
 #include "resources.h"
 
-#include "background.h"
-#include "player.h"
-#include "utils.h"
-#include "level.h"
+#include "gameLevels/background.h"
+#include "gameLevels/gameobject.h"
+#include "utils/utils.h"
+#include "gameLevels/level.h"
+#include "gameLevels/hud.h"
+#include "enemies/enemies.h"
+#include "gameLevels/player.h"
 
 u16 gInd_tileset; // Carrega dados do background
 Sprite *gButtonStart;
@@ -25,9 +28,11 @@ void game_init()
 
 	// ind += BACKGROUND_show(BG_GAME, ind);
 	ind += LEVEL_init(ind);
+	ind += HUD_init(ind);
+	ind += ENEMIES_init(ind);
 	PLAYER_init(ind);
 	LEVEL_generate_screen_collision_map(0, 5);
-	LEVEL_draw_collision_map();
+	// LEVEL_draw_collision_map();
 	// LEVEL_draw_map();
 
 	// kprintf("ind: %d\n", ind);

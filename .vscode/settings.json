@@ -21,7 +21,10 @@
         "maths.h": "c",
         "level.h": "c",
         "limits": "c",
-        "background.h": "c"
+        "background.h": "c",
+        "globals.h": "c",
+        "utils.h": "c",
+        "enemies.h": "c"
     },
     "gens.path": "C:\\Users\\mateu\\Desktop\\Studio\\GameDevelopment\\Emuladores\\GensKMOD\\gens.exe",
     "C_Cpp.errorSquiggles": "disabled"

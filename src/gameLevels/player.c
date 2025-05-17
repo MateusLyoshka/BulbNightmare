@@ -2,8 +2,6 @@
 #include <maths.h>
 
 #include "player.h"
-#include "level.h"
-#include "utils.h"
 
 GameObject player;
 f16 player_gravity = 30;

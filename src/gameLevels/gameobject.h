@@ -3,7 +3,8 @@
 
 #include <genesis.h>
 #include "sprite_eng.h"
-#include "globals.h"
+#include "../utils/globals.h"
+#include "../utils/utils.h"
 
 typedef struct
 {

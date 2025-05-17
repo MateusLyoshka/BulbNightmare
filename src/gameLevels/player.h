@@ -4,6 +4,8 @@
 #include <genesis.h>
 #include "gameobject.h"
 #include "resources.h"
+#include "level.h"
+// utils
 
 #define PLAYER_MAX_GRAVITY 300
 

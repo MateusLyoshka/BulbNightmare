@@ -1,6 +1,4 @@
 #include "background.h"
-#include "resources.h"
-#include "globals.h"
 
 // Associa numero de BGS a imagem
 static const Image *backgrounds[BG_COUNT] = {

@@ -2,7 +2,7 @@
 #define _HUD_H
 
 #include <genesis.h>
-#include "globals.h"
+#include "../utils/globals.h"
 #include "gameobject.h"
 #include "resources.h"
 
