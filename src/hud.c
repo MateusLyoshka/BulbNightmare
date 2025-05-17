@@ -20,7 +20,7 @@ u16 HUD_init(u16 ind)
     hud_key_sprite = SPR_addSprite(&spr_hud_itens, 80, 0, TILE_ATTR(PAL_PLAYER, 1, 0, 0));
     hud_key_text_sprite = SPR_addSprite(&spr_hud_font, 96, 0, TILE_ATTR(PAL_PLAYER, 1, 0, 0));
 
-    SPR_setAnim(hud_eye_text_sprite, 2);
+    SPR_setAnim(hud_eye_text_sprite, 1);
     SPR_setAnim(hud_key_sprite, 1);
 
     return ind;

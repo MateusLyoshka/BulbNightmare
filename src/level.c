@@ -1,8 +1,9 @@
 #include <genesis.h>
 #include "level.h"
+#include "map.h"
 
 Map *map;
-u8 collision_map[SCREEN_METATILES_W][SCREEN_METATILES_H] = {0};
+u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
 
@@ -12,29 +13,34 @@ u16 screen_y = 0;
 
 void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
 {
-    s16 start_x = screen_x / METATILE_W; // find screen top-left cell in map
-    s16 start_y = screen_y / METATILE_W;
+    // Calcula a posição inicial em tiles no mapa geral
+    s16 map_start_x = (screen_x / METATILE_W) - OFFSCREEN_TILES;
+    s16 map_start_y = (screen_y / METATILE_W) - OFFSCREEN_TILES;
 
-    for (u8 x = start_x; x < start_x + SCREEN_METATILES_W; ++x)
+    memset(collision_map, 0, sizeof(collision_map));
+    // Preenche apenas a área visível (não as bordas offscreen)
+    for (u8 x = 0; x < SCREEN_METATILES_W; ++x)
     {
-        for (u8 y = start_y; y < start_y + SCREEN_METATILES_H; ++y)
+        for (u8 y = 0; y < SCREEN_METATILES_H; ++y)
         {
-            u16 tile_index = MAP_getTile(map, x * (METATILE_W / 8), y * (METATILE_W / 8)) & 0x03FF;
-            collision_map[x][y] = 0;
+            // Calcula a posição real no mapa
+            u16 tile_pos_x = map_start_x + x + OFFSCREEN_TILES;
+            u16 tile_pos_y = map_start_y + y + OFFSCREEN_TILES;
 
-            // if (tile_index != 8) {
-            // KLog_U1("No zero tile: ", tile_index);
-            // }
+            u16 tile_index = MAP_getTile(map,
+                                         tile_pos_x * (METATILE_W / 8),
+                                         tile_pos_y * (METATILE_W / 8)) &
+                             0x03FF;
+
+            // Armazena no mapa de colisão (com offset das bordas)
+            collision_map[x + OFFSCREEN_TILES][y + OFFSCREEN_TILES] = 0;
+
             if (tile_index >= first_index && tile_index <= last_index)
             {
                 if (tile_index == BLOCKS_LEVEL_INDEX)
-                {
                     collision_map[x][y] = 1;
-                }
-                else if (BOTTOM_SPIKE_LEVEL_INDEX == tile_index || tile_index == TOP_SPIKE_LEVEL_INDEX)
-                {
+                else if (tile_index == BOTTOM_SPIKE_LEVEL_INDEX || tile_index == TOP_SPIKE_LEVEL_INDEX)
                     collision_map[x][y] = 2;
-                }
             }
         }
     }
@@ -105,6 +111,38 @@ void LEVEL_move_and_slide(GameObject *obj)
     }
 }
 
+void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
+{
+    screen_x += offset_x;
+    screen_y += offset_y;
+    MAP_scrollTo(map, screen_x, screen_y);
+    LEVEL_generate_screen_collision_map(0, 5);
+}
+
+void LEVEL_update_camera(GameObject *obj)
+{
+    if (obj->x > (FIX16(SCREEN_W) - obj->w / 2))
+    {
+        obj->x = 0;
+        LEVEL_scroll_update_collision(SCREEN_W, 0);
+    }
+    else if (obj->x < (FIX16(-obj->w / 2)))
+    {
+        obj->x = FIX16(SCREEN_W - obj->w);
+        LEVEL_scroll_update_collision(-SCREEN_W, 0);
+    }
+
+    if (obj->y > (FIX16(SCREEN_H) - obj->h / 2))
+    {
+        obj->y = 0;
+        LEVEL_scroll_update_collision(0, SCREEN_H);
+    }
+    else if (obj->y < (FIX16(-obj->h / 2)))
+    {
+        obj->y = FIX16(SCREEN_H - obj->h);
+        LEVEL_scroll_update_collision(0, -SCREEN_H);
+    }
+}
 void LEVEL_draw_collision_map()
 {
     VDP_setTextPlane(BG_A);
@@ -115,27 +153,6 @@ void LEVEL_draw_collision_map()
         {
             intToStr(collision_map[x][y], text, 1);
             VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
-        }
-    }
-}
-
-void LEVEL_draw_map()
-{
-    char text[4]; // Para valores de 0 a 99 (2 dígitos + \0)
-    VDP_setTextPlane(BG_A);
-    PAL_setColor(15, RGB24_TO_VDPCOLOR(0xFFFFFF));
-
-    for (u8 x = 0; x < SCREEN_METATILES_W; ++x)
-    {
-        for (u8 y = 0; y < SCREEN_METATILES_H; ++y)
-        {
-            // Converte X para string e desenha
-            intToStr(x, text, 1);
-            VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
-
-            // Converte Y para string e desenha um pouco mais à direita
-            intToStr(y, text, 1);
-            VDP_drawText(text, x * METATILE_W / 8 + 2, y * METATILE_W / 8);
         }
     }
 }
