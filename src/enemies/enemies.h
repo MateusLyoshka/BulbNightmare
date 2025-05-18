@@ -5,27 +5,38 @@
 #include "resources.h"
 #include "../utils/globals.h"
 #include "../gameLevels/gameobject.h"
+#include "../gameLevels/level.h"
 
 #define MAX_ENEMIES 20
 #define FLYING 10
 #define GROUND 10
-#define LEVEL_1 2
-#define LEVEL_2 3
-#define LEVEL_3 4
-#define LEVEL_4 5
-#define LEVEL_5 6
+
+#define LEVEL_1_ENEMY_1 0
+#define LEVEL_1_ENEMY_2 1
+
+#define LEVEL_1_ENEMIES 2
+#define LEVEL_2_ENEMIES 3
+#define LEVEL_3_ENEMIES 4
+#define LEVEL_4_ENEMIES 5
+#define LEVEL_5_ENEMIES 6
+
+extern f16 g_enemy_speed;
 
 typedef struct
 {
     GameObject firefly;
     u8 type; // ground:0 flying:1
-    u8 level_id;
     u16 last_x;
     u16 last_y;
+    u8 travel_min_range;
+    u8 travel_max_range;
+
 } Enemy;
 
+u8 ENEMIES_init(u16 ind, u8 level);
+void ENEMIES_update_hub(u8 actual_level_enemies, u8 last_level_enemies);
+void ENEMIES_g_enemy_update(GameObject *firefly);
+u8 ENEMY_spawn(u8 index, u8 type, u16 last_x, u16 last_y, u16 ind);
 extern Enemy enemy_pool[MAX_ENEMIES];
-
-u8 ENEMIES_init(u16 ind);
 
 #endif
