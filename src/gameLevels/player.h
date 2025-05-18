@@ -5,6 +5,7 @@
 #include "gameobject.h"
 #include "resources.h"
 #include "level.h"
+#include "../enemies/enemies.h"
 // utils
 
 #define PLAYER_MAX_GRAVITY 300
@@ -18,5 +19,6 @@ u16 PLAYER_init(u16 ind);
 void PLAYER_update();
 void PLAYER_get_input_lr();
 u8 PLAYER_on_ground();
+void PLAYER_check_death();
 
 #endif

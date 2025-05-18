@@ -33,7 +33,6 @@ void game_init()
 	PLAYER_init(ind);
 	LEVEL_generate_screen_collision_map(0, 5);
 	// LEVEL_draw_collision_map();
-	// LEVEL_draw_map();
 
 	// kprintf("ind: %d\n", ind);
 }
@@ -55,7 +54,7 @@ int main(bool resetType)
 		update_input();
 		PLAYER_update();
 		LEVEL_update_camera(&player);
-		ENEMIES_update_hub(LEVEL_1_ENEMIES, 0);
+		ENEMIES_update_hub(2, 0);
 		SPR_update();
 		SYS_doVBlankProcess();
 	}

@@ -1,15 +1,17 @@
 #include <genesis.h>
 #include "level.h"
-#define DEBUG
+// #define DEBUG
 
 Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
+u8 LEVEL_actual_level = 0;
 
 // Top-Left screen position in map
 u16 screen_x = 0;
-u16 screen_y = 0;
+u16 screen_y = 448;
+Screen_coord LEVEL_screen[MAP_TOTAL_SCREENS];
 
 void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
 {
@@ -46,6 +48,21 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
 
 u16 LEVEL_init(u16 ind)
 {
+    u8 index = 0;
+    for (u8 row = 0; row < MAP_Y_SCREENS; row++)
+    {
+        for (u8 col = 0; col < MAP_X_SCREENS; col++)
+        {
+            LEVEL_screen[index].x = col * SCREEN_W;
+            LEVEL_screen[index].y = screen_y - (row * SCREEN_H);
+            index++;
+        }
+    }
+    for (u8 k = 0; k < MAP_TOTAL_SCREENS; k++)
+    {
+        kprintf("screen %d x: %d, screen %d y: %d", k, LEVEL_screen[k].x, k, LEVEL_screen[k].y);
+    }
+
     PAL_setPalette(PAL_BACKGROUND_B, levels_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
     map = MAP_create(&level1_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
@@ -113,6 +130,7 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
 {
     screen_x += offset_x;
     screen_y += offset_y;
+    kprintf("screen x: %d, screen y: %d", screen_x, screen_y);
     MAP_scrollTo(map, screen_x, screen_y);
     LEVEL_generate_screen_collision_map(0, 5);
 

@@ -1,26 +1,17 @@
-#ifndef _G_ENEMMIES
-#define _G_ENEMMIES
+#ifndef _ENEMMIES
+#define _ENEMMIES
 
 #include <genesis.h>
 #include "resources.h"
 #include "../utils/globals.h"
 #include "../gameLevels/gameobject.h"
 #include "../gameLevels/level.h"
-
-#define MAX_ENEMIES 20
-#define FLYING 10
-#define GROUND 10
+#include "../gameLevels/player.h"
 
 #define LEVEL_1_ENEMY_1 0
 #define LEVEL_1_ENEMY_2 1
 
-#define LEVEL_1_ENEMIES 2
-#define LEVEL_2_ENEMIES 3
-#define LEVEL_3_ENEMIES 4
-#define LEVEL_4_ENEMIES 5
-#define LEVEL_5_ENEMIES 6
-
-extern f16 g_enemy_speed;
+#define MAX_ENEMIES 20
 
 typedef struct
 {
@@ -30,6 +21,8 @@ typedef struct
     u16 last_y;
     u8 travel_min_range;
     u8 travel_max_range;
+    u8 spawn_screen;
+    u8 on_screen;
 
 } Enemy;
 

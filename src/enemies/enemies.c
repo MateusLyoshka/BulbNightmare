@@ -2,8 +2,8 @@
 
 Enemy enemy_pool[MAX_ENEMIES];
 
-f16 g_enemy_speed = 35;
-f16 f_enemy_speed = 20;
+const f16 g_enemy_speed = 35;
+const f16 f_enemy_speed = 20;
 
 u8 ENEMY_spawn(u8 index, u8 type, u16 last_x, u16 last_y, u8 min_range, u8 max_range, u16 ind)
 {
@@ -59,7 +59,6 @@ void ENEMIES_update_hub(u8 actual_level_enemies, u8 last_level_enemies)
 void ENEMIES_g_enemy_update(GameObject *firefly)
 {
     firefly->next_x = firefly->x + firefly->speed_x;
-
     GAMEOBJECT_update_boundbox(firefly->next_x, firefly->y, firefly);
 
     if (firefly->speed_x > 0)
@@ -93,7 +92,8 @@ void ENEMIES_f_enemy_update(GameObject *firefly, u8 i)
 {
     s16 firefly_center_x = fix16ToInt(firefly->x) + firefly->w / 2;
     u16 center_x = firefly_center_x / METATILE_W;
-    kprintf("center: %d, min: %d, max: %d", center_x, enemy_pool[i].travel_min_range, enemy_pool[i].travel_max_range);
+
+    GAMEOBJECT_update_boundbox(firefly->x, firefly->y, firefly);
 
     if (firefly->speed_x > 0)
     {

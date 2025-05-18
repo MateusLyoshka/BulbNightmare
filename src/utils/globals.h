@@ -28,6 +28,10 @@ extern char text[5];
 #define MAP_W MAP_TILES_W *TILE_W
 #define MAP_H MAP_TILES_H *TILE_W
 
+#define MAP_TOTAL_SCREENS 9
+#define MAP_X_SCREENS 3
+#define MAP_Y_SCREENS 3
+
 #define PAL_PLAYER PAL0
 #define PAL_NPC PAL1
 #define PAL_BACKGROUND_A PAL2

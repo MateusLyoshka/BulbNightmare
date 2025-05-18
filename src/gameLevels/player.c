@@ -16,17 +16,7 @@ u16 PLAYER_init(u16 ind)
 
 void PLAYER_update()
 {
-    s16 player_center_x = fix16ToInt(player.x) + player.w / 2;
-    s16 player_center_y = fix16ToInt(player.y) + player.h / 2;
-
-    u16 center_x = player_center_x / METATILE_W;
-    u16 center_y = player_center_y / METATILE_W;
-
-    if (collision_map[center_x][center_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[center_x][center_y] == BOTTOM_SPIKE_LEVEL_INDEX)
-    {
-        kprintf("Espinho no centro do player! (%d, %d)", center_x, center_y);
-        // player_is_alive = 0;
-    }
+    PLAYER_check_death();
 
     if (player_is_alive)
     {
@@ -81,16 +71,16 @@ void PLAYER_get_input_lr()
         player_gravity = -player_gravity;
         SPR_setVFlip(player.sprite, player_gravity < 0);
     }
-    // if (key_down(0, BUTTON_UP))
-    // {
-    //     player.speed_y = -player_speed;
-    //     player.anim = 0;
-    // }
-    // if (key_down(0, BUTTON_DOWN))
-    // {
-    //     player.speed_y = player_speed;
-    //     player.anim = 0;
-    // }
+    if (key_down(0, BUTTON_UP))
+    {
+        player.speed_y = -player_speed;
+        player.anim = 0;
+    }
+    if (key_down(0, BUTTON_DOWN))
+    {
+        player.speed_y = player_speed;
+        player.anim = 0;
+    }
     if (key_released(0, BUTTON_RIGHT))
     {
         player.anim = 0;
@@ -99,6 +89,42 @@ void PLAYER_get_input_lr()
     {
         player.anim = 0;
     }
+}
+
+void PLAYER_check_death()
+{
+    // Centro do jogador
+    s16 center_x_px = fix16ToInt(player.x) + player.w / 2;
+    s16 center_y_px = fix16ToInt(player.y) + player.h / 2;
+
+    // Centro convertido para tiles
+    u16 tile_x = center_x_px / METATILE_W;
+    u16 tile_y = center_y_px / METATILE_W;
+
+    // Verifica espinhos
+    if (collision_map[tile_x][tile_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[tile_x][tile_y] == BOTTOM_SPIKE_LEVEL_INDEX)
+    {
+        kprintf("Espinho no centro do player! (%d, %d)", tile_x, tile_y);
+        player_is_alive = 1;
+        return;
+    }
+
+    // Verifica inimigos
+    // for (u8 i = ENEMIES_level_enemies[LEVEL_actual_level]; i < ENEMIES_level_enemies[LEVEL_actual_level + 1]; i++)
+    // {
+    //     if (enemy_pool[i].firefly.sprite == NULL)
+    //         continue; // inimigo inexistente
+
+    //     GameObject *e = &enemy_pool[i].firefly;
+
+    //     if (center_x_px >= e->box.left && center_x_px <= e->box.right &&
+    //         center_y_px >= e->box.top && center_y_px <= e->box.bottom)
+    //     {
+    //         kprintf("Colidiu com inimigo %d!", i);
+    //         player_is_alive = 0;
+    //         return;
+    //     }
+    // }
 }
 
 u8 PLAYER_on_ground()
