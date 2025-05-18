@@ -9,15 +9,6 @@
 
 #define NUMBER_OF_LEVELS 5
 extern u8 LEVEL_actual_level;
-
-typedef struct
-{
-    u16 x;
-    u16 y;
-} Screen_coord;
-
-extern Screen_coord LEVEL_screen[MAP_TOTAL_SCREENS];
-extern u8 LEVEL_last_screen;
 extern u8 LEVEL_actual_screen;
 extern u8 LEVEL_bool_screen_change;
 
