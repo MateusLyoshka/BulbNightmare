@@ -11,8 +11,8 @@ u8 ENEMY_spawn(u8 index, u8 type, u16 last_x, u16 last_y, u8 min_range, u8 max_r
     enemy_pool[index].last_x = last_x;
     enemy_pool[index].last_y = last_y;
     enemy_pool[index].type = type;
-    enemy_pool[index].travel_min_range = min_range;
-    enemy_pool[index].travel_max_range = max_range;
+    enemy_pool[index].travel_min_range = min_range + last_x / METATILE_W;
+    enemy_pool[index].travel_max_range = max_range + last_x / METATILE_W;
 
     if (enemy_pool[index].type == 0)
     {
@@ -33,7 +33,7 @@ u8 ENEMIES_init(u16 ind, u8 level)
     if (level == 0)
     {
         ind += ENEMY_spawn(LEVEL_1_ENEMY_1, 0, 7 * METATILE_W, 9 * METATILE_W, false, false, ind);
-        ind += ENEMY_spawn(LEVEL_1_ENEMY_2, 0, 7 * METATILE_W, 7 * METATILE_W, 0, 5 * METATILE_W ind);
+        ind += ENEMY_spawn(LEVEL_1_ENEMY_2, 1, 7 * METATILE_W, 7 * METATILE_W, 0, 5, ind);
     }
     return ind;
 }
@@ -47,7 +47,9 @@ void ENEMIES_update_hub(u8 actual_level_enemies, u8 last_level_enemies)
         case 0:
             ENEMIES_g_enemy_update(&enemy_pool[i].firefly);
             break;
-
+        case 1:
+            ENEMIES_f_enemy_update(&enemy_pool[i].firefly, i);
+            break;
         default:
             break;
         }
@@ -87,7 +89,28 @@ void ENEMIES_g_enemy_update(GameObject *firefly)
     SPR_setPosition(firefly->sprite, fix16ToInt(firefly->x), fix16ToInt(firefly->y));
 }
 
-void ENEMIES_f_enemy_update(GameObject *firefly)
+void ENEMIES_f_enemy_update(GameObject *firefly, u8 i)
 {
-    firefly->next_x = firefly->x + firefly->speed_x;
+    s16 firefly_center_x = fix16ToInt(firefly->x) + firefly->w / 2;
+    u16 center_x = firefly_center_x / METATILE_W;
+    kprintf("center: %d, min: %d, max: %d", center_x, enemy_pool[i].travel_min_range, enemy_pool[i].travel_max_range);
+
+    if (firefly->speed_x > 0)
+    {
+        if (center_x >= enemy_pool[i].travel_max_range)
+        {
+            firefly->speed_x = -firefly->speed_x;
+            SPR_setHFlip(firefly->sprite, false);
+        }
+    }
+    else
+    {
+        if (center_x <= enemy_pool[i].travel_min_range)
+        {
+            firefly->speed_x = -firefly->speed_x;
+            SPR_setHFlip(firefly->sprite, true);
+        }
+    }
+    firefly->x += firefly->speed_x;
+    SPR_setPosition(firefly->sprite, fix16ToInt(firefly->x), fix16ToInt(firefly->y));
 }

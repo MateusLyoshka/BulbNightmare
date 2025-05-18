@@ -36,7 +36,8 @@ typedef struct
 u8 ENEMIES_init(u16 ind, u8 level);
 void ENEMIES_update_hub(u8 actual_level_enemies, u8 last_level_enemies);
 void ENEMIES_g_enemy_update(GameObject *firefly);
-u8 ENEMY_spawn(u8 index, u8 type, u16 last_x, u16 last_y, u16 ind);
+void ENEMIES_f_enemy_update(GameObject *firefly, u8 i);
+u8 ENEMY_spawn(u8 index, u8 type, u16 last_x, u16 last_y, u8 min_range, u8 max_range, u16 ind);
 extern Enemy enemy_pool[MAX_ENEMIES];
 
 #endif
