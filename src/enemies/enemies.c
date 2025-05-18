@@ -5,36 +5,67 @@ Enemy enemy_pool[MAX_ENEMIES];
 const f16 g_enemy_speed = 35;
 const f16 f_enemy_speed = 20;
 
-u8 ENEMY_spawn(u8 index, u8 type, u16 last_x, u16 last_y, u8 min_range, u8 max_range, u16 ind)
-{
-
-    enemy_pool[index].last_x = last_x;
-    enemy_pool[index].last_y = last_y;
-    enemy_pool[index].type = type;
-    enemy_pool[index].travel_min_range = min_range + last_x / METATILE_W;
-    enemy_pool[index].travel_max_range = max_range + last_x / METATILE_W;
-
-    if (enemy_pool[index].type == 0)
-    {
-        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_g_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_NPC, ind);
-        enemy_pool[index].firefly.speed_x = g_enemy_speed;
-    }
-    else if (enemy_pool[index].type == 1)
-    {
-        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_f_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_NPC, ind);
-        enemy_pool[index].firefly.speed_x = f_enemy_speed;
-    }
-
-    return ind;
-}
-
-u8 ENEMIES_init(u16 ind, u8 level)
+void ENEMIES_init(u8 level)
 {
     if (level == 0)
     {
-        ind += ENEMY_spawn(LEVEL_1_ENEMY_1, 0, 7 * METATILE_W, 9 * METATILE_W, false, false, ind);
-        ind += ENEMY_spawn(LEVEL_1_ENEMY_2, 1, 7 * METATILE_W, 7 * METATILE_W, 0, 5, ind);
+        ENEMY_init(0, 0, 7, 9, 6, 0, 0);
+        ENEMY_init(1, 1, 7, 7, 7, 0, 5);
     }
+}
+
+void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 screen, u8 min_range, u8 max_range)
+{
+    u16 last_x_calc = last_x * METATILE_W;
+    u16 last_y_calc = last_y * METATILE_W;
+    enemy_pool[index].last_x = last_x_calc;
+    enemy_pool[index].last_y = last_y_calc;
+    enemy_pool[index].type = type;
+    enemy_pool[index].on_screen = 0;
+    enemy_pool[index].spawn_screen = screen;
+    enemy_pool[index].travel_min_range = min_range + last_x / METATILE_W;
+    enemy_pool[index].travel_max_range = max_range + last_x / METATILE_W;
+}
+
+u8 ENEMIES_spawn_hub(u8 actual_level_enemies, u8 last_level_enemies, u8 ind)
+{
+    for (u8 i = last_level_enemies; i < actual_level_enemies; i++)
+    {
+        if (enemy_pool[i].spawn_screen == LEVEL_actual_screen)
+        {
+            ind += ENEMY_spawn(i, ind);
+        }
+        else if (enemy_pool[i].firefly.sprite != NULL)
+        {
+            ENEMY_unspwan(i);
+        }
+    }
+    return ind;
+}
+
+void ENEMY_unspwan(u8 index)
+{
+    SPR_releaseSprite(enemy_pool[index].firefly.sprite);
+    enemy_pool[index].firefly.sprite = NULL;
+    enemy_pool[index].on_screen = 0;
+}
+
+u8 ENEMY_spawn(u8 index, u8 ind)
+{
+    switch (enemy_pool[index].type)
+    {
+    case 0:
+        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_g_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_NPC, ind);
+        enemy_pool[index].firefly.speed_x = g_enemy_speed;
+        break;
+    case 1:
+        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_f_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_NPC, ind);
+        enemy_pool[index].firefly.speed_x = f_enemy_speed;
+        break;
+    default:
+        break;
+    }
+    enemy_pool[index].on_screen = 1;
     return ind;
 }
 
@@ -42,16 +73,17 @@ void ENEMIES_update_hub(u8 actual_level_enemies, u8 last_level_enemies)
 {
     for (u8 i = last_level_enemies; i < actual_level_enemies; i++)
     {
-        switch (enemy_pool[i].type)
+        if (enemy_pool[i].on_screen)
         {
-        case 0:
-            ENEMIES_g_enemy_update(&enemy_pool[i].firefly);
-            break;
-        case 1:
-            ENEMIES_f_enemy_update(&enemy_pool[i].firefly, i);
-            break;
-        default:
-            break;
+            switch (enemy_pool[i].type)
+            {
+            case 0:
+                ENEMIES_g_enemy_update(&enemy_pool[i].firefly);
+                break;
+            case 1:
+                ENEMIES_f_enemy_update(&enemy_pool[i].firefly, i);
+                break;
+            }
         }
     }
 }
@@ -62,7 +94,7 @@ void ENEMIES_g_enemy_update(GameObject *firefly)
     GAMEOBJECT_update_boundbox(firefly->next_x, firefly->y, firefly);
 
     if (firefly->speed_x > 0)
-    { // moving right
+    {
         if (LEVEL_wall_at(firefly->box.right, firefly->box.top) ||
             LEVEL_wall_at(firefly->box.right, firefly->box.top + firefly->h / 2) ||
             LEVEL_wall_at(firefly->box.right, firefly->box.bottom - 1))
@@ -73,7 +105,7 @@ void ENEMIES_g_enemy_update(GameObject *firefly)
         }
     }
     else if (firefly->speed_x < 0)
-    { // moving left
+    {
         if (LEVEL_wall_at(firefly->box.left, firefly->box.top) ||
             LEVEL_wall_at(firefly->box.left, firefly->box.top + firefly->h / 2) ||
             LEVEL_wall_at(firefly->box.left, firefly->box.bottom - 1))
@@ -85,6 +117,7 @@ void ENEMIES_g_enemy_update(GameObject *firefly)
     }
 
     firefly->x = firefly->next_x;
+    // kprintf("speed vagalume: %u, g_speed: %u", firefly->speed_x, g_enemy_speed);
     SPR_setPosition(firefly->sprite, fix16ToInt(firefly->x), fix16ToInt(firefly->y));
 }
 

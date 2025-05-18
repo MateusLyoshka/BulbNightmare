@@ -7,6 +7,9 @@ u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + 
 
 u8 collision_result = 0;
 u8 LEVEL_actual_level = 0;
+u8 LEVEL_last_screen = 0;
+u8 LEVEL_actual_screen = 0;
+u8 LEVEL_bool_screen_change = 0;
 
 // Top-Left screen position in map
 u16 screen_x = 0;
@@ -58,10 +61,8 @@ u16 LEVEL_init(u16 ind)
             index++;
         }
     }
-    for (u8 k = 0; k < MAP_TOTAL_SCREENS; k++)
-    {
-        kprintf("screen %d x: %d, screen %d y: %d", k, LEVEL_screen[k].x, k, LEVEL_screen[k].y);
-    }
+    LEVEL_last_screen = 6;
+    LEVEL_actual_screen = 6;
 
     PAL_setPalette(PAL_BACKGROUND_B, levels_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
@@ -130,7 +131,21 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
 {
     screen_x += offset_x;
     screen_y += offset_y;
+
+    u8 col = screen_x / SCREEN_W;
+    u8 row = screen_y / SCREEN_H;
+
+    LEVEL_bool_screen_change = 1;
+    // Atualiza o índice da tela atual
+    if (LEVEL_last_screen != LEVEL_actual_screen)
+    {
+        LEVEL_last_screen = LEVEL_actual_screen;
+    }
+    LEVEL_actual_screen = row * MAP_X_SCREENS + col;
+
     kprintf("screen x: %d, screen y: %d", screen_x, screen_y);
+    kprintf("actual_screen: %d", LEVEL_actual_screen);
+    kprintf("last screen: %d", LEVEL_last_screen);
     MAP_scrollTo(map, screen_x, screen_y);
     LEVEL_generate_screen_collision_map(0, 5);
 

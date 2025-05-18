@@ -17,6 +17,9 @@ typedef struct
 } Screen_coord;
 
 extern Screen_coord LEVEL_screen[MAP_TOTAL_SCREENS];
+extern u8 LEVEL_last_screen;
+extern u8 LEVEL_actual_screen;
+extern u8 LEVEL_bool_screen_change;
 
 extern u8 collision_result;
 

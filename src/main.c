@@ -12,13 +12,6 @@
 #include "enemies/enemies.h"
 #include "gameLevels/player.h"
 
-u16 gInd_tileset; // Carrega dados do background
-Sprite *gButtonStart;
-Sprite *gButtonMenu;
-u16 curlInput = 0; // Estado atual do botão
-u16 prevInput;	   // Estado anterior
-s8 gMainMenuOptions = -1;
-
 u16 ind = TILE_USER_INDEX;
 
 void game_init()
@@ -29,7 +22,8 @@ void game_init()
 	// ind += BACKGROUND_show(BG_GAME, ind);
 	ind += LEVEL_init(ind);
 	ind += HUD_init(ind);
-	ind += ENEMIES_init(ind, 0);
+	ENEMIES_init(0);
+	ind += ENEMIES_spawn_hub(2, 0, ind);
 	PLAYER_init(ind);
 	LEVEL_generate_screen_collision_map(0, 5);
 	// LEVEL_draw_collision_map();
@@ -51,6 +45,11 @@ int main(bool resetType)
 
 	while (true)
 	{
+		if (LEVEL_bool_screen_change)
+		{
+			ENEMIES_spawn_hub(2, 0, ind);
+			LEVEL_bool_screen_change = 0;
+		}
 		update_input();
 		PLAYER_update();
 		LEVEL_update_camera(&player);
