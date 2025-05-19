@@ -11,7 +11,7 @@ void ENEMIES_init(u8 level)
     {
         ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, 0, 0, LEVEL_SCREEN_1, 0);
         ENEMY_init(LEVEL_1_ENEMY_2, 0, 7, 7, 0, 5, LEVEL_SCREEN_1, 0);
-        ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 7, 0, 5, LEVEL_SCREEN_1, 1);
+        ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 5, 0, 5, LEVEL_SCREEN_1, 1);
         ENEMY_init(LEVEL_2_ENEMY_2, 0, 9, 12, 0, 5, LEVEL_SCREEN_1, 1);
         ENEMY_init(LEVEL_2_ENEMY_3, 1, 8, 6, 0, 5, LEVEL_SCREEN_4, 1);
     }

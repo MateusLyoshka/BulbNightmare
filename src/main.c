@@ -53,7 +53,7 @@ int main(bool resetType)
 		update_input();
 		PLAYER_update();
 		LEVEL_update_camera(&player);
-		ENEMIES_update_hub(2, 0);
+		ENEMIES_update_hub(5, 2);
 		SPR_update();
 		SYS_doVBlankProcess();
 	}
