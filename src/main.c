@@ -23,7 +23,7 @@ void game_init()
 	ind += LEVEL_init(ind);
 	ind += HUD_init(ind);
 	ENEMIES_init(0);
-	ind += ENEMIES_spawn_hub(2, 0, ind);
+	ind += ENEMIES_spawn_hub(5, 2, ind);
 	PLAYER_init(ind);
 	LEVEL_update_camera(&player);
 	// LEVEL_draw_collision_map();
@@ -47,7 +47,7 @@ int main(bool resetType)
 	{
 		if (LEVEL_bool_screen_change)
 		{
-			ENEMIES_spawn_hub(2, 0, ind);
+			ENEMIES_spawn_hub(5, 2, ind);
 			LEVEL_bool_screen_change = 0;
 		}
 		update_input();

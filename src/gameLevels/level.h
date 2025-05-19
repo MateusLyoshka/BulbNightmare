@@ -8,8 +8,8 @@
 #include "resources.h"
 
 #define NUMBER_OF_LEVELS 5
-extern u8 LEVEL_actual_level;
-extern u8 LEVEL_actual_screen;
+extern u8 LEVEL_current_level;
+extern u8 LEVEL_current_screen;
 extern u8 LEVEL_bool_level_change;
 extern u8 LEVEL_bool_screen_change;
 

@@ -9,29 +9,35 @@ void ENEMIES_init(u8 level)
 {
     if (level == 0)
     {
-        ENEMY_init(0, 0, 7, 9, 6, 0, 0);
-        ENEMY_init(1, 1, 7, 7, 7, 0, 5);
+        ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, 0, 0, LEVEL_SCREEN_1, 0);
+        ENEMY_init(LEVEL_1_ENEMY_2, 0, 7, 7, 0, 5, LEVEL_SCREEN_1, 0);
+        ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 7, 0, 5, LEVEL_SCREEN_1, 1);
+        ENEMY_init(LEVEL_2_ENEMY_2, 0, 9, 12, 0, 5, LEVEL_SCREEN_1, 1);
+        ENEMY_init(LEVEL_2_ENEMY_3, 1, 8, 6, 0, 5, LEVEL_SCREEN_4, 1);
     }
 }
 
-void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 screen, u8 min_range, u8 max_range)
+void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 min_range, u8 max_range, u8 screen, u8 level)
 {
+    kprintf("%d", level);
     u16 last_x_calc = last_x * METATILE_W;
     u16 last_y_calc = last_y * METATILE_W;
     enemy_pool[index].last_x = last_x_calc;
     enemy_pool[index].last_y = last_y_calc;
     enemy_pool[index].type = type;
     enemy_pool[index].on_screen = 0;
+    enemy_pool[index].spawn_level = level;
     enemy_pool[index].spawn_screen = screen;
     enemy_pool[index].travel_min_range = min_range + last_x / METATILE_W;
     enemy_pool[index].travel_max_range = max_range + last_x / METATILE_W;
 }
 
-u8 ENEMIES_spawn_hub(u8 actual_level_enemies, u8 last_level_enemies, u8 ind)
+u8 ENEMIES_spawn_hub(u8 current_level_enemies, u8 last_level_enemies, u8 ind)
 {
-    for (u8 i = last_level_enemies; i < actual_level_enemies; i++)
+    for (u8 i = last_level_enemies; i < current_level_enemies; i++)
     {
-        if (enemy_pool[i].spawn_screen == LEVEL_actual_screen)
+        kprintf("spawn_screen: %d, screen: %d, spawn_level: %d, level: %d", enemy_pool[i].spawn_screen, LEVEL_current_screen, enemy_pool[i].spawn_level, LEVEL_current_level);
+        if (enemy_pool[i].spawn_screen == LEVEL_current_screen && enemy_pool[i].spawn_level == LEVEL_current_level)
         {
             ind += ENEMY_spawn(i, ind);
         }
@@ -69,9 +75,9 @@ u8 ENEMY_spawn(u8 index, u8 ind)
     return ind;
 }
 
-void ENEMIES_update_hub(u8 actual_level_enemies, u8 last_level_enemies)
+void ENEMIES_update_hub(u8 current_level_enemies, u8 last_level_enemies)
 {
-    for (u8 i = last_level_enemies; i < actual_level_enemies; i++)
+    for (u8 i = last_level_enemies; i < current_level_enemies; i++)
     {
         if (enemy_pool[i].on_screen)
         {

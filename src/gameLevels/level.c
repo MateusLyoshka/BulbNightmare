@@ -6,8 +6,8 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_actual_level = 1;
-u8 LEVEL_actual_screen = 0;
+u8 LEVEL_current_level = 1;
+u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 
 // Top-Left screen position in map
@@ -53,12 +53,12 @@ u16 LEVEL_init(u16 ind)
     screen_y = 448;
     u8 col = screen_x / SCREEN_W;
     u8 row = screen_y / SCREEN_H;
-    LEVEL_actual_screen = row * MAP_X_SCREENS + col;
+    LEVEL_current_screen = row * MAP_X_SCREENS + col;
 
     PAL_setPalette(PAL_BACKGROUND_B, levels_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
 
-    switch (LEVEL_actual_level)
+    switch (LEVEL_current_level)
     {
     case 0:
         map = MAP_create(&level1_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
@@ -147,7 +147,7 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
 
     LEVEL_bool_screen_change = 1;
     // Atualiza o índice da tela atual
-    LEVEL_actual_screen = row * MAP_X_SCREENS + col;
+    LEVEL_current_screen = row * MAP_X_SCREENS + col;
 
     MAP_scrollTo(map, screen_x, screen_y);
     LEVEL_generate_screen_collision_map(0, 5);

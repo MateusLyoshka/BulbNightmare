@@ -110,7 +110,7 @@ void PLAYER_check_death()
     }
 
     // Verifica inimigos
-    // for (u8 i = ENEMIES_level_enemies[LEVEL_actual_level]; i < ENEMIES_level_enemies[LEVEL_actual_level + 1]; i++)
+    // for (u8 i = ENEMIES_level_enemies[LEVEL_current_level]; i < ENEMIES_level_enemies[LEVEL_current_level + 1]; i++)
     // {
     //     if (enemy_pool[i].firefly.sprite == NULL)
     //         continue; // inimigo inexistente

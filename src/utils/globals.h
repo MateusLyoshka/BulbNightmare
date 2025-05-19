@@ -17,6 +17,17 @@ extern char text[5];
 #define SCREEN_TILES_W SCREEN_W / 8
 #define SCREEN_TILES_H SCREEN_H / 8
 
+// Levels
+#define LEVEL_SCREEN_1 6
+#define LEVEL_SCREEN_2 7
+#define LEVEL_SCREEN_3 8
+#define LEVEL_SCREEN_4 3
+#define LEVEL_SCREEN_5 4
+#define LEVEL_SCREEN_6 5
+#define LEVEL_SCREEN_7 1
+#define LEVEL_SCREEN_8 2
+#define LEVEL_SCREEN_9 3
+
 // Map is made of 16x16 metatiles
 #define METATILE_W 16
 #define SCREEN_METATILES_W SCREEN_W / METATILE_W
