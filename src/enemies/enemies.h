@@ -1,5 +1,5 @@
-#ifndef _ENEMMIES
-#define _ENEMMIES
+#ifndef _ENEMIES
+#define _ENEMIES
 
 #include <genesis.h>
 #include "resources.h"
@@ -15,6 +15,8 @@
 #define LEVEL_2_ENEMY_3 4
 
 #define MAX_ENEMIES 20
+
+extern u8 ENEMIES_enemies_on_level[];
 
 typedef struct
 {

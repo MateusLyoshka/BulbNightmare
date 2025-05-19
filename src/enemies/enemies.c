@@ -5,12 +5,18 @@ Enemy enemy_pool[MAX_ENEMIES];
 const f16 g_enemy_speed = 35;
 const f16 f_enemy_speed = 20;
 
+u8 ENEMIES_enemies_on_level[] = {
+    0,
+    2,
+    5,
+};
+
 void ENEMIES_init(u8 level)
 {
     if (level == 0)
     {
         ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, 0, 0, LEVEL_SCREEN_1, 0);
-        ENEMY_init(LEVEL_1_ENEMY_2, 0, 7, 7, 0, 5, LEVEL_SCREEN_1, 0);
+        ENEMY_init(LEVEL_1_ENEMY_2, 1, 7, 7, 0, 5, LEVEL_SCREEN_1, 0);
         ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 5, 0, 5, LEVEL_SCREEN_1, 1);
         ENEMY_init(LEVEL_2_ENEMY_2, 0, 9, 12, 0, 5, LEVEL_SCREEN_1, 1);
         ENEMY_init(LEVEL_2_ENEMY_3, 1, 8, 6, 0, 5, LEVEL_SCREEN_4, 1);
@@ -19,7 +25,7 @@ void ENEMIES_init(u8 level)
 
 void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 min_range, u8 max_range, u8 screen, u8 level)
 {
-    kprintf("%d", level);
+    // kprintf("%d", level);
     u16 last_x_calc = last_x * METATILE_W;
     u16 last_y_calc = last_y * METATILE_W;
     enemy_pool[index].last_x = last_x_calc;
@@ -36,7 +42,7 @@ u8 ENEMIES_spawn_hub(u8 current_level_enemies, u8 last_level_enemies, u8 ind)
 {
     for (u8 i = last_level_enemies; i < current_level_enemies; i++)
     {
-        kprintf("spawn_screen: %d, screen: %d, spawn_level: %d, level: %d", enemy_pool[i].spawn_screen, LEVEL_current_screen, enemy_pool[i].spawn_level, LEVEL_current_level);
+        // kprintf("spawn_screen: %d, screen: %d, spawn_level: %d level: %d", enemy_pool[i].spawn_screen, LEVEL_current_screen, enemy_pool[i].spawn_level, LEVEL_current_level);
         if (enemy_pool[i].spawn_screen == LEVEL_current_screen && enemy_pool[i].spawn_level == LEVEL_current_level)
         {
             ind += ENEMY_spawn(i, ind);

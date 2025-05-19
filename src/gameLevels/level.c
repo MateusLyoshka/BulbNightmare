@@ -58,19 +58,19 @@ u16 LEVEL_init(u16 ind)
     PAL_setPalette(PAL_BACKGROUND_B, levels_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
 
-    switch (LEVEL_current_level)
+    kprintf("current level %d", LEVEL_current_level);
+    LEVEL_map_clear();
+    if (LEVEL_current_level == 0)
     {
-    case 0:
+        kprintf("current level %d", LEVEL_current_level);
         map = MAP_create(&level1_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
-    case 1:
-        LEVEL_map_clear();
-        map = MAP_create(&level2_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
-        break;
-
-    default:
-        break;
     }
+    else if (LEVEL_current_level == 1)
+    {
 
+        kprintf("current level %d", LEVEL_current_level);
+        map = MAP_create(&level2_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
+    }
     MAP_scrollToEx(map, 0, screen_y, TRUE);
 
     ind += tiles.numTile;
