@@ -16,7 +16,8 @@ SPRITE spr_f_enemy "sprites/f_enemy.png" 2 2 BEST
 # MAPA
 TILESET tiles "levels/tiles.png" BEST ALL 
 PALETTE levels_pal "levels/level_pal.pal"
-MAP level1_map "levels/level1/level1_map.tmx" tiles_layer BEST 0
+MAP level1_map "levels/level1/level1.tmx" tiles_layer BEST 0
+MAP level2_map "levels/level2/level2.tmx" tiles_layer BEST 0
 
 # SOUNDS
 WAV snd_start "sfx/game_start.wav" XGM 

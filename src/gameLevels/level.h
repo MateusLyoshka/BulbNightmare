@@ -10,6 +10,7 @@
 #define NUMBER_OF_LEVELS 5
 extern u8 LEVEL_actual_level;
 extern u8 LEVEL_actual_screen;
+extern u8 LEVEL_bool_level_change;
 extern u8 LEVEL_bool_screen_change;
 
 extern u8 collision_result;
@@ -38,5 +39,6 @@ void LEVEL_draw_collision_map();
 void LEVEL_move_and_slide(GameObject *obj);
 void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y);
 void LEVEL_update_camera(GameObject *obj);
+void LEVEL_map_clear();
 
 #endif

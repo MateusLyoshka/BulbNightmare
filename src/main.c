@@ -25,7 +25,6 @@ void game_init()
 	ENEMIES_init(0);
 	ind += ENEMIES_spawn_hub(2, 0, ind);
 	PLAYER_init(ind);
-	LEVEL_generate_screen_collision_map(0, 5);
 	LEVEL_update_camera(&player);
 	// LEVEL_draw_collision_map();
 

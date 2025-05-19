@@ -6,7 +6,7 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_actual_level = 0;
+u8 LEVEL_actual_level = 1;
 u8 LEVEL_actual_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 
@@ -57,13 +57,32 @@ u16 LEVEL_init(u16 ind)
 
     PAL_setPalette(PAL_BACKGROUND_B, levels_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
-    map = MAP_create(&level1_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
+
+    switch (LEVEL_actual_level)
+    {
+    case 0:
+        map = MAP_create(&level1_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
+    case 1:
+        LEVEL_map_clear();
+        map = MAP_create(&level2_map, BG_B, TILE_ATTR_FULL(PAL_BACKGROUND_B, FALSE, FALSE, FALSE, ind));
+        break;
+
+    default:
+        break;
+    }
 
     MAP_scrollToEx(map, 0, screen_y, TRUE);
 
     ind += tiles.numTile;
+    LEVEL_generate_screen_collision_map(0, 5);
 
     return ind;
+}
+
+void LEVEL_map_clear()
+{
+    MAP_release(map);
+    VDP_clearPlane(BG_B, true);
 }
 
 void LEVEL_move_and_slide(GameObject *obj)
