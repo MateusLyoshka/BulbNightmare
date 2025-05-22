@@ -58,12 +58,12 @@ void PLAYER_get_input_lr()
     if (key_down(0, BUTTON_RIGHT))
     {
         player.speed_x = player_speed;
-        player.anim = 0;
+        player.anim = 8;
     }
     if (key_down(0, BUTTON_LEFT))
     {
         player.speed_x = -player_speed;
-        player.anim = 0;
+        player.anim = 8;
     }
     if (key_pressed(0, BUTTON_A) && PLAYER_on_ground())
     {
@@ -74,20 +74,20 @@ void PLAYER_get_input_lr()
     if (key_down(0, BUTTON_UP))
     {
         player.speed_y = -player_speed;
-        player.anim = 0;
+        player.anim = 8;
     }
     if (key_down(0, BUTTON_DOWN))
     {
         player.speed_y = player_speed;
-        player.anim = 0;
+        player.anim = 8;
     }
     if (key_released(0, BUTTON_RIGHT))
     {
-        player.anim = 0;
+        player.anim = 8;
     }
     if (key_released(0, BUTTON_LEFT))
     {
-        player.anim = 0;
+        player.anim = 8;
     }
 }
 

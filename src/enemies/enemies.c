@@ -93,7 +93,7 @@ void ENEMIES_update_hub(u8 current_level_enemies, u8 last_level_enemies)
                 ENEMIES_g_enemy_update(&enemy_pool[i].firefly);
                 break;
             case 1:
-                ENEMIES_f_enemy_update(&enemy_pool[i].firefly, i);
+                ENEMIES_g_enemy_update(&enemy_pool[i].firefly);
                 break;
             }
         }
@@ -112,7 +112,7 @@ void ENEMIES_g_enemy_update(GameObject *firefly)
             LEVEL_wall_at(firefly->box.right, firefly->box.bottom - 1))
         {
             firefly->next_x = FIX16(firefly->box.right / METATILE_W * METATILE_W - firefly->w);
-            SPR_setHFlip(firefly->sprite, false);
+            SPR_setHFlip(firefly->sprite, true);
             firefly->speed_x = -firefly->speed_x;
         }
     }
@@ -123,7 +123,7 @@ void ENEMIES_g_enemy_update(GameObject *firefly)
             LEVEL_wall_at(firefly->box.left, firefly->box.bottom - 1))
         {
             firefly->next_x = FIX16((firefly->box.left / METATILE_W + 1) * METATILE_W);
-            SPR_setHFlip(firefly->sprite, true);
+            SPR_setHFlip(firefly->sprite, false);
             firefly->speed_x = -firefly->speed_x;
         }
     }
@@ -133,29 +133,29 @@ void ENEMIES_g_enemy_update(GameObject *firefly)
     SPR_setPosition(firefly->sprite, fix16ToInt(firefly->x), fix16ToInt(firefly->y));
 }
 
-void ENEMIES_f_enemy_update(GameObject *firefly, u8 i)
-{
-    s16 firefly_center_x = fix16ToInt(firefly->x) + firefly->w / 2;
-    u16 center_x = firefly_center_x / METATILE_W;
+// void ENEMIES_f_enemy_update(GameObject *firefly, u8 i)
+// {
+//     s16 firefly_center_x = fix16ToInt(firefly->x) + firefly->w / 2;
+//     u16 center_x = firefly_center_x / METATILE_W;
 
-    GAMEOBJECT_update_boundbox(firefly->x, firefly->y, firefly);
+//     GAMEOBJECT_update_boundbox(firefly->x, firefly->y, firefly);
 
-    if (firefly->speed_x > 0)
-    {
-        if (center_x >= enemy_pool[i].travel_max_range)
-        {
-            firefly->speed_x = -firefly->speed_x;
-            SPR_setHFlip(firefly->sprite, false);
-        }
-    }
-    else
-    {
-        if (center_x <= enemy_pool[i].travel_min_range)
-        {
-            firefly->speed_x = -firefly->speed_x;
-            SPR_setHFlip(firefly->sprite, true);
-        }
-    }
-    firefly->x += firefly->speed_x;
-    SPR_setPosition(firefly->sprite, fix16ToInt(firefly->x), fix16ToInt(firefly->y));
-}
+//     if (firefly->speed_x > 0)
+//     {
+//         if (center_x >= enemy_pool[i].travel_max_range)
+//         {
+//             firefly->speed_x = -firefly->speed_x;
+//             SPR_setHFlip(firefly->sprite, false);
+//         }
+//     }
+//     else
+//     {
+//         if (center_x <= enemy_pool[i].travel_min_range)
+//         {
+//             firefly->speed_x = -firefly->speed_x;
+//             SPR_setHFlip(firefly->sprite, true);
+//         }
+//     }
+//     firefly->x += firefly->speed_x;
+//     SPR_setPosition(firefly->sprite, fix16ToInt(firefly->x), fix16ToInt(firefly->y));
+// }
