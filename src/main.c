@@ -48,7 +48,7 @@ int main(bool resetType)
 		if (LEVEL_bool_screen_change)
 		{
 			ind += ENEMIES_spawn_hub(ENEMIES_enemies_on_level[LEVEL_current_level + 1], ENEMIES_enemies_on_level[LEVEL_current_level], ind);
-			// OBJECT_update(ind);
+			OBJECT_update(ind);
 			LEVEL_bool_screen_change = 0;
 		}
 		update_input();

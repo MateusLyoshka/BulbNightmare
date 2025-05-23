@@ -12,13 +12,48 @@ u16 OBJECT_door_spawn(u16 ind)
 {
     if (LEVEL_current_level == 0)
     {
-        ind += GAMEOBJECT_init(&door, &spr_door, 16 * METATILE_W, 6 * METATILE_W, PAL_PLAYER, ind);
+        if (LEVEL_current_screen == 6)
+        {
+            ind += GAMEOBJECT_init(&door, &spr_door, 16 * METATILE_W, 6 * METATILE_W, PAL_PLAYER, ind);
+            door_on_screen = 1;
+        }
+        else if (door_on_screen)
+        {
+            OBJECT_clear(door);
+            door_on_screen = 0;
+        }
     }
     else if (LEVEL_current_level == 1)
     {
         if (LEVEL_current_screen == 6)
         {
             ind += GAMEOBJECT_init(&door, &spr_door, 17 * METATILE_W, 5 * METATILE_W, PAL_PLAYER, ind);
+            door_on_screen = 1;
+        }
+        else if (door_on_screen)
+        {
+            OBJECT_clear(door);
+            door_on_screen = 0;
+        }
+    }
+    else if (LEVEL_current_level == 2)
+    {
+        if (LEVEL_current_screen == 3)
+        {
+            ind += GAMEOBJECT_init(&door, &spr_door, 11 * METATILE_W, 4 * METATILE_W, PAL_PLAYER, ind);
+            door_on_screen = 1;
+        }
+        else if (door_on_screen)
+        {
+            OBJECT_clear(door);
+            door_on_screen = 0;
+        }
+    }
+    else if (LEVEL_current_level == 3)
+    {
+        if (LEVEL_current_screen == 8)
+        {
+            ind += GAMEOBJECT_init(&door, &spr_door, 2 * METATILE_W, 3 * METATILE_W, PAL_PLAYER, ind);
             door_on_screen = 1;
         }
         else if (door_on_screen)
@@ -35,13 +70,48 @@ u16 OBJECT_key_spawn(u16 ind)
 {
     if (LEVEL_current_level == 0)
     {
-        ind += GAMEOBJECT_init(&key, &spr_key, 5 * METATILE_W, 6 * METATILE_W, PAL_PLAYER, ind);
+        if (LEVEL_current_screen == 6)
+        {
+            ind += GAMEOBJECT_init(&key, &spr_key, 2 * METATILE_W, 5 * METATILE_W, PAL_PLAYER, ind);
+            key_on_screen = 1;
+        }
+        else if (key_on_screen)
+        {
+            OBJECT_clear(key);
+            key_on_screen = 0;
+        }
     }
     else if (LEVEL_current_level == 1)
     {
         if (LEVEL_current_screen == 3)
         {
             ind += GAMEOBJECT_init(&key, &spr_key, 17 * METATILE_W, 4 * METATILE_W, PAL_PLAYER, ind);
+            key_on_screen = 1;
+        }
+        else if (key_on_screen)
+        {
+            OBJECT_clear(key);
+            key_on_screen = 0;
+        }
+    }
+    else if (LEVEL_current_level == 2)
+    {
+        if (LEVEL_current_screen == 7)
+        {
+            ind += GAMEOBJECT_init(&key, &spr_key, 13 * METATILE_W, 8 * METATILE_W, PAL_PLAYER, ind);
+            key_on_screen = 1;
+        }
+        else if (key_on_screen)
+        {
+            OBJECT_clear(key);
+            key_on_screen = 0;
+        }
+    }
+    else if (LEVEL_current_level == 3)
+    {
+        if (LEVEL_current_screen == 4)
+        {
+            ind += GAMEOBJECT_init(&key, &spr_key, 3 * METATILE_W, 6 * METATILE_W, PAL_PLAYER, ind);
             key_on_screen = 1;
         }
         else if (key_on_screen)
@@ -57,7 +127,7 @@ u16 OBJECT_powerup_spawn(u16 ind)
 {
     if (LEVEL_current_level == 0)
     {
-        ind += GAMEOBJECT_init(&powerup, &spr_powerup, 5 * METATILE_W, 6 * METATILE_W, PAL_PLAYER, ind);
+        ind += GAMEOBJECT_init(&powerup, &spr_powerup, 17 * METATILE_W, 12 * METATILE_W, PAL_PLAYER, ind);
     }
     else if (LEVEL_current_level == 1)
     {
