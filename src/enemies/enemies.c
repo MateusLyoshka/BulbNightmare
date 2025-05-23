@@ -9,21 +9,35 @@ u8 ENEMIES_enemies_on_level[] = {
     0,
     2,
     5,
+    9,
+    14,
 };
 
-void ENEMIES_init(u8 level)
+void ENEMIES_init()
 {
-    if (level == 0)
-    {
-        ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, 0, 0, LEVEL_SCREEN_1, 0);
-        ENEMY_init(LEVEL_1_ENEMY_2, 1, 7, 7, 0, 5, LEVEL_SCREEN_1, 0);
-        ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 5, 0, 5, LEVEL_SCREEN_1, 1);
-        ENEMY_init(LEVEL_2_ENEMY_2, 0, 9, 12, 0, 5, LEVEL_SCREEN_1, 1);
-        ENEMY_init(LEVEL_2_ENEMY_3, 1, 8, 6, 0, 5, LEVEL_SCREEN_4, 1);
-    }
+    ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, LEVEL_SCREEN_1, 0);
+    ENEMY_init(LEVEL_1_ENEMY_2, 1, 7, 7, LEVEL_SCREEN_1, 0);
+
+    // LEVEL 2
+    ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 5, LEVEL_SCREEN_1, 1);
+    ENEMY_init(LEVEL_2_ENEMY_2, 0, 9, 12, LEVEL_SCREEN_1, 1);
+    ENEMY_init(LEVEL_2_ENEMY_3, 1, 8, 6, LEVEL_SCREEN_4, 1);
+
+    // LEVEL 3
+    ENEMY_init(LEVEL_3_ENEMY_1, 0, 9, 12, LEVEL_SCREEN_1, 2);
+    ENEMY_init(LEVEL_3_ENEMY_2, 0, 9, 12, LEVEL_SCREEN_2, 2);
+    ENEMY_init(LEVEL_3_ENEMY_3, 1, 18, 10, LEVEL_SCREEN_4, 2);
+    ENEMY_init(LEVEL_3_ENEMY_4, 1, 2, 9, LEVEL_SCREEN_4, 2);
+
+    // LEVEL 4
+    ENEMY_init(LEVEL_4_ENEMY_1, 1, 5, 7, LEVEL_SCREEN_1, 3);
+    ENEMY_init(LEVEL_4_ENEMY_2, 1, 3, 8, LEVEL_SCREEN_2, 3);
+    ENEMY_init(LEVEL_4_ENEMY_3, 1, 8, 5, LEVEL_SCREEN_2, 3);
+    ENEMY_init(LEVEL_4_ENEMY_4, 1, 8, 3, LEVEL_SCREEN_3, 3);
+    ENEMY_init(LEVEL_4_ENEMY_5, 0, 6, 12, LEVEL_SCREEN_5, 3);
 }
 
-void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 min_range, u8 max_range, u8 screen, u8 level)
+void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 screen, u8 level)
 {
     // kprintf("%d", level);
     u16 last_x_calc = last_x * METATILE_W;
@@ -34,8 +48,8 @@ void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 min_range, u8 max_
     enemy_pool[index].on_screen = 0;
     enemy_pool[index].spawn_level = level;
     enemy_pool[index].spawn_screen = screen;
-    enemy_pool[index].travel_min_range = min_range + last_x / METATILE_W;
-    enemy_pool[index].travel_max_range = max_range + last_x / METATILE_W;
+    // enemy_pool[index].travel_min_range = min_range + last_x / METATILE_W;
+    // enemy_pool[index].travel_max_range = max_range + last_x / METATILE_W;
 }
 
 u8 ENEMIES_spawn_hub(u8 current_level_enemies, u8 last_level_enemies, u8 ind)

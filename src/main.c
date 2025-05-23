@@ -23,7 +23,7 @@ void game_init(u8 enemies_current_level, u8 enemies_past_level)
 	ind += LEVEL_init(ind);
 	ind += HUD_init(ind);
 	ind += OBJECT_update(ind);
-	ENEMIES_init(0);
+	ENEMIES_init();
 	ind += ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	PLAYER_init(ind);
 	LEVEL_update_camera(&player);
@@ -48,7 +48,7 @@ int main(bool resetType)
 		if (LEVEL_bool_screen_change)
 		{
 			ind += ENEMIES_spawn_hub(ENEMIES_enemies_on_level[LEVEL_current_level + 1], ENEMIES_enemies_on_level[LEVEL_current_level], ind);
-			OBJECT_update(ind);
+			// OBJECT_update(ind);
 			LEVEL_bool_screen_change = 0;
 		}
 		update_input();

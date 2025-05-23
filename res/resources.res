@@ -22,6 +22,8 @@ TILESET tiles "levels/tiles.png" BEST ALL
 PALETTE levels_pal "levels/level_pal.pal"
 MAP level1_map "levels/level1/level1.tmx" tiles_layer BEST 0
 MAP level2_map "levels/level2/level2.tmx" tiles_layer BEST 0
+MAP level3_map "levels/level3/level3.tmx" tiles_layer BEST 0
+MAP level4_map "levels/level4/level4.tmx" tiles_layer BEST 0
 
 # SOUNDS
 WAV snd_start "sfx/game_start.wav" XGM 
