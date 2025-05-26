@@ -10,7 +10,7 @@ u8 player_is_alive = 1;
 
 u16 PLAYER_init(u16 ind)
 {
-    ind += GAMEOBJECT_init(&player, &spr_player, 2 * METATILE_W, 12 * METATILE_W, PAL_PLAYER, ind);
+    ind += GAMEOBJECT_init(&player, &spr_player, 2 * METATILE_W, 12 * METATILE_W, PAL_GAME, ind);
     return ind;
 }
 

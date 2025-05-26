@@ -44,7 +44,7 @@ extern char text[5];
 #define MAP_Y_SCREENS 3
 
 #define PAL_PLAYER PAL0
-#define PAL_NPC PAL1
+#define PAL_GAME PAL1
 #define PAL_BACKGROUND_A PAL2
 #define PAL_BACKGROUND_B PAL3
 

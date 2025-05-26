@@ -12,6 +12,7 @@
 #include "enemies/enemies.h"
 #include "gameLevels/player.h"
 #include "gameLevels/objects.h"
+#include "gameLevels/drawtile.h"
 
 u16 ind = TILE_USER_INDEX;
 
@@ -21,11 +22,13 @@ void game_init(u8 enemies_current_level, u8 enemies_past_level)
 	SPR_init();
 
 	ind += LEVEL_init(ind);
+	ind += PLAYER_init(ind);
 	ind += HUD_init(ind);
 	ind += OBJECT_update(ind);
+	// ind += BACKGROUND_show(BG_DARK, ind);
+	// ind += TILEDRAW_draw(ind);
 	ENEMIES_init();
 	ind += ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
-	PLAYER_init(ind);
 	LEVEL_update_camera(&player);
 }
 
@@ -33,11 +36,14 @@ int main(bool resetType)
 {
 	u8 enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
 	u8 enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
+
+	PAL_setPalette(PAL_GAME, game_pal.data, DMA);
 	// Soft reset doesn't clear RAM. Can lead to bugs.
 	if (!resetType)
 	{
 		SYS_hardReset();
 	}
+	SYS_showFrameLoad(true);
 
 	game_init(enemies_current_level, enemies_past_level);
 

@@ -15,6 +15,7 @@ u8 ENEMIES_enemies_on_level[] = {
 
 void ENEMIES_init()
 {
+    // LEVEL 1
     ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, LEVEL_SCREEN_1, 0);
     ENEMY_init(LEVEL_1_ENEMY_2, 1, 7, 7, LEVEL_SCREEN_1, 0);
 
@@ -81,11 +82,11 @@ u8 ENEMY_spawn(u8 index, u8 ind)
     switch (enemy_pool[index].type)
     {
     case 0:
-        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_g_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_NPC, ind);
+        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_g_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_GAME, ind);
         enemy_pool[index].firefly.speed_x = g_enemy_speed;
         break;
     case 1:
-        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_f_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_NPC, ind);
+        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_f_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_GAME, ind);
         enemy_pool[index].firefly.speed_x = f_enemy_speed;
         break;
     default:

@@ -6,7 +6,7 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_current_level = 3;
+u8 LEVEL_current_level = 1;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 
@@ -55,7 +55,7 @@ u16 LEVEL_init(u16 ind)
     u8 row = screen_y / SCREEN_H;
     LEVEL_current_screen = row * MAP_X_SCREENS + col;
 
-    PAL_setPalette(PAL_BACKGROUND_B, levels_pal.data, DMA);
+    PAL_setPalette(PAL_BACKGROUND_B, level_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
 
     kprintf("current level %d", LEVEL_current_level);
@@ -193,19 +193,19 @@ void LEVEL_update_camera(GameObject *obj)
         LEVEL_scroll_update_collision(0, -SCREEN_H);
     }
 }
-void LEVEL_draw_collision_map()
-{
-    VDP_setTextPlane(BG_A);
-    PAL_setColor(15, RGB24_TO_VDPCOLOR(0xFFFFFF));
-    for (u8 x = 0; x < SCREEN_METATILES_W; ++x)
-    {
-        for (u8 y = 0; y < SCREEN_METATILES_H; ++y)
-        {
-            intToStr(collision_map[x][y], text, 1);
-            VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
-        }
-    }
-}
+// void LEVEL_draw_collision_map()
+// {
+//     VDP_setTextPlane(BG_A);
+//     PAL_setColor(15, RGB24_TO_VDPCOLOR(0xFFFFFF));
+//     for (u8 x = 0; x < SCREEN_METATILES_W; ++x)
+//     {
+//         for (u8 y = 0; y < SCREEN_METATILES_H; ++y)
+//         {
+//             intToStr(collision_map[x][y], text, 1);
+//             VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
+//         }
+//     }
+// }
 
 u8 LEVEL_wall_at(s16 x, s16 y)
 {
