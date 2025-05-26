@@ -6,6 +6,7 @@
 #include "resources.h"
 #include "level.h"
 #include "../enemies/enemies.h"
+#include "objects.h"
 // utils
 
 #define PLAYER_MAX_GRAVITY 300

@@ -109,6 +109,29 @@ void PLAYER_check_death()
         return;
     }
 
+    GameObject *collided = OBJECT_check_collision(center_x_px, center_y_px);
+
+    if (collided)
+    {
+        if (collided == &key)
+        {
+            kprintf("Colidiu com a CHAVE!");
+            OBJECT_clear(collided);
+        }
+        else if (collided == &door)
+        {
+            kprintf("Colidiu com a PORTA!");
+        }
+        else if (collided == &powerup)
+        {
+            kprintf("Colidiu com o POWERUP!");
+        }
+        else
+        {
+            kprintf("Colidiu com objeto desconhecido!");
+        }
+    }
+
     // Verifica inimigos
     // for (u8 i = ENEMIES_level_enemies[LEVEL_current_level]; i < ENEMIES_level_enemies[LEVEL_current_level + 1]; i++)
     // {

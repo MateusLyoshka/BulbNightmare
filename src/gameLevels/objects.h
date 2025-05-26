@@ -8,20 +8,32 @@
 #include "resources.h"
 #include "level.h"
 
+extern GameObject door;
+extern GameObject key;
+extern GameObject powerup;
+
 typedef struct
 {
     u8 level;
     u8 screen;
     u16 x;
     u16 y;
-    u8 flip; // 0 = nenhum, 1 = horizontal, 2 = vertical
+    u8 flip;
 } ObjectConfig;
 
-u16 OBJECT_door_spawn(u16 ind);
-u16 OBJECT_key_spawn(u16 ind);
-u16 OBJECT_powerup_spawn(u16 ind);
+typedef struct
+{
+    GameObject *obj;
+    const SpriteDefinition *sprite;
+    const ObjectConfig *configs;
+    u8 config_count;
+    u8 *on_screen_flag;
+} ObjectType;
+
+// Adiciona esta função ao header
+GameObject *OBJECT_check_collision(u16 player_center_x, u16 player_center_y);
+u16 OBJECT_spawn_type(const ObjectType *type, u16 ind);
 u16 OBJECT_update(u16 ind);
-void OBJECT_clear(GameObject object);
-u8 OBJECTS_player_collision(s16 player_x, s16 player_y);
+void OBJECT_clear(GameObject *object);
 
 #endif
