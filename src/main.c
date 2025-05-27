@@ -21,11 +21,11 @@ void game_init(u8 enemies_current_level, u8 enemies_past_level)
 	VDP_setScreenWidth320();
 	SPR_init();
 
+	// ind += BACKGROUND_show(BG_DARK, ind);
 	ind += LEVEL_init(ind);
 	ind += PLAYER_init(ind);
 	ind += HUD_init(ind);
 	ind += OBJECT_update(ind);
-	// ind += BACKGROUND_show(BG_DARK, ind);
 	// ind += TILEDRAW_draw(ind);
 	ENEMIES_init();
 	ind += ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);

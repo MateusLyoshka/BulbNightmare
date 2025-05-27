@@ -7,6 +7,8 @@ GameObject player;
 f16 player_gravity = 30;
 f16 player_speed = 70;
 u8 player_is_alive = 1;
+u8 player_have_key = 0;
+GameObject *collided;
 
 u16 PLAYER_init(u16 ind)
 {
@@ -109,22 +111,26 @@ void PLAYER_check_death()
         return;
     }
 
-    GameObject *collided = OBJECT_check_collision(center_x_px, center_y_px);
+    collided = OBJECT_check_collision(center_x_px, center_y_px);
 
     if (collided)
     {
         if (collided == &key)
         {
             kprintf("Colidiu com a CHAVE!");
+            player_have_key = 1;
             OBJECT_clear(collided);
+            // collided = NULL;
         }
-        else if (collided == &door)
+        else if (collided == &door && player_have_key)
         {
             kprintf("Colidiu com a PORTA!");
         }
         else if (collided == &powerup)
         {
             kprintf("Colidiu com o POWERUP!");
+            OBJECT_clear(collided);
+            // collided = NULL;
         }
         else
         {

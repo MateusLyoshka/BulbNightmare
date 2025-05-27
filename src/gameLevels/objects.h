@@ -19,13 +19,14 @@ typedef struct
     u16 x;
     u16 y;
     u8 flip;
+    u8 collected;
 } ObjectConfig;
 
 typedef struct
 {
     GameObject *obj;
     const SpriteDefinition *sprite;
-    const ObjectConfig *configs;
+    ObjectConfig *configs;
     u8 config_count;
     u8 *on_screen_flag;
 } ObjectType;

@@ -11,23 +11,22 @@ u8 key_on_screen = 0;
 u8 powerup_on_screen = 0;
 
 // Configurações dos objetos
-const ObjectConfig door_configs[] = {
-    {0, 6, 16 * METATILE_W, 6 * METATILE_W, 0}, // Level 0
-    {1, 6, 17 * METATILE_W, 5 * METATILE_W, 0}, // Level 1
-    {2, 3, 11 * METATILE_W, 4 * METATILE_W, 0}, // Level 2
-    {3, 8, 2 * METATILE_W, 3 * METATILE_W, 0}   // Level 3
-};
+ObjectConfig door_configs[] = {
+    {0, 6, 16 * METATILE_W, 6 * METATILE_W, 0, 0},
+    {1, 6, 17 * METATILE_W, 5 * METATILE_W, 0, 0},
+    {2, 3, 11 * METATILE_W, 4 * METATILE_W, 0, 0},
+    {3, 8, 2 * METATILE_W, 3 * METATILE_W, 0, 0}};
 
-const ObjectConfig key_configs[] = {
-    {0, 6, 2 * METATILE_W, 5 * METATILE_W, 0},  // Level 0
-    {1, 3, 17 * METATILE_W, 4 * METATILE_W, 0}, // Level 1
-    {2, 7, 13 * METATILE_W, 8 * METATILE_W, 0}, // Level 2
-    {3, 4, 3 * METATILE_W, 6 * METATILE_W, 0}   // Level 3
-};
+ObjectConfig key_configs[] = {
+    {0, 6, 2 * METATILE_W, 5 * METATILE_W, 0, 0},
+    {1, 3, 17 * METATILE_W, 4 * METATILE_W, 0, 0},
+    {2, 7, 13 * METATILE_W, 8 * METATILE_W, 0, 0},
+    {3, 4, 3 * METATILE_W, 6 * METATILE_W, 0, 0}};
 
-const ObjectConfig powerup_configs[] = {
-    {0, 6, 17 * METATILE_W, 12 * METATILE_W, 0},
-    {1, 6, 2 * METATILE_W, 5 * METATILE_W, 2},
+ObjectConfig powerup_configs[] = {
+    {0, 6, 17 * METATILE_W, 12 * METATILE_W, 0, 0},
+    {1, 6, 2 * METATILE_W, 5 * METATILE_W, 0, 0},
+    {1, 6, 3 * METATILE_W, 7 * METATILE_W, 0, 0},
 };
 
 // Tabela de tipos de objetos
@@ -43,11 +42,13 @@ u16 OBJECT_spawn_type(const ObjectType *type, u16 ind)
     for (u8 i = 0; i < type->config_count; i++)
     {
         if (type->configs[i].level == LEVEL_current_level &&
-            type->configs[i].screen == LEVEL_current_screen)
+            type->configs[i].screen == LEVEL_current_screen &&
+            type->configs[i].collected == 0)
         {
 
             if (!*(type->on_screen_flag))
             {
+                // kprintf("chave: %d", type->configs[i].avaliable);
                 ind += GAMEOBJECT_init(type->obj, type->sprite,
                                        type->configs[i].x, type->configs[i].y,
                                        PAL_GAME, ind);
@@ -104,19 +105,27 @@ void OBJECT_clear(GameObject *object)
     if (object == NULL)
         return;
 
-    // Primeiro encontramos qual ObjectType corresponde a este GameObject
     for (u8 i = 0; i < sizeof(object_types) / sizeof(ObjectType); i++)
     {
+        for (u8 j = 0; j < object_types[i].config_count; j++)
+        {
+            if (object_types[i].configs[j].level == LEVEL_current_level &&
+                object_types[i].configs[j].screen == LEVEL_current_screen &&
+                object_types[i].obj == object)
+            {
+                object_types[i].configs[j].collected = 1;
+                break;
+            }
+        }
+
         if (object_types[i].obj == object)
         {
-            // Limpa o sprite
             if (object->sprite != NULL)
             {
                 SPR_releaseSprite(object->sprite);
                 object->sprite = NULL;
             }
 
-            // Atualiza a flag de visibilidade
             *(object_types[i].on_screen_flag) = 0;
             break;
         }
