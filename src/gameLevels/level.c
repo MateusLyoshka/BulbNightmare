@@ -6,9 +6,10 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_current_level = 1;
+u8 LEVEL_current_level = 0;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
+u8 LEVEL_bool_level_change = 0;
 
 // Top-Left screen position in map
 u16 screen_x = 0;

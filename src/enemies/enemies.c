@@ -5,7 +5,7 @@ Enemy enemy_pool[MAX_ENEMIES];
 const f16 g_enemy_speed = 35;
 const f16 f_enemy_speed = 20;
 
-u8 ENEMIES_enemies_on_level[] = {
+const u8 ENEMIES_enemies_on_level[] = {
     0,
     2,
     5,
@@ -13,29 +13,54 @@ u8 ENEMIES_enemies_on_level[] = {
     14,
 };
 
+void ENEMIES_level_change_despawn(u8 enemies_current_level, u8 enemies_past_level)
+{
+    // kprintf("past: %d", enemies_past_level);
+    // kprintf("current: %d", enemies_current_level);
+    for (u8 i = enemies_past_level; i < enemies_current_level; i++)
+    {
+        if (enemy_pool[i].firefly.sprite != NULL)
+        {
+            ENEMY_unspwan(i);
+        }
+    }
+}
+
 void ENEMIES_init()
 {
     // LEVEL 1
-    ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, LEVEL_SCREEN_1, 0);
-    ENEMY_init(LEVEL_1_ENEMY_2, 1, 7, 7, LEVEL_SCREEN_1, 0);
-
-    // LEVEL 2
-    ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 5, LEVEL_SCREEN_1, 1);
-    ENEMY_init(LEVEL_2_ENEMY_2, 0, 9, 12, LEVEL_SCREEN_1, 1);
-    ENEMY_init(LEVEL_2_ENEMY_3, 1, 8, 6, LEVEL_SCREEN_4, 1);
-
-    // LEVEL 3
-    ENEMY_init(LEVEL_3_ENEMY_1, 0, 9, 12, LEVEL_SCREEN_1, 2);
-    ENEMY_init(LEVEL_3_ENEMY_2, 0, 9, 12, LEVEL_SCREEN_2, 2);
-    ENEMY_init(LEVEL_3_ENEMY_3, 1, 18, 10, LEVEL_SCREEN_4, 2);
-    ENEMY_init(LEVEL_3_ENEMY_4, 1, 2, 9, LEVEL_SCREEN_4, 2);
-
-    // LEVEL 4
-    ENEMY_init(LEVEL_4_ENEMY_1, 1, 5, 7, LEVEL_SCREEN_1, 3);
-    ENEMY_init(LEVEL_4_ENEMY_2, 1, 3, 8, LEVEL_SCREEN_2, 3);
-    ENEMY_init(LEVEL_4_ENEMY_3, 1, 8, 5, LEVEL_SCREEN_2, 3);
-    ENEMY_init(LEVEL_4_ENEMY_4, 1, 8, 4, LEVEL_SCREEN_3, 3);
-    ENEMY_init(LEVEL_4_ENEMY_5, 0, 6, 12, LEVEL_SCREEN_5, 3);
+    if (LEVEL_current_level == 0)
+    {
+        ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, LEVEL_SCREEN_1, 0);
+        ENEMY_init(LEVEL_1_ENEMY_2, 1, 7, 7, LEVEL_SCREEN_1, 0);
+    }
+    if (LEVEL_current_level == 1)
+    {
+        // LEVEL 2
+        ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 5, LEVEL_SCREEN_1, 1);
+        ENEMY_init(LEVEL_2_ENEMY_2, 0, 9, 12, LEVEL_SCREEN_1, 1);
+        ENEMY_init(LEVEL_2_ENEMY_3, 1, 8, 6, LEVEL_SCREEN_4, 1);
+    }
+    if (LEVEL_current_level == 2)
+    {
+        // LEVEL 3
+        ENEMY_init(LEVEL_3_ENEMY_1, 0, 9, 12, LEVEL_SCREEN_1, 2);
+        ENEMY_init(LEVEL_3_ENEMY_2, 0, 9, 12, LEVEL_SCREEN_2, 2);
+        ENEMY_init(LEVEL_3_ENEMY_3, 1, 18, 10, LEVEL_SCREEN_4, 2);
+        ENEMY_init(LEVEL_3_ENEMY_4, 1, 2, 9, LEVEL_SCREEN_4, 2);
+    }
+    if (LEVEL_current_level == 3)
+    {
+        // LEVEL 4
+        ENEMY_init(LEVEL_4_ENEMY_1, 1, 5, 7, LEVEL_SCREEN_1, 3);
+        ENEMY_init(LEVEL_4_ENEMY_2, 1, 3, 8, LEVEL_SCREEN_2, 3);
+        ENEMY_init(LEVEL_4_ENEMY_3, 1, 8, 5, LEVEL_SCREEN_2, 3);
+        ENEMY_init(LEVEL_4_ENEMY_4, 1, 8, 4, LEVEL_SCREEN_3, 3);
+        ENEMY_init(LEVEL_4_ENEMY_5, 0, 6, 12, LEVEL_SCREEN_5, 3);
+    }
+    if (LEVEL_current_level == 4)
+    {
+    }
 }
 
 void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 screen, u8 level)

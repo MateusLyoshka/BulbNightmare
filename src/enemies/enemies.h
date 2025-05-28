@@ -25,7 +25,7 @@
 
 #define MAX_ENEMIES 20
 
-extern u8 ENEMIES_enemies_on_level[];
+extern const u8 ENEMIES_enemies_on_level[];
 
 typedef struct
 {
@@ -48,6 +48,7 @@ u8 ENEMY_spawn(u8 index, u8 ind);
 void ENEMY_unspwan(u8 index);
 void ENEMIES_update_hub(u8 current_level_enemies, u8 last_level_enemies);
 void ENEMIES_g_enemy_update(GameObject *firefly);
+void ENEMIES_level_change_despawn(u8 enemies_past_level, u8 enemies_current_level);
 // void ENEMIES_f_enemy_update(GameObject *firefly, u8 i);
 extern Enemy enemy_pool[MAX_ENEMIES];
 

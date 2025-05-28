@@ -4,21 +4,45 @@
 #include "player.h"
 
 GameObject player;
+GameObject *collided;
+PlayerCenter player_center;
+PlayerSpawnPoint player_spawn;
 f16 player_gravity = 30;
 f16 player_speed = 70;
 u8 player_is_alive = 1;
 u8 player_have_key = 0;
-GameObject *collided;
 
 u16 PLAYER_init(u16 ind)
 {
-    ind += GAMEOBJECT_init(&player, &spr_player, 2 * METATILE_W, 12 * METATILE_W, PAL_GAME, ind);
+    if (player.sprite != NULL)
+    {
+        SPR_releaseSprite(player.sprite);
+    }
+
+    player_spawn.initial_x = intToFix16(2 * METATILE_W);
+    player_spawn.initial_y = intToFix16(12 * METATILE_W);
+
+    ind += GAMEOBJECT_init(&player, &spr_player,
+                           fix16ToInt(player_spawn.initial_x),
+                           fix16ToInt(player_spawn.initial_y),
+                           PAL_GAME, ind);
     return ind;
+}
+
+void PLAYER_center_update()
+{
+    player_center.x = fix16ToInt(player.x) + player.w / 2;
+    player_center.y = fix16ToInt(player.y) + player.h / 2;
+
+    // Centro convertido para tiles
+    player_center.tile_x = player_center.x / METATILE_W;
+    player_center.tile_y = player_center.y / METATILE_W;
 }
 
 void PLAYER_update()
 {
-    PLAYER_check_death();
+    PLAYER_center_update();
+    PLAYER_check_collisions();
 
     if (player_is_alive)
     {
@@ -93,25 +117,9 @@ void PLAYER_get_input_lr()
     }
 }
 
-void PLAYER_check_death()
+void PLAYER_object_collision()
 {
-    // Centro do jogador
-    s16 center_x_px = fix16ToInt(player.x) + player.w / 2;
-    s16 center_y_px = fix16ToInt(player.y) + player.h / 2;
-
-    // Centro convertido para tiles
-    u16 tile_x = center_x_px / METATILE_W;
-    u16 tile_y = center_y_px / METATILE_W;
-
-    // Verifica espinhos
-    if (collision_map[tile_x][tile_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[tile_x][tile_y] == BOTTOM_SPIKE_LEVEL_INDEX)
-    {
-        kprintf("Espinho no centro do player! (%d, %d)", tile_x, tile_y);
-        player_is_alive = 1;
-        return;
-    }
-
-    collided = OBJECT_check_collision(center_x_px, center_y_px);
+    collided = OBJECT_check_collision(player_center.x, player_center.y);
 
     if (collided)
     {
@@ -119,17 +127,19 @@ void PLAYER_check_death()
         {
             kprintf("Colidiu com a CHAVE!");
             player_have_key = 1;
-            OBJECT_clear(collided);
+            OBJECT_collect(collided);
             // collided = NULL;
         }
         else if (collided == &door && player_have_key)
         {
             kprintf("Colidiu com a PORTA!");
+            PLAYER_respawn();
+            LEVEL_bool_level_change = 1;
         }
         else if (collided == &powerup)
         {
             kprintf("Colidiu com o POWERUP!");
-            OBJECT_clear(collided);
+            OBJECT_collect(collided);
             // collided = NULL;
         }
         else
@@ -137,23 +147,75 @@ void PLAYER_check_death()
             kprintf("Colidiu com objeto desconhecido!");
         }
     }
+}
 
-    // Verifica inimigos
-    // for (u8 i = ENEMIES_level_enemies[LEVEL_current_level]; i < ENEMIES_level_enemies[LEVEL_current_level + 1]; i++)
-    // {
-    //     if (enemy_pool[i].firefly.sprite == NULL)
-    //         continue; // inimigo inexistente
+void PLAYER_spike_collision()
+{
+    if (collision_map[player_center.tile_x][player_center.tile_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[player_center.tile_x][player_center.tile_y] == BOTTOM_SPIKE_LEVEL_INDEX)
+    {
+        kprintf("Espinho no centro do player! (%d, %d)", player_center.tile_x, player_center.tile_y);
+        player_is_alive = 0;
+        return;
+    }
+}
 
-    //     GameObject *e = &enemy_pool[i].firefly;
+void PLAYER_enemy_collision()
+{
 
-    //     if (center_x_px >= e->box.left && center_x_px <= e->box.right &&
-    //         center_y_px >= e->box.top && center_y_px <= e->box.bottom)
-    //     {
-    //         kprintf("Colidiu com inimigo %d!", i);
-    //         player_is_alive = 0;
-    //         return;
-    //     }
-    // }
+    for (u8 i = ENEMIES_enemies_on_level[LEVEL_current_level]; i < ENEMIES_enemies_on_level[LEVEL_current_level + 1]; i++)
+    {
+        if (enemy_pool[i].firefly.sprite == NULL)
+            continue; // inimigo inexistente
+
+        GameObject *e = &enemy_pool[i].firefly;
+
+        if (player_center.x >= e->box.left && player_center.x <= e->box.right &&
+            player_center.y >= e->box.top && player_center.y <= e->box.bottom)
+        {
+            // kprintf("Colidiu com inimigo %d!", i);
+            player_is_alive = 0;
+            return;
+        }
+    }
+}
+
+void PLAYER_check_collisions()
+{
+    PLAYER_enemy_collision();
+    PLAYER_spike_collision();
+    PLAYER_object_collision();
+    if (!player_is_alive)
+    {
+        PLAYER_respawn();
+    }
+}
+
+void PLAYER_respawn()
+{
+    // Reposiciona o player
+    player.x = player_spawn.initial_x;
+    player.y = player_spawn.initial_y;
+
+    // Reseta velocidades
+    player.speed_x = 0;
+    player.speed_y = 0;
+
+    // Reseta estados
+    player_is_alive = 1;
+    // player_have_key = 0;
+
+    // Atualiza a posição do sprite
+    SPR_setPosition(player.sprite,
+                    fix16ToInt(player.x),
+                    fix16ToInt(player.y));
+
+    // Reseta animação se necessário
+    player.anim = 0;
+    SPR_setAnim(player.sprite, player.anim);
+
+    // Reseta gravidade se necessário
+    player_gravity = abs(player_gravity); // Garante gravidade para baixo
+    SPR_setVFlip(player.sprite, FALSE);
 }
 
 u8 PLAYER_on_ground()

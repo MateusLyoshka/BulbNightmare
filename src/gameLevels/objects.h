@@ -33,8 +33,9 @@ typedef struct
 
 // Adiciona esta função ao header
 GameObject *OBJECT_check_collision(u16 player_center_x, u16 player_center_y);
-u16 OBJECT_spawn_type(const ObjectType *type, u16 ind);
-u16 OBJECT_update(u16 ind);
+u16 OBJECT_spawn_type(const ObjectType *type, u16 ind, u8 force_respawn);
+u16 OBJECT_update(u16 ind, u8 force_respawn);
+void OBJECT_collect(GameObject *object);
 void OBJECT_clear(GameObject *object);
 
 #endif

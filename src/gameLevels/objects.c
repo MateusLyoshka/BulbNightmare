@@ -26,7 +26,7 @@ ObjectConfig key_configs[] = {
 ObjectConfig powerup_configs[] = {
     {0, 6, 17 * METATILE_W, 12 * METATILE_W, 0, 0},
     {1, 6, 2 * METATILE_W, 5 * METATILE_W, 0, 0},
-    {1, 6, 3 * METATILE_W, 7 * METATILE_W, 0, 0},
+    // {1, 6, 3 * METATILE_W, 7 * METATILE_W, 0, 0},
 };
 
 // Tabela de tipos de objetos
@@ -35,25 +35,29 @@ const ObjectType object_types[] = {
     {&key, &spr_key, key_configs, sizeof(key_configs) / sizeof(ObjectConfig), &key_on_screen},
     {&powerup, &spr_powerup, powerup_configs, sizeof(powerup_configs) / sizeof(ObjectConfig), &powerup_on_screen}};
 
-u16 OBJECT_spawn_type(const ObjectType *type, u16 ind)
+u16 OBJECT_spawn_type(const ObjectType *type, u16 ind, u8 force_respawn)
 {
     u8 should_be_visible = 0;
 
     for (u8 i = 0; i < type->config_count; i++)
     {
         if (type->configs[i].level == LEVEL_current_level &&
-            type->configs[i].screen == LEVEL_current_screen &&
+            (type->configs[i].screen == LEVEL_current_screen) &&
             type->configs[i].collected == 0)
         {
 
-            if (!*(type->on_screen_flag))
+            if (!*(type->on_screen_flag) || force_respawn)
             {
-                // kprintf("chave: %d", type->configs[i].avaliable);
+                // Sempre limpa antes, se for respawn forçado
+                if (force_respawn && *(type->on_screen_flag))
+                {
+                    OBJECT_clear(type->obj);
+                }
+
                 ind += GAMEOBJECT_init(type->obj, type->sprite,
                                        type->configs[i].x, type->configs[i].y,
                                        PAL_GAME, ind);
 
-                // Aplica flip se necessário
                 if (type->configs[i].flip == 1)
                     SPR_setHFlip(type->obj->sprite, TRUE);
                 else if (type->configs[i].flip == 2)
@@ -75,11 +79,11 @@ u16 OBJECT_spawn_type(const ObjectType *type, u16 ind)
     return ind;
 }
 
-u16 OBJECT_update(u16 ind)
+u16 OBJECT_update(u16 ind, u8 force_respawn)
 {
     for (u8 i = 0; i < sizeof(object_types) / sizeof(ObjectType); i++)
     {
-        ind = OBJECT_spawn_type(&object_types[i], ind);
+        ind = OBJECT_spawn_type(&object_types[i], ind, force_respawn);
     }
     return ind;
 }
@@ -100,7 +104,7 @@ GameObject *OBJECT_check_collision(u16 player_center_x, u16 player_center_y)
     return NULL;
 }
 
-void OBJECT_clear(GameObject *object)
+void OBJECT_collect(GameObject *object)
 {
     if (object == NULL)
         return;
@@ -118,6 +122,26 @@ void OBJECT_clear(GameObject *object)
             }
         }
 
+        if (object_types[i].obj == object)
+        {
+            if (object->sprite != NULL)
+            {
+                SPR_releaseSprite(object->sprite);
+                object->sprite = NULL;
+            }
+
+            *(object_types[i].on_screen_flag) = 0;
+            break;
+        }
+    }
+}
+void OBJECT_clear(GameObject *object)
+{
+    if (object == NULL)
+        return;
+
+    for (u8 i = 0; i < sizeof(object_types) / sizeof(ObjectType); i++)
+    {
         if (object_types[i].obj == object)
         {
             if (object->sprite != NULL)

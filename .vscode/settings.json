@@ -25,7 +25,8 @@
         "globals.h": "c",
         "utils.h": "c",
         "enemies.h": "c",
-        "drawtile.h": "c"
+        "drawtile.h": "c",
+        "map.h": "c"
     },
     "gens.path": "C:\\Users\\mateu\\Desktop\\Studio\\GameDevelopment\\Emuladores\\GensKMOD\\gens.exe",
     "C_Cpp.errorSquiggles": "disabled"
