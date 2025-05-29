@@ -2,11 +2,11 @@
 #define _PLAYER_H_
 
 #include <genesis.h>
-#include "gameobject.h"
 #include "resources.h"
-#include "level.h"
+#include "../utils/gameobject.h"
+#include "../screenElements/level.h"
 #include "../enemies/enemies.h"
-#include "objects.h"
+#include "../screenElements/objects.h"
 // utils
 
 typedef struct

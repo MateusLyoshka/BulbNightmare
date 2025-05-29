@@ -31,6 +31,7 @@ u16 PLAYER_init(u16 ind)
 
 void PLAYER_center_update()
 {
+
     player_center.x = fix16ToInt(player.x) + player.w / 2;
     player_center.y = fix16ToInt(player.y) + player.h / 2;
 
@@ -181,8 +182,8 @@ void PLAYER_enemy_collision()
 
 void PLAYER_check_collisions()
 {
-    PLAYER_enemy_collision();
-    PLAYER_spike_collision();
+    // PLAYER_enemy_collision();
+    // PLAYER_spike_collision();
     PLAYER_object_collision();
     if (!player_is_alive)
     {
@@ -200,8 +201,6 @@ void PLAYER_respawn()
     player.speed_x = 0;
     player.speed_y = 0;
 
-    // Reseta estados
-    player_is_alive = 1;
     // player_have_key = 0;
 
     // Atualiza a posição do sprite

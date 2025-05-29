@@ -4,7 +4,7 @@
 #include <genesis.h>
 #include "../utils/globals.h"
 #include "map.h"
-#include "gameobject.h"
+#include "../utils/gameobject.h"
 #include "resources.h"
 
 #define NUMBER_OF_LEVELS 5
@@ -40,5 +40,6 @@ void LEVEL_move_and_slide(GameObject *obj);
 void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y);
 void LEVEL_update_camera(GameObject *obj);
 void LEVEL_map_clear();
+void LEVEL_draw_collision_map();
 
 #endif

@@ -2,10 +2,10 @@
 #define _HUD_H
 
 #include <genesis.h>
-#include "../utils/globals.h"
-#include "gameobject.h"
 #include "resources.h"
-#include "player.h"
+#include "../utils/gameobject.h"
+#include "../utils/globals.h"
+#include "../player/player.h"
 
 extern u8 player_gems;
 

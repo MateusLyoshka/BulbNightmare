@@ -2,11 +2,11 @@
 #define OBJECTS
 
 #include <genesis.h>
-#include "../utils/globals.h"
-#include "map.h"
-#include "gameobject.h"
 #include "resources.h"
+#include "map.h"
+#include "../utils/gameobject.h"
 #include "level.h"
+#include "../utils/globals.h"
 
 extern GameObject door;
 extern GameObject key;

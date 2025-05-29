@@ -4,9 +4,9 @@
 #include <genesis.h>
 #include "resources.h"
 #include "../utils/globals.h"
-#include "../gameLevels/gameobject.h"
-#include "../gameLevels/level.h"
-#include "../gameLevels/player.h"
+#include "../utils/gameobject.h"
+#include "../screenElements/level.h"
+#include "../player/player.h"
 
 #define LEVEL_1_ENEMY_1 0
 #define LEVEL_1_ENEMY_2 1

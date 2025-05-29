@@ -3,15 +3,14 @@
 
 #include "resources.h"
 
-#include "gameLevels/background.h"
-#include "gameLevels/gameobject.h"
+#include "screenElements/background.h"
+#include "utils/gameobject.h"
 #include "utils/utils.h"
-#include "gameLevels/level.h"
-#include "gameLevels/hud.h"
+#include "screenElements/level.h"
+#include "screenElements/hud.h"
 #include "enemies/enemies.h"
-#include "gameLevels/player.h"
-#include "gameLevels/objects.h"
-#include "gameLevels/drawtile.h"
+#include "player/player.h"
+#include "screenElements/objects.h"
 
 // ==============================
 // Variáveis globais
@@ -56,10 +55,17 @@ int main(bool resetType)
 
 void game_update()
 {
-	if (LEVEL_bool_screen_change)
+	if (LEVEL_bool_screen_change || !player_is_alive)
 	{
+		if (!player_is_alive)
+		{
+			ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
+			LEVEL_scroll_update_collision(0, 448);
+		}
+
 		ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 		ind = OBJECT_update(ind, TRUE);
+		player_is_alive = 1;
 		LEVEL_bool_screen_change = 0;
 	}
 	if (LEVEL_bool_level_change)
@@ -73,7 +79,7 @@ void game_update()
 
 		ind = TILE_USER_INDEX;
 		game_init();
-
+		player_is_alive = 1;
 		LEVEL_bool_level_change = 0;
 	}
 	update_input();
@@ -87,9 +93,9 @@ void game_update()
 
 void game_init()
 {
-	ind += LEVEL_init(ind);
-	ind += PLAYER_init(ind);
-	ind += HUD_init(ind);
+	ind = LEVEL_init(ind);
+	ind = PLAYER_init(ind);
+	ind = HUD_init(ind);
 	ENEMIES_init();
 	ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = OBJECT_update(ind, TRUE);

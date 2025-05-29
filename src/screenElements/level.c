@@ -6,7 +6,7 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_current_level = 0;
+u8 LEVEL_current_level = 2;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 u8 LEVEL_bool_level_change = 0;
@@ -150,16 +150,25 @@ void LEVEL_move_and_slide(GameObject *obj)
     }
 }
 
+u16 screen_x_control = 0;
+u16 screen_y_control = 448;
 void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
 {
-    screen_x += offset_x;
-    screen_y += offset_y;
+    kprintf("screen x %d", screen_x);
+    kprintf("screen y %d", screen_y);
+    kprintf("actual screen %d", LEVEL_current_screen);
+    screen_x = offset_x;
+    screen_y = offset_y;
+
+    // Receive the offset again in case the function was called from another file (allows teleporting the player anywhere, anytime)
+    screen_x_control = offset_x;
+    screen_y_control = offset_y;
 
     u8 col = screen_x / SCREEN_W;
     u8 row = screen_y / SCREEN_H;
 
     LEVEL_bool_screen_change = 1;
-    // Atualiza o índice da tela atual
+
     LEVEL_current_screen = row * MAP_X_SCREENS + col;
 
     MAP_scrollTo(map, screen_x, screen_y);
@@ -171,42 +180,48 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
 }
 
 void LEVEL_update_camera(GameObject *obj)
+
 {
     if (obj->x > (FIX16(SCREEN_W) - obj->w / 2))
     {
         obj->x = 0;
-        LEVEL_scroll_update_collision(SCREEN_W, 0);
+        screen_x_control += SCREEN_W;
+        LEVEL_scroll_update_collision(screen_x_control, screen_y_control);
     }
     else if (obj->x < (FIX16(-obj->w / 2)))
     {
         obj->x = FIX16(SCREEN_W - obj->w);
-        LEVEL_scroll_update_collision(-SCREEN_W, 0);
+        screen_x_control -= SCREEN_W;
+        LEVEL_scroll_update_collision(screen_x_control, screen_y_control);
     }
 
     if (obj->y > (FIX16(SCREEN_H) - obj->h / 2))
     {
         obj->y = 0;
-        LEVEL_scroll_update_collision(0, SCREEN_H);
+        screen_y_control += SCREEN_H;
+        LEVEL_scroll_update_collision(screen_x_control, screen_y_control);
     }
     else if (obj->y < (FIX16(-obj->h / 2)))
     {
         obj->y = FIX16(SCREEN_H - obj->h);
-        LEVEL_scroll_update_collision(0, -SCREEN_H);
+        screen_y_control -= SCREEN_H;
+        LEVEL_scroll_update_collision(screen_x_control, screen_y_control);
     }
 }
-// void LEVEL_draw_collision_map()
-// {
-//     VDP_setTextPlane(BG_A);
-//     PAL_setColor(15, RGB24_TO_VDPCOLOR(0xFFFFFF));
-//     for (u8 x = 0; x < SCREEN_METATILES_W; ++x)
-//     {
-//         for (u8 y = 0; y < SCREEN_METATILES_H; ++y)
-//         {
-//             intToStr(collision_map[x][y], text, 1);
-//             VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
-//         }
-//     }
-// }
+
+void LEVEL_draw_collision_map()
+{
+    VDP_setTextPlane(BG_A);
+    PAL_setColor(15, RGB24_TO_VDPCOLOR(0xFFFFFF));
+    for (u8 x = 0; x < SCREEN_METATILES_W; ++x)
+    {
+        for (u8 y = 0; y < SCREEN_METATILES_H; ++y)
+        {
+            intToStr(collision_map[x][y], text, 1);
+            VDP_drawText(text, x * METATILE_W / 8, y * METATILE_W / 8);
+        }
+    }
+}
 
 u8 LEVEL_wall_at(s16 x, s16 y)
 {
