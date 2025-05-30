@@ -35,7 +35,7 @@ extern u8 player_have_key;
 
 u16 PLAYER_init(u16 ind);
 void PLAYER_update();
-void PLAYER_get_input_lr();
+void PLAYER_get_input();
 u8 PLAYER_on_ground();
 void PLAYER_check_collisions();
 void PLAYER_object_collision();
