@@ -14,7 +14,7 @@ u32 whiteTile[8] = {
 u16 BACKGROUND_init(u16 ind)
 {
     // Define o azul escuro (0x000057) na cor de índice 1 da PAL_BACKGROUND_B (BG_B)
-    PAL_setColor(PAL0 * 16 + 1, RGB24_TO_VDPCOLOR(0xFFFFFF));
+    PAL_setColor(PAL0 * 16 + 1, RGB24_TO_VDPCOLOR(0x00000));
 
     // Carrega o tile com cor de índice 1
     VDP_loadTileData((const u32 *)whiteTile, ind, 1, DMA);

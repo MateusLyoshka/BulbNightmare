@@ -12,6 +12,16 @@
 #include "player/player.h"
 #include "screenElements/objects.h"
 
+typedef struct
+{
+	u16 *glow;
+	u8 glow_elems;
+	u8 glow_current_elem;
+	u16 color_ind;
+} ColorParams;
+
+ColorParams color_params_vec[2];
+
 // ==============================
 // Variáveis globais
 // ==============================
@@ -19,7 +29,7 @@ u16 ind = TILE_USER_INDEX;
 u8 enemies_current_level;
 u8 enemies_past_level;
 
-u8 game_initialized = 0;
+u8 proceed = 0;
 
 // ==============================
 // Prototipagem
@@ -27,7 +37,7 @@ u8 game_initialized = 0;
 void game_init();
 void game_update();
 
-const u16 logo_color_glow_1[] = {
+const u16 logo_color_glow_0[] = {
 	RGB24_TO_VDPCOLOR(0x000000),
 	RGB24_TO_VDPCOLOR(0x0D2A3C),
 	RGB24_TO_VDPCOLOR(0x1A5579),
@@ -35,7 +45,7 @@ const u16 logo_color_glow_1[] = {
 	RGB24_TO_VDPCOLOR(0x35AAF2)};
 
 // logo_color_glow_2: de preto até azul profundo #020659
-const u16 logo_color_glow_2[] = {
+const u16 logo_color_glow_1[] = {
 	RGB24_TO_VDPCOLOR(0x000000),
 	RGB24_TO_VDPCOLOR(0x010116),
 	RGB24_TO_VDPCOLOR(0x01032B),
@@ -44,35 +54,56 @@ const u16 logo_color_glow_2[] = {
 
 u8 color_delay = 5;
 
-static inline void glow_color(u16 color_index, const u16 *const color_vector, u8 n)
+static inline void glow_color(u16 color_index, const u16 *const color_vector, u8 n, u8 *current_elem, u8 fade_type)
 {
-	static u8 idx = 0;
 	static u8 inc = 1;
 
-	PAL_setColor(color_index, color_vector[idx]);
-
-	idx += inc;
-	if (idx == 0 || idx == n - 1)
+	// kprintf("%d", *current_elem);
+	if (fade_type)
 	{
-		inc = -inc;
+		*current_elem += inc;
+	}
+	else
+	{
+		*current_elem -= inc;
+	}
+	PAL_setColor(color_index, color_vector[*current_elem]);
+	kprintf("%d", *current_elem);
+	if (*current_elem == 0 || *current_elem == n - 1)
+	{
+		proceed = 1;
+		return;
 	}
 }
 
-static inline void color_effects()
+static inline void color_effects(ColorParams *color_params, u8 max_elems, u8 fade_type)
 {
 	--color_delay;
 	if (color_delay == 0)
 	{
-		// rotate_colors_left(PAL_BACKGROUND*16, PAL_BACKGROUND*16+15);
-		glow_color(PAL1 * 16 + 1, logo_color_glow_1, 5);
-
-		color_delay = 120;
+		for (u8 i = 0; i < max_elems; i++)
+		{
+			glow_color(color_params[i].color_ind, color_params_vec[i].glow, color_params_vec[i].glow_elems, &color_params_vec[i].glow_current_elem, fade_type);
+		}
+		color_delay = 20;
 	}
 }
+
+void Color_init(ColorParams *color_params, u8 pos, u16 *glow, u8 glow_elems, u16 color_ind)
+{
+	color_params[pos].color_ind = color_ind;
+	color_params[pos].glow_elems = glow_elems;
+	color_params[pos].glow_current_elem = 0;
+	color_params[pos].glow = glow;
+}
+
 int main(bool resetType)
 {
 	VDP_setScreenWidth320();
 	SPR_init();
+
+	Color_init(color_params_vec, 0, (u16 *)logo_color_glow_0, 5, PAL1 * 16 + 1);
+	Color_init(color_params_vec, 1, (u16 *)logo_color_glow_1, 5, PAL1 * 16 + 2);
 
 	if (!resetType)
 	{
@@ -81,7 +112,7 @@ int main(bool resetType)
 
 	SYS_showFrameLoad(true);
 
-	for (int i = 0; i < 120; i++)
+	for (int i = 0; i < 60; i++)
 	{
 		SYS_doVBlankProcess();
 	}
@@ -94,10 +125,24 @@ int main(bool resetType)
 
 	// Espera um tempo antes de iniciar o fade (opcional)
 
+	while (!proceed)
+	{
+		color_effects(color_params_vec, 2, 1);
+		SYS_doVBlankProcess();
+	}
+	proceed = 0;
+	for (int i = 0; i < 60; i++)
+	{
+		SYS_doVBlankProcess();
+	}
+	while (!proceed)
+	{
+		color_effects(color_params_vec, 2, 0);
+		SYS_doVBlankProcess();
+	}
 	while (true)
 	{
-		color_effects();
-		SYS_doVBlankProcess();
+		/* code */
 	}
 
 	// Seta a paleta principal do jogo
