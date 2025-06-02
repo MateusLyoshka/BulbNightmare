@@ -158,7 +158,7 @@ int main(bool resetType)
 	SYS_showFrameLoad(true);
 
 	// Mostra logo da utf, fade in e fade out
-	ind = BACKGROUND_logo_init(ind);
+	ind = BACKGROUND_init_generalized(0, ind);
 
 	fade_proceed(1, 2);
 	bg_proceed = 0;
@@ -175,7 +175,7 @@ int main(bool resetType)
 	Color_init(color_params_vec, 3, (u16 *)glow_olive_dark, 10, PAL_BACKGROUND_B * 16 + 4);
 	Color_init(color_params_vec, 4, (u16 *)glow_olive_medium, 10, PAL_BACKGROUND_B * 16 + 5);
 
-	ind = BACKGROUND_init(ind);
+	ind = BACKGROUND_init_generalized(1, ind);
 	fade_proceed(1, 5);
 	bg_proceed = 0;
 	ind = MENU_init(ind);

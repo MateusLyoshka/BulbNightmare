@@ -20,8 +20,16 @@ typedef enum
     BG_A_SELECT = 1
 } BackgroundSelect;
 
-u16 BACKGROUND_init(u16 ind);
-u16 BACKGROUND_logo_init(u16 ind);
+typedef enum
+{
+    BG_LOGO,
+    BG_MENU,
+    BG_MENU_1,
+    BG_INSTRUCT,
+    BG_MAX
+} BackgroundType;
+
+u16 BACKGROUND_init_generalized(BackgroundType type, u16 ind);
 u16 BACKGROUND_clean(BackgroundSelect bg);
 
 extern const u16 logo_color_glow_0[];

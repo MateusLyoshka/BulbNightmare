@@ -52,6 +52,18 @@ u16 MENU_update(u16 ind)
         SPR_releaseSprite(menu.sprite);
         bg_proceed = 1;
     }
+    else if (key_pressed(0, BUTTON_START) && menu_option == 1 && current_room == 0)
+    {
+        current_room = 1;
+        ind = BACKGROUND_init_generalized(3, ind);
+        SPR_releaseSprite(menu.sprite);
+    }
+    else if (key_pressed(0, BUTTON_START) && current_room == 1)
+    {
+        current_room = 0;
+        ind = BACKGROUND_init_generalized(1, ind);
+        ind = GAMEOBJECT_init(&menu, &spr_menu, 96, 72, PAL_BACKGROUND_A, ind);
+    }
 
     return ind;
 }

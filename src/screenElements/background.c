@@ -1,27 +1,30 @@
 #include "background.h"
 
+const Image *background_images[BG_MAX] = {
+    [BG_LOGO] = &utf_logo,
+    [BG_MENU] = &menu_bg,
+    [BG_MENU_1] = &menu_bg_1,
+    [BG_INSTRUCT] = &instructions,
+};
+
 u8 bg_color_delay = 5;
 u8 bg_proceed = 0;
 
-u16 BACKGROUND_init(u16 ind)
+u16 BACKGROUND_init_generalized(BackgroundType type, u16 ind)
 {
+    BACKGROUND_clean(0);
+    if (type >= BG_MAX || background_images[type] == NULL)
+        return ind;
 
-    PAL_setPalette(PAL_BACKGROUND_B, menu_bg.palette->data, DMA);
+    const Image *img = background_images[type];
 
-    VDP_drawImageEx(BG_B, &menu_bg, TILE_ATTR_FULL(PAL_BACKGROUND_B, 0, 0, 0, ind), 0, 0, FALSE, TRUE);
+    PAL_setPalette(PAL_BACKGROUND_B, img->palette->data, DMA);
 
-    return ind + 1;
-}
-
-u16 BACKGROUND_logo_init(u16 ind)
-{
-    PAL_setPalette(PAL_BACKGROUND_B, utf_logo.palette->data, DMA);
-
-    VDP_drawImageEx(BG_B, &utf_logo,
+    VDP_drawImageEx(BG_B, img,
                     TILE_ATTR_FULL(PAL_BACKGROUND_B, 0, 0, 0, ind),
                     0, 0, FALSE, TRUE);
 
-    return ind;
+    return ind + img->tileset->numTile;
 }
 
 u16 BACKGROUND_clean(BackgroundSelect bg)
