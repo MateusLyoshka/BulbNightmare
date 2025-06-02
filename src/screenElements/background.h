@@ -4,6 +4,7 @@
 #include <genesis.h>
 #include "resources.h"
 #include "../utils/globals.h"
+#include "../utils/utils.h"
 
 typedef struct
 {

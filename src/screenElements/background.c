@@ -28,8 +28,7 @@ u16 BACKGROUND_clean(BackgroundSelect bg)
 {
     VDP_clearPlane(bg == BG_B_SELECT ? BG_B : BG_A, TRUE);
 
-    const u16 blank_palette[16] = {0};
-    PAL_setPalette(PAL_BACKGROUND_B, blank_palette, DMA);
+    UTILS_clear_palette(bg == BG_B_SELECT ? PAL_BACKGROUND_B : PAL_BACKGROUND_B);
 
     return TILE_USER_INDEX;
 }

@@ -10,7 +10,7 @@ s8 menu_option = -1;
 u16 MENU_init(u16 ind)
 {
     ind += GAMEOBJECT_init(&start, &spr_start, 97, 86, PAL_BACKGROUND_A, ind);
-    kprintf("a");
+    // kprintf("a");
     return ind;
 }
 
@@ -22,5 +22,36 @@ u16 MENU_update(u16 ind)
         SPR_releaseSprite(start.sprite);
         ind += GAMEOBJECT_init(&menu, &spr_menu, 96, 72, PAL_BACKGROUND_A, ind);
     }
+    else if (key_pressed(0, BUTTON_DOWN) && menu_option == 0)
+    {
+        menu_option++;
+        menu.anim = menu_option;
+        SPR_setAnim(menu.sprite, menu_option);
+    }
+    else if (key_pressed(0, BUTTON_DOWN) && menu_option == 1)
+    {
+        menu_option++;
+        menu.anim = menu_option;
+        SPR_setAnim(menu.sprite, menu_option);
+    }
+    else if (key_pressed(0, BUTTON_UP) && menu_option == 2)
+    {
+        menu_option--;
+        menu.anim = menu_option;
+        SPR_setAnim(menu.sprite, menu_option);
+    }
+    else if (key_pressed(0, BUTTON_UP) && menu_option == 1)
+    {
+        menu_option--;
+        menu.anim = menu_option;
+        SPR_setAnim(menu.sprite, menu_option);
+    }
+    else if (key_pressed(0, BUTTON_START) && menu_option == 0)
+    {
+        ind = BACKGROUND_clean(0);
+        SPR_releaseSprite(menu.sprite);
+        bg_proceed = 1;
+    }
+
     return ind;
 }

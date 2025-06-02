@@ -8,6 +8,12 @@
 extern u8 buttons[NUMBER_OF_JOYPADS];
 extern u8 buttons_old[NUMBER_OF_JOYPADS];
 
+inline void UTILS_clear_palette(u8 pal)
+{
+    const u16 blank_palette[16] = {0};
+    PAL_setPalette(pal, blank_palette, DMA);
+}
+
 // #define wrap(X, L, H) ((X < L)? H : ((X > H)? : L: X))
 
 #define WRAP(X, L, H) \
