@@ -7,8 +7,8 @@ IMAGE dark_mask "backgrounds/dark_mask.png" FAST
 IMAGE utf_logo "backgrounds/utfpr.png" FAST 
 
 # SPRITES
-SPRITE buttons_menu "sprites/menu_buttons.png" 7 7 FAST 3
-SPRITE button_start "sprites/start.png" 7 3 FAST 3
+SPRITE spr_menu "sprites/menu_buttons.png" 7 7 FAST 8
+SPRITE spr_start "sprites/start.png" 7 3 FAST 8
 SPRITE spr_player "sprites/player.png" 2 2 BEST 3
 SPRITE spr_hud_itens "hud/hud_itens.png" 2 2 FAST 
 SPRITE spr_hud_font "hud/hud_font.png" 2 2 FAST 

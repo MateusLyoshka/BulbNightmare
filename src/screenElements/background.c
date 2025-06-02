@@ -1,70 +1,35 @@
 #include "background.h"
 
-// const u16 logo_color_glow_0[] = {
-//     RGB24_TO_VDPCOLOR(0x000000),
-//     RGB24_TO_VDPCOLOR(0x030E1E),
-//     RGB24_TO_VDPCOLOR(0x071D3D),
-//     RGB24_TO_VDPCOLOR(0x0A2B5C),
-//     RGB24_TO_VDPCOLOR(0x0E3A7B),
-//     RGB24_TO_VDPCOLOR(0x12489A),
-//     RGB24_TO_VDPCOLOR(0x1D66B8),
-//     RGB24_TO_VDPCOLOR(0x35AAF2)};
-// const u16 logo_color_glow_1[] = {
-//     RGB24_TO_VDPCOLOR(0x000000),
-//     RGB24_TO_VDPCOLOR(0x00020B),
-//     RGB24_TO_VDPCOLOR(0x000516),
-//     RGB24_TO_VDPCOLOR(0x000722),
-//     RGB24_TO_VDPCOLOR(0x010A2D),
-//     RGB24_TO_VDPCOLOR(0x010C39),
-//     RGB24_TO_VDPCOLOR(0x010F44),
-//     RGB24_TO_VDPCOLOR(0x020659)};
-
-// u8 color_delay = 5;
-
-u32 whiteTile[8] = {
-    0x11111111,
-    0x11111111,
-    0x11111111,
-    0x11111111,
-    0x11111111,
-    0x11111111,
-    0x11111111,
-    0x11111111,
-};
+u8 bg_color_delay = 5;
+u8 bg_proceed = 0;
 
 u16 BACKGROUND_init(u16 ind)
 {
-    // Define o azul escuro (0x000057) na cor de índice 1 da PAL_BACKGROUND_B (BG_B)
-    PAL_setColor(PAL0 * 16 + 1, RGB24_TO_VDPCOLOR(0x00000));
 
-    // Carrega o tile com cor de índice 1
-    VDP_loadTileData((const u32 *)whiteTile, ind, 1, DMA);
+    PAL_setPalette(PAL_BACKGROUND_B, menu_bg.palette->data, DMA);
 
-    // Preenche a tela inteira (40x28 tiles) no plano BG_B
-    VDP_fillTileMapRect(BG_B, TILE_ATTR_FULL(PAL0, 0, 0, 0, ind), 0, 0, 40, 28);
+    VDP_drawImageEx(BG_B, &menu_bg, TILE_ATTR_FULL(PAL_BACKGROUND_B, 0, 0, 0, ind), 0, 0, FALSE, TRUE);
 
     return ind + 1;
 }
 
 u16 BACKGROUND_logo_init(u16 ind)
 {
-    PAL_setPalette(PAL1, utf_logo.palette->data, DMA);
+    PAL_setPalette(PAL_BACKGROUND_B, utf_logo.palette->data, DMA);
 
-    VDP_drawImageEx(BG_A, &utf_logo,
-                    TILE_ATTR_FULL(PAL1, 0, 0, 0, ind),
+    VDP_drawImageEx(BG_B, &utf_logo,
+                    TILE_ATTR_FULL(PAL_BACKGROUND_B, 0, 0, 0, ind),
                     0, 0, FALSE, TRUE);
 
     return ind;
 }
 
-u16 BACKGROUND_clean()
+u16 BACKGROUND_clean(BackgroundSelect bg)
 {
-    // Limpa o plano A
-    VDP_clearPlane(BG_A, TRUE);
+    VDP_clearPlane(bg == BG_B_SELECT ? BG_B : BG_A, TRUE);
 
-    // Zera a paleta PAL1 com 16 cores pretas
-    const u16 blank_palette[16] = {0}; // tudo preto (0x0000)
-    PAL_setPalette(PAL1, blank_palette, DMA);
+    const u16 blank_palette[16] = {0};
+    PAL_setPalette(PAL_BACKGROUND_B, blank_palette, DMA);
 
     return TILE_USER_INDEX;
 }
