@@ -39,17 +39,23 @@ void game_update();
 
 const u16 logo_color_glow_0[] = {
 	RGB24_TO_VDPCOLOR(0x000000),
-	RGB24_TO_VDPCOLOR(0x0D2A3C),
-	RGB24_TO_VDPCOLOR(0x1A5579),
-	RGB24_TO_VDPCOLOR(0x277FB5),
+	RGB24_TO_VDPCOLOR(0x030E1E),
+	RGB24_TO_VDPCOLOR(0x071D3D),
+	RGB24_TO_VDPCOLOR(0x0A2B5C),
+	RGB24_TO_VDPCOLOR(0x0E3A7B),
+	RGB24_TO_VDPCOLOR(0x12489A),
+	RGB24_TO_VDPCOLOR(0x1D66B8),
 	RGB24_TO_VDPCOLOR(0x35AAF2)};
 
 // logo_color_glow_2: de preto até azul profundo #020659
 const u16 logo_color_glow_1[] = {
 	RGB24_TO_VDPCOLOR(0x000000),
-	RGB24_TO_VDPCOLOR(0x010116),
-	RGB24_TO_VDPCOLOR(0x01032B),
-	RGB24_TO_VDPCOLOR(0x010442),
+	RGB24_TO_VDPCOLOR(0x00020B),
+	RGB24_TO_VDPCOLOR(0x000516),
+	RGB24_TO_VDPCOLOR(0x000722),
+	RGB24_TO_VDPCOLOR(0x010A2D),
+	RGB24_TO_VDPCOLOR(0x010C39),
+	RGB24_TO_VDPCOLOR(0x010F44),
 	RGB24_TO_VDPCOLOR(0x020659)};
 
 u8 color_delay = 5;
@@ -68,7 +74,7 @@ static inline void glow_color(u16 color_index, const u16 *const color_vector, u8
 		*current_elem -= inc;
 	}
 	PAL_setColor(color_index, color_vector[*current_elem]);
-	kprintf("%d", *current_elem);
+	// kprintf("%d", *current_elem);
 	if (*current_elem == 0 || *current_elem == n - 1)
 	{
 		proceed = 1;
@@ -85,7 +91,7 @@ static inline void color_effects(ColorParams *color_params, u8 max_elems, u8 fad
 		{
 			glow_color(color_params[i].color_ind, color_params_vec[i].glow, color_params_vec[i].glow_elems, &color_params_vec[i].glow_current_elem, fade_type);
 		}
-		color_delay = 20;
+		color_delay = 8;
 	}
 }
 
@@ -102,8 +108,8 @@ int main(bool resetType)
 	VDP_setScreenWidth320();
 	SPR_init();
 
-	Color_init(color_params_vec, 0, (u16 *)logo_color_glow_0, 5, PAL1 * 16 + 1);
-	Color_init(color_params_vec, 1, (u16 *)logo_color_glow_1, 5, PAL1 * 16 + 2);
+	Color_init(color_params_vec, 0, (u16 *)logo_color_glow_0, 8, PAL1 * 16 + 1);
+	Color_init(color_params_vec, 1, (u16 *)logo_color_glow_1, 8, PAL1 * 16 + 2);
 
 	if (!resetType)
 	{
@@ -118,7 +124,7 @@ int main(bool resetType)
 	}
 	// Inicializa o fundo azul escuro
 	// PAL_setPalette(PAL_GAME, game_pal.data, DMA);
-	ind = BACKGROUND_init(ind);
+	// ind = BACKGROUND_init(ind);
 	ind = BACKGROUND_logo_init(ind);
 
 	// Desenha a logo com cores zeradas (preto)
@@ -140,10 +146,7 @@ int main(bool resetType)
 		color_effects(color_params_vec, 2, 0);
 		SYS_doVBlankProcess();
 	}
-	while (true)
-	{
-		/* code */
-	}
+	ind = BACKGROUND_clean();
 
 	// Seta a paleta principal do jogo
 

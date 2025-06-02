@@ -1,5 +1,26 @@
 #include "background.h"
 
+// const u16 logo_color_glow_0[] = {
+//     RGB24_TO_VDPCOLOR(0x000000),
+//     RGB24_TO_VDPCOLOR(0x030E1E),
+//     RGB24_TO_VDPCOLOR(0x071D3D),
+//     RGB24_TO_VDPCOLOR(0x0A2B5C),
+//     RGB24_TO_VDPCOLOR(0x0E3A7B),
+//     RGB24_TO_VDPCOLOR(0x12489A),
+//     RGB24_TO_VDPCOLOR(0x1D66B8),
+//     RGB24_TO_VDPCOLOR(0x35AAF2)};
+// const u16 logo_color_glow_1[] = {
+//     RGB24_TO_VDPCOLOR(0x000000),
+//     RGB24_TO_VDPCOLOR(0x00020B),
+//     RGB24_TO_VDPCOLOR(0x000516),
+//     RGB24_TO_VDPCOLOR(0x000722),
+//     RGB24_TO_VDPCOLOR(0x010A2D),
+//     RGB24_TO_VDPCOLOR(0x010C39),
+//     RGB24_TO_VDPCOLOR(0x010F44),
+//     RGB24_TO_VDPCOLOR(0x020659)};
+
+// u8 color_delay = 5;
+
 u32 whiteTile[8] = {
     0x11111111,
     0x11111111,
@@ -34,4 +55,16 @@ u16 BACKGROUND_logo_init(u16 ind)
                     0, 0, FALSE, TRUE);
 
     return ind;
+}
+
+u16 BACKGROUND_clean()
+{
+    // Limpa o plano A
+    VDP_clearPlane(BG_A, TRUE);
+
+    // Zera a paleta PAL1 com 16 cores pretas
+    const u16 blank_palette[16] = {0}; // tudo preto (0x0000)
+    PAL_setPalette(PAL1, blank_palette, DMA);
+
+    return TILE_USER_INDEX;
 }
