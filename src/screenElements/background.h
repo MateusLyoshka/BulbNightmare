@@ -6,14 +6,6 @@
 #include "../utils/globals.h"
 #include "../utils/utils.h"
 
-typedef struct
-{
-    u16 *glow;
-    u8 glow_elems;
-    u8 glow_current_elem;
-    u16 color_ind;
-} ColorParams;
-
 typedef enum
 {
     BG_B_SELECT = 0,
@@ -29,35 +21,12 @@ typedef enum
     BG_MAX
 } BackgroundType;
 
-u16 BACKGROUND_init_generalized(BackgroundType type, u16 ind);
-u16 BACKGROUND_clean(BackgroundSelect bg);
+extern u16 black_palette[64];
+extern u16 target_palette[64];
 
-extern const u16 logo_color_glow_0[];
-extern const u16 logo_color_glow_1[];
-
-extern u8 bg_color_delay;
 extern u8 bg_proceed;
 
-static inline void glow_color(u16 color_index, const u16 *const color_vector, u8 n, u8 *current_elem, u8 fade_type)
-{
-    static u8 inc = 1;
-
-    // kprintf("%d", *current_elem);
-    if (fade_type)
-    {
-        *current_elem += inc;
-    }
-    else
-    {
-        *current_elem -= inc;
-    }
-    PAL_setColor(color_index, color_vector[*current_elem]);
-    // kprintf("%d", *current_elem);
-    if (*current_elem == 0 || *current_elem == n - 1)
-    {
-        bg_proceed = 1;
-        return;
-    }
-}
+u16 BACKGROUND_init_generalized(BackgroundType type, BackgroundSelect bg, u8 pal, u16 ind);
+u16 BACKGROUND_clean(BackgroundSelect bg);
 
 #endif

@@ -14,6 +14,19 @@ inline void UTILS_clear_palette(u8 pal)
     PAL_setPalette(pal, blank_palette, DMA);
 }
 
+inline void fadeIn(u16 speed, u16 *target_palette, u16 *black_palette)
+{
+
+    PAL_setPalette(PAL0, black_palette, DMA);
+
+    PAL_fadeIn(0, 63, target_palette, speed, FALSE);
+}
+
+inline void fadeOut(u16 speed)
+{
+    PAL_fadeOut(0, 63, speed, FALSE);
+}
+
 // #define wrap(X, L, H) ((X < L)? H : ((X > H)? : L: X))
 
 #define WRAP(X, L, H) \
