@@ -3,12 +3,16 @@
 
 extern const u8 snd_start[25600];
 extern const Image menu_bg;
-extern const Image menu_bg_1;
 extern const Image white_bg;
 extern const Image img_hud;
 extern const Image dark_mask;
 extern const Image utf_logo;
 extern const Image instructions;
+extern const Image alert_1;
+extern const Image alert_2;
+extern const Image alert_3;
+extern const Image alert_4;
+extern const Image alert_5;
 extern const SpriteDefinition spr_menu;
 extern const SpriteDefinition spr_start;
 extern const SpriteDefinition spr_player;

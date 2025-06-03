@@ -14,10 +14,10 @@ inline void UTILS_clear_palette(u8 pal)
     PAL_setPalette(pal, blank_palette, DMA);
 }
 
-inline void fadeIn(u16 speed, u16 *target_palette, u16 *black_palette)
+inline void fadeIn(u16 speed, u16 *target_palette, u16 *black_palette, u8 pal)
 {
 
-    PAL_setPalette(PAL0, black_palette, DMA);
+    PAL_setPalette(pal, black_palette, DMA);
 
     PAL_fadeIn(0, 63, target_palette, speed, FALSE);
 }

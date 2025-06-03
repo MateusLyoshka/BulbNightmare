@@ -1,12 +1,16 @@
 # BACKGROUNDS
 IMAGE menu_bg "backgrounds\menu_bg.png" BEST 
-IMAGE menu_bg_1 "backgrounds\menu_bg_1.png" BEST 
 # IMAGE game_bg "backgrounds\game_bg.png" BEST 
 IMAGE white_bg "backgrounds\test_bg.png" BEST 
 IMAGE   img_hud           "hud/hud.png" FAST
 IMAGE dark_mask "backgrounds/dark_mask.png" FAST 
 IMAGE utf_logo "backgrounds/utfpr.png" FAST 
 IMAGE instructions "backgrounds/instructions.png" FAST 
+IMAGE alert_1 "backgrounds/level_alert/level1.png" FAST
+IMAGE alert_2 "backgrounds/level_alert/level2.png" FAST
+IMAGE alert_3 "backgrounds/level_alert/level3.png" FAST
+IMAGE alert_4 "backgrounds/level_alert/level4.png" FAST
+IMAGE alert_5 "backgrounds/level_alert/level5.png" FAST
 
 # SPRITES
 SPRITE spr_menu "sprites/menu_buttons.png" 7 7 FAST 8

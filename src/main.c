@@ -25,6 +25,10 @@ u8 enemies_past_level;
 // ==============================
 void game_init();
 void game_update();
+void menu_init();
+void mask_scroll_init();
+void mask_scroll_update();
+void level_alert();
 
 int main(bool resetType)
 {
@@ -37,35 +41,20 @@ int main(bool resetType)
 		SYS_hardReset();
 	}
 
+	menu_init();
+
 	SYS_showFrameLoad(true);
 
-	ind = BACKGROUND_init_generalized(0, 0, PAL0, ind);
-
-	fadeIn(60, target_palette, black_palette);
-	fadeOut(60);
-
-	while (1)
-	{
-		SYS_doVBlankProcess();
-	}
-
-	VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
-	VDP_drawImageEx(BG_A, &dark_mask, TILE_ATTR_FULL(PAL_BACKGROUND_A, 1, 0, 0, ind), 0, 0, true, DMA);
-	ind += dark_mask.tileset->numTile;
-	// Seta a paleta principal do jogo
 	enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
 	enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
 
+	mask_scroll_init();
 	game_init();
-
 	SYS_doVBlankProcess();
 
 	while (true)
 	{
 		game_update();
-		VDP_setHorizontalScroll(BG_A, player_center.x - 34);
-		VDP_setVerticalScroll(BG_A, -player_center.y + 34);
-		kprintf("%d, %d", player_center.x, player_center.y);
 		SPR_update();
 		SYS_doVBlankProcess();
 	}
@@ -97,22 +86,36 @@ void game_update()
 		enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
 		enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
 
-		ind = TILE_USER_INDEX;
 		game_init();
 		player_is_alive = 1;
 		LEVEL_bool_level_change = 0;
 	}
+
+	mask_scroll_update();
 	update_input();
 	PLAYER_update();
 	LEVEL_update_camera(&player);
-	// kprintf("past: %d", enemies_past_level);
-	// kprintf("current: %d", enemies_current_level);
+
 	ENEMIES_update_hub(enemies_current_level, enemies_past_level);
 	HUD_update();
 }
 
+void mask_scroll_update()
+{
+	VDP_setHorizontalScroll(BG_A, player_center.x - 34);
+	VDP_setVerticalScroll(BG_A, -player_center.y + 34);
+}
+
+void mask_scroll_init()
+{
+	VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
+	VDP_drawImageEx(BG_A, &dark_mask, TILE_ATTR_FULL(PAL_BACKGROUND_A, 1, 0, 0, ind), 0, 0, true, DMA);
+	ind += dark_mask.tileset->numTile;
+}
 void game_init()
 {
+	level_alert();
+	mask_scroll_init();
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
 	ind = HUD_init(ind);
@@ -120,4 +123,35 @@ void game_init()
 	ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = OBJECT_update(ind, TRUE);
 	LEVEL_update_camera(&player);
+}
+
+void menu_init()
+{
+	ind = BACKGROUND_init_generalized(5, 0, PAL0, true, ind);
+	fadeIn(60, target_palette, black_palette, PAL0);
+	waitMs(1000);
+	fadeOut(60);
+	ind = BACKGROUND_clear(0);
+
+	ind = BACKGROUND_init_generalized(6, 0, PAL0, true, ind);
+	fadeIn(60, target_palette, black_palette, PAL0);
+	ind = MENU_init(ind);
+
+	while (!bg_proceed)
+	{
+		ind = MENU_update(ind);
+		update_input();
+		SPR_update();
+		SYS_doVBlankProcess();
+	}
+}
+
+void level_alert()
+{
+	ind = BACKGROUND_init_generalized(LEVEL_current_level, 0, PAL0, TRUE, ind);
+	fadeIn(60, target_palette, black_palette, PAL0);
+	waitMs(1000);
+	fadeOut(60);
+	ind = BACKGROUND_clear(0);
+	ind = BACKGROUND_clear(1);
 }
