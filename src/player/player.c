@@ -88,11 +88,15 @@ void PLAYER_get_input()
         SPR_setHFlip(player.sprite, false);
         player.anim = 4;
     }
-    if (key_down(0, BUTTON_LEFT))
+    else if (key_down(0, BUTTON_LEFT))
     {
         player.speed_x = -player_speed;
         SPR_setHFlip(player.sprite, true);
         player.anim = 4;
+    }
+    else
+    {
+        player.anim = 0;
     }
     if (key_pressed(0, BUTTON_A) && PLAYER_on_ground())
     {
@@ -112,24 +116,21 @@ void PLAYER_get_input()
     {
         player.anim = 2;
     }
-    else
-    {
-        player.anim = 0;
-    }
+    /* code */
+}
 
 #ifdef _FLY
-    if (key_down(0, BUTTON_UP))
-    {
-        player.speed_y = -player_speed;
-        player.anim = 8;
-    }
-    if (key_down(0, BUTTON_DOWN))
-    {
-        player.speed_y = player_speed;
-        player.anim = 8;
-    }
-#endif
+if (key_down(0, BUTTON_UP))
+{
+    player.speed_y = -player_speed;
+    player.anim = 8;
 }
+if (key_down(0, BUTTON_DOWN))
+{
+    player.speed_y = player_speed;
+    player.anim = 8;
+}
+#endif
 
 void PLAYER_object_collision()
 {

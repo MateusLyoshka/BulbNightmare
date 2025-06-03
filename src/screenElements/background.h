@@ -29,7 +29,7 @@ typedef enum
     BG_MAX
 } BackgroundType;
 
-u16 BACKGROUND_init_generalized(BackgroundType type, u16 ind);
+u16 BACKGROUND_init_generalized(BackgroundType type, BackgroundSelect bg, u8 pal, u16 ind);
 u16 BACKGROUND_clean(BackgroundSelect bg);
 
 extern const u16 logo_color_glow_0[];

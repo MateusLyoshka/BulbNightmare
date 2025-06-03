@@ -131,6 +131,9 @@ void Color_init(ColorParams *color_params, u8 pos, u16 *glow, u8 glow_elems, u16
 	color_params[pos].glow = glow;
 }
 
+u16 black_palette[64] = {0};
+u16 target_palette[64];
+
 static inline void fade_proceed(u8 fade_type, u8 color_elems)
 {
 	while (!bg_proceed)
@@ -141,14 +144,31 @@ static inline void fade_proceed(u8 fade_type, u8 color_elems)
 	bg_proceed = 0;
 }
 
+void fadeIn(u16 speed)
+{
+	// Versão correta do PAL_fadeIn no SGDK atual:
+	// void PAL_fadeIn(u16 fromCol, u16 toCol, const u16* pal, u16 numFrame, bool async);
+
+	// Primeiro definimos a paleta preta
+	PAL_setPalette(PAL0, black_palette, DMA);
+
+	// Depois fazemos o fade in para a paleta alvo
+	PAL_fadeIn(0, 63, target_palette, speed, FALSE);
+}
+
+void fadeOut(u16 speed)
+{
+	// Versão correta do PAL_fadeOut no SGDK atual:
+	// void PAL_fadeOut(u16 fromCol, u16 toCol, u16 numFrame, bool async);
+
+	PAL_fadeOut(0, 63, speed, FALSE);
+}
+
 int main(bool resetType)
 {
 	VDP_setScreenWidth320();
 	SPR_init();
-
-	// Incia o vetor com o vetor das cores de brilho da logo
-	Color_init(color_params_vec, 0, (u16 *)glow_light_blue_1, 8, PAL_BACKGROUND_B * 16 + 1);
-	Color_init(color_params_vec, 1, (u16 *)glow_medium_blue, 8, PAL_BACKGROUND_B * 16 + 2);
+	VDP_setPlaneSize(64, 64, true);
 
 	if (!resetType)
 	{
@@ -157,37 +177,69 @@ int main(bool resetType)
 
 	SYS_showFrameLoad(true);
 
-	// Mostra logo da utf, fade in e fade out
-	ind = BACKGROUND_init_generalized(0, ind);
+	ind = BACKGROUND_init_generalized(2, 0, PAL0, ind);
 
-	fade_proceed(1, 2);
-	bg_proceed = 0;
-	waitMs(1000);
+	// Obtém a paleta atual (para o fade in) - versão correta
+	PAL_getPalette(PAL0, target_palette);
 
-	fade_proceed(0, 2);
-	ind = BACKGROUND_clean(0);
-	bg_proceed = 0;
-	// waitMs(1000);
+	// Define a paleta como preta inicialmente - versão correta
+	PAL_setPalette(PAL0, black_palette, DMA);
 
-	Color_init(color_params_vec, 0, (u16 *)glow_dark_blue, 10, PAL_BACKGROUND_B * 16 + 1);
-	Color_init(color_params_vec, 1, (u16 *)glow_medium_blue, 10, PAL_BACKGROUND_B * 16 + 2);
-	Color_init(color_params_vec, 2, (u16 *)glow_light_blue_2, 10, PAL_BACKGROUND_B * 16 + 3);
-	Color_init(color_params_vec, 3, (u16 *)glow_olive_dark, 10, PAL_BACKGROUND_B * 16 + 4);
-	Color_init(color_params_vec, 4, (u16 *)glow_olive_medium, 10, PAL_BACKGROUND_B * 16 + 5);
+	// Faz fade in
+	fadeIn(60); // 60 frames para o fade in
 
-	ind = BACKGROUND_init_generalized(1, ind);
-	fade_proceed(1, 5);
-	bg_proceed = 0;
-	ind = MENU_init(ind);
-	while (!bg_proceed)
-	{
-		ind = MENU_update(ind);
-		update_input();
-		SPR_update();
+	// Aguarda 2 segundos
+	for (u16 i = 0; i < 120; i++)
 		SYS_doVBlankProcess();
-		/* code */
+
+	// Faz fade out
+	fadeOut(60); // 60 frames para o fade out
+
+	while (1)
+	{
+		SYS_doVBlankProcess();
 	}
 
+	// Incia o vetor com o vetor das cores de brilho da logo
+	// Color_init(color_params_vec, 0, (u16 *)glow_light_blue_1, 8, PAL_BACKGROUND_B * 16 + 1);
+	// Color_init(color_params_vec, 1, (u16 *)glow_medium_blue, 8, PAL_BACKGROUND_B * 16 + 2);
+
+	// Mostra logo da utf, fade in e fade out
+	// ind = BACKGROUND_init_generalized(0, 0, PAL_BACKGROUND_B, true, ind);
+
+	// fade_proceed(1, 2);
+	// bg_proceed = 0;
+	// waitMs(1000);
+
+	// fade_proceed(0, 2);
+
+	// bg_proceed = 0;
+	// waitMs(1000);
+
+	// Color_init(color_params_vec, 0, (u16 *)glow_dark_blue, 10, PAL_BACKGROUND_B * 16 + 1);
+	// Color_init(color_params_vec, 1, (u16 *)glow_medium_blue, 10, PAL_BACKGROUND_B * 16 + 2);
+	// Color_init(color_params_vec, 2, (u16 *)glow_light_blue_2, 10, PAL_BACKGROUND_B * 16 + 3);
+	// Color_init(color_params_vec, 3, (u16 *)glow_olive_dark, 10, PAL_BACKGROUND_B * 16 + 4);
+	// Color_init(color_params_vec, 4, (u16 *)glow_olive_medium, 10, PAL_BACKGROUND_B * 16 + 5);
+
+	// ind = BACKGROUND_init_generalized(1, 0, PAL_BACKGROUND_B, true, ind);
+
+	// fade_proceed(1, 5);
+	// // ind = BACKGROUND_clean(0);
+	// bg_proceed = 0;
+	// ind = MENU_init(ind);
+	// while (!bg_proceed)
+	// {
+	// 	ind = MENU_update(ind);
+	// 	update_input();
+	// 	SPR_update();
+	// 	SYS_doVBlankProcess();
+	// 	/* code */
+	// }
+	// fade_proceed(0, 5);
+	VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
+	VDP_drawImageEx(BG_A, &dark_mask, TILE_ATTR_FULL(PAL_BACKGROUND_A, 1, 0, 0, ind), 0, 0, true, DMA);
+	ind += dark_mask.tileset->numTile;
 	// Seta a paleta principal do jogo
 	enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
 	enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
@@ -199,6 +251,9 @@ int main(bool resetType)
 	while (true)
 	{
 		game_update();
+		VDP_setHorizontalScroll(BG_A, player_center.x - 34);
+		VDP_setVerticalScroll(BG_A, -player_center.y + 34);
+		kprintf("%d, %d", player_center.x, player_center.y);
 		SPR_update();
 		SYS_doVBlankProcess();
 	}

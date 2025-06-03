@@ -10,18 +10,19 @@ const Image *background_images[BG_MAX] = {
 u8 bg_color_delay = 5;
 u8 bg_proceed = 0;
 
-u16 BACKGROUND_init_generalized(BackgroundType type, u16 ind)
+u16 BACKGROUND_init_generalized(BackgroundType type, BackgroundSelect bg, u8 pal, u16 ind)
 {
-    BACKGROUND_clean(0);
+    ind = BACKGROUND_clean(0);
+    ind = BACKGROUND_clean(1);
     if (type >= BG_MAX || background_images[type] == NULL)
         return ind;
 
     const Image *img = background_images[type];
 
-    PAL_setPalette(PAL_BACKGROUND_B, img->palette->data, DMA);
+    PAL_setPalette(pal, img->palette->data, DMA);
 
-    VDP_drawImageEx(BG_B, img,
-                    TILE_ATTR_FULL(PAL_BACKGROUND_B, 0, 0, 0, ind),
+    VDP_drawImageEx(bg == BG_B_SELECT ? BG_B : BG_A, img,
+                    TILE_ATTR_FULL(pal, 0, 0, 0, ind),
                     0, 0, FALSE, TRUE);
 
     return ind + img->tileset->numTile;
@@ -31,7 +32,7 @@ u16 BACKGROUND_clean(BackgroundSelect bg)
 {
     VDP_clearPlane(bg == BG_B_SELECT ? BG_B : BG_A, TRUE);
 
-    UTILS_clear_palette(bg == BG_B_SELECT ? PAL_BACKGROUND_B : PAL_BACKGROUND_B);
+    UTILS_clear_palette(bg == BG_B_SELECT ? PAL_BACKGROUND_B : PAL_BACKGROUND_A);
 
     return TILE_USER_INDEX;
 }

@@ -6,7 +6,7 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_current_level = 3;
+u8 LEVEL_current_level = 0;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 u8 LEVEL_bool_level_change = 0;
@@ -48,10 +48,15 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
     }
 }
 
+u16 screen_x_control = 0;
+u16 screen_y_control = 448;
+
 u16 LEVEL_init(u16 ind)
 {
     screen_x = 0;
     screen_y = 448;
+    screen_x_control = 0;
+    screen_y_control = 448;
     u8 col = screen_x / SCREEN_W;
     u8 row = screen_y / SCREEN_H;
     LEVEL_current_screen = row * MAP_X_SCREENS + col;
@@ -150,10 +155,9 @@ void LEVEL_move_and_slide(GameObject *obj)
     }
 }
 
-u16 screen_x_control = 0;
-u16 screen_y_control = 448;
 void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
 {
+    kprintf("x: %d, y: %d", offset_x, offset_y);
     kprintf("screen x %d", screen_x);
     kprintf("screen y %d", screen_y);
     kprintf("actual screen %d", LEVEL_current_screen);
