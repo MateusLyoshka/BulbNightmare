@@ -32,5 +32,6 @@ extern u8 bg_proceed;
 
 u16 BACKGROUND_init_generalized(BackgroundType type, BackgroundSelect bg, u8 pal, u8 set_fade, u16 ind);
 u16 BACKGROUND_clear(BackgroundSelect bg);
+u16 BACKGROUND_full_clear(u16 ind);
 
 #endif

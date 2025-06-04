@@ -17,8 +17,7 @@ u16 target_palette[64];
 
 u16 BACKGROUND_init_generalized(BackgroundType type, BackgroundSelect bg, u8 pal, u8 set_fade, u16 ind)
 {
-    ind = BACKGROUND_clear(0);
-    ind = BACKGROUND_clear(1);
+    ind = BACKGROUND_full_clear(ind);
     if (type >= BG_MAX || background_images[type] == NULL)
         return ind;
 
@@ -44,4 +43,11 @@ u16 BACKGROUND_clear(BackgroundSelect bg)
     UTILS_clear_palette(bg == BG_B_SELECT ? PAL_BACKGROUND_B : PAL_BACKGROUND_B);
 
     return TILE_USER_INDEX;
+}
+
+u16 BACKGROUND_full_clear(u16 ind)
+{
+    ind = BACKGROUND_clear(0);
+    ind = BACKGROUND_clear(1);
+    return ind;
 }

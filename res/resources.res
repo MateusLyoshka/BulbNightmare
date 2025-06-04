@@ -4,6 +4,8 @@ IMAGE menu_bg "backgrounds\menu_bg.png" BEST
 IMAGE white_bg "backgrounds\test_bg.png" BEST 
 IMAGE   img_hud           "hud/hud.png" FAST
 IMAGE dark_mask "backgrounds/dark_mask.png" FAST 
+IMAGE dark_mask_mid "backgrounds/dark_mask_mid.png" FAST 
+IMAGE dark_mask_max "backgrounds/dark_mask_max.png" FAST 
 IMAGE utf_logo "backgrounds/utfpr.png" FAST 
 IMAGE instructions "backgrounds/instructions.png" FAST 
 IMAGE alert_1 "backgrounds/level_alert/level1.png" FAST

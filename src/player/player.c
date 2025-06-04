@@ -20,7 +20,7 @@ u16 PLAYER_init(u16 ind)
     }
 
     player_spawn.initial_x = intToFix16(2 * METATILE_W);
-    player_spawn.initial_y = intToFix16(12 * METATILE_W);
+    player_spawn.initial_y = intToFix16(8 * METATILE_W);
 
     ind += GAMEOBJECT_init(&player, &spr_player,
                            fix16ToInt(player_spawn.initial_x),
@@ -88,11 +88,15 @@ void PLAYER_get_input()
         SPR_setHFlip(player.sprite, false);
         player.anim = 4;
     }
-    if (key_down(0, BUTTON_LEFT))
+    else if (key_down(0, BUTTON_LEFT))
     {
         player.speed_x = -player_speed;
         SPR_setHFlip(player.sprite, true);
         player.anim = 4;
+    }
+    else
+    {
+        player.anim = 0;
     }
     if (key_pressed(0, BUTTON_A) && PLAYER_on_ground())
     {
@@ -112,11 +116,6 @@ void PLAYER_get_input()
     {
         player.anim = 2;
     }
-    else
-    {
-        player.anim = 0;
-    }
-
 #ifdef _FLY
     if (key_down(0, BUTTON_UP))
     {
