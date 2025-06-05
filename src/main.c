@@ -17,7 +17,7 @@
 // ==============================
 // Variáveis globais
 // ==============================
-u16 ind = TILE_USER_INDEX;
+u16 ind = TILE_USER_INDEX + 32;
 u8 enemies_current_level;
 u8 enemies_past_level;
 
@@ -72,6 +72,8 @@ void game_update()
 
 		ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 		ind = OBJECT_update(ind, TRUE);
+		// MASK_draw();
+		kprintf("%d aaaa", ind);
 		player_is_alive = 1;
 		LEVEL_bool_screen_change = 0;
 	}
@@ -89,7 +91,7 @@ void game_update()
 		LEVEL_bool_level_change = 0;
 	}
 
-	mask_scroll_update();
+	MASK_scroll_update();
 	update_input();
 	PLAYER_update();
 	LEVEL_update_camera(&player);
@@ -101,6 +103,9 @@ void game_update()
 void game_init()
 {
 	// ind = LEVEL_alert(ind);
+	MASK_scroll_init();
+	MASK_draw(dark_ind);
+	kprintf("%d a", ind);
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
 	ind = HUD_init(ind);
@@ -108,7 +113,6 @@ void game_init()
 	ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = OBJECT_update(ind, TRUE);
 	LEVEL_update_camera(&player);
-	ind = mask_scroll_init(ind);
 }
 
 void menu_init()

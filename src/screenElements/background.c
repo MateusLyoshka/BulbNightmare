@@ -47,7 +47,7 @@ u16 BACKGROUND_clear(u8 bg)
         // UTILS_clear_palette(PAL_BACKGROUND_B);
     }
 
-    return TILE_USER_INDEX;
+    return TILE_USER_INDEX + 32;
 }
 
 u16 BACKGROUND_full_clear(u16 ind)

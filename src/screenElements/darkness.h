@@ -6,8 +6,10 @@
 #include "../player/player.h"
 
 extern u8 room_lights[MAP_TOTAL_SCREENS];
+extern u16 dark_ind;
 
-u16 mask_scroll_init(u16 ind);
-void mask_scroll_update();
+void MASK_scroll_init();
+void MASK_draw();
+void MASK_scroll_update();
 
 #endif
