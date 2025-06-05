@@ -146,17 +146,16 @@ void PLAYER_object_collision()
         }
         else if (collided == &door && player_have_key)
         {
-            kprintf("Colidiu com a PORTA!");
+            // kprintf("Colidiu com a PORTA!");
             PLAYER_respawn();
             LEVEL_bool_level_change = 1;
         }
         else if (collided == &powerup)
         {
-            kprintf("Colidiu com o POWERUP!");
+            // kprintf("Colidiu com o POWERUP!");
             if (key_down(0, BUTTON_B))
             {
                 room_lights[LEVEL_current_screen] = 1;
-                kprintf("%d", room_lights[LEVEL_current_screen]);
             }
 
             // OBJECT_collect(collided);
@@ -173,7 +172,7 @@ void PLAYER_spike_collision()
 {
     if (collision_map[player_center.tile_x][player_center.tile_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[player_center.tile_x][player_center.tile_y] == BOTTOM_SPIKE_LEVEL_INDEX)
     {
-        kprintf("Espinho no centro do player! (%d, %d)", player_center.tile_x, player_center.tile_y);
+        // kprintf("Espinho no centro do player! (%d, %d)", player_center.tile_x, player_center.tile_y);
         player_is_alive = 0;
         return;
     }

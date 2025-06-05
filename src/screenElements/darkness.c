@@ -15,9 +15,14 @@ void MASK_scroll_init()
 
 void MASK_draw()
 {
+    kprintf("%d room light", room_lights[LEVEL_current_screen]);
     if (room_lights[LEVEL_current_screen] == 0)
     {
         VDP_drawImageEx(BG_A, &dark_mask, TILE_ATTR_FULL(PAL_BACKGROUND_A, 1, 0, 0, dark_ind), 0, 0, false, DMA);
+    }
+    else
+    {
+        BACKGROUND_clear(1);
     }
 }
 void MASK_scroll_update()
