@@ -5,6 +5,7 @@
 
 GameObject player;
 GameObject *collided;
+
 PlayerCenter player_center;
 PlayerSpawnPoint player_spawn;
 f16 player_gravity = 30;
@@ -20,7 +21,7 @@ u16 PLAYER_init(u16 ind)
     }
 
     player_spawn.initial_x = intToFix16(2 * METATILE_W);
-    player_spawn.initial_y = intToFix16(8 * METATILE_W);
+    player_spawn.initial_y = intToFix16(12 * METATILE_W);
 
     ind += GAMEOBJECT_init(&player, &spr_player,
                            fix16ToInt(player_spawn.initial_x),
@@ -152,7 +153,13 @@ void PLAYER_object_collision()
         else if (collided == &powerup)
         {
             kprintf("Colidiu com o POWERUP!");
-            OBJECT_collect(collided);
+            if (key_down(0, BUTTON_B))
+            {
+                room_lights[LEVEL_current_screen] = 1;
+                kprintf("%d", room_lights[LEVEL_current_screen]);
+            }
+
+            // OBJECT_collect(collided);
             // collided = NULL;
         }
         else

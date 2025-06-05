@@ -12,6 +12,7 @@
 #include "player/player.h"
 #include "screenElements/objects.h"
 #include "screenElements/menu.h"
+#include "screenElements/darkness.h"
 
 // ==============================
 // Variáveis globais
@@ -26,9 +27,6 @@ u8 enemies_past_level;
 void game_init();
 void game_update();
 void menu_init();
-void mask_scroll_init();
-void mask_scroll_update();
-void level_alert();
 
 int main(bool resetType)
 {
@@ -42,6 +40,7 @@ int main(bool resetType)
 	}
 
 	// menu_init();
+	PAL_setColor(1, RGB24_TO_VDPCOLOR(0xFFFFFF));
 
 	SYS_showFrameLoad(true);
 
@@ -99,17 +98,9 @@ void game_update()
 	HUD_update();
 }
 
-void mask_scroll_update()
-{
-	VDP_setHorizontalScroll(BG_A, player_center.x - 42);
-	VDP_setVerticalScroll(BG_A, -player_center.y + 42);
-	// normal 34/34
-}
-
 void game_init()
 {
-	// level_alert();
-	mask_scroll_init();
+	// ind = LEVEL_alert(ind);
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
 	ind = HUD_init(ind);
@@ -117,13 +108,7 @@ void game_init()
 	ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = OBJECT_update(ind, TRUE);
 	LEVEL_update_camera(&player);
-}
-
-void mask_scroll_init()
-{
-	VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);
-	VDP_drawImageEx(BG_A, &dark_mask_max, TILE_ATTR_FULL(PAL_BACKGROUND_A, 1, 0, 0, ind), 0, 0, true, DMA);
-	ind += dark_mask.tileset->numTile;
+	ind = mask_scroll_init(ind);
 }
 
 void menu_init()
@@ -145,13 +130,4 @@ void menu_init()
 		SPR_update();
 		SYS_doVBlankProcess();
 	}
-}
-
-void level_alert()
-{
-	ind = BACKGROUND_init_generalized(LEVEL_current_level, 0, PAL0, TRUE, ind);
-	fadeIn(60, target_palette, black_palette, PAL0);
-	waitMs(1000);
-	fadeOut(60);
-	ind = BACKGROUND_full_clear(ind);
 }

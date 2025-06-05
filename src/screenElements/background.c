@@ -12,10 +12,7 @@ const Image *background_images[BG_MAX] = {
 };
 u8 bg_proceed = 0;
 
-u16 black_palette[64] = {0};
-u16 target_palette[64];
-
-u16 BACKGROUND_init_generalized(BackgroundType type, BackgroundSelect bg, u8 pal, u8 set_fade, u16 ind)
+u16 BACKGROUND_init_generalized(BackgroundType type, u8 bg, u8 pal, u8 set_fade, u16 ind)
 {
     ind = BACKGROUND_full_clear(ind);
     if (type >= BG_MAX || background_images[type] == NULL)
@@ -29,18 +26,26 @@ u16 BACKGROUND_init_generalized(BackgroundType type, BackgroundSelect bg, u8 pal
         PAL_setPalette(pal, black_palette, DMA);
     }
 
-    VDP_drawImageEx(bg == BG_B_SELECT ? BG_B : BG_A, img,
+    VDP_drawImageEx(bg == 0 ? BG_B : BG_A, img,
                     TILE_ATTR_FULL(pal, false, 0, 0, ind),
                     0, 0, false, DMA);
 
     return ind + img->tileset->numTile;
 }
 
-u16 BACKGROUND_clear(BackgroundSelect bg)
+u16 BACKGROUND_clear(u8 bg)
 {
-    VDP_clearPlane(bg == BG_B_SELECT ? BG_B : BG_A, TRUE);
 
-    UTILS_clear_palette(bg == BG_B_SELECT ? PAL_BACKGROUND_B : PAL_BACKGROUND_B);
+    if (bg == 1)
+    {
+        VDP_clearPlane(BG_A, true);
+        // UTILS_clear_palette(PAL_BACKGROUND_A);
+    }
+    else
+    {
+        VDP_clearPlane(BG_B, true);
+        // UTILS_clear_palette(PAL_BACKGROUND_B);
+    }
 
     return TILE_USER_INDEX;
 }

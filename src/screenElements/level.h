@@ -6,6 +6,7 @@
 #include "map.h"
 #include "../utils/gameobject.h"
 #include "resources.h"
+#include "background.h"
 
 #define NUMBER_OF_LEVELS 5
 extern u8 LEVEL_current_level;
@@ -41,5 +42,6 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y);
 void LEVEL_update_camera(GameObject *obj);
 void LEVEL_map_clear();
 void LEVEL_draw_collision_map();
+u16 LEVEL_alert(u16 ind);
 
 #endif

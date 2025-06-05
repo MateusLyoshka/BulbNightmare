@@ -233,3 +233,15 @@ u8 LEVEL_wall_at(s16 x, s16 y)
     else
         return 0;
 }
+
+u16 black_palette[64] = {0};
+u16 target_palette[64];
+u16 LEVEL_alert(u16 ind)
+{
+    ind = BACKGROUND_init_generalized(LEVEL_current_level, 0, PAL0, TRUE, ind);
+    fadeIn(60, target_palette, black_palette, PAL0);
+    waitMs(1000);
+    fadeOut(60);
+    ind = BACKGROUND_full_clear(ind);
+    return ind;
+}
