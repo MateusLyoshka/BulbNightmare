@@ -20,13 +20,14 @@ u16 PLAYER_init(u16 ind)
         SPR_releaseSprite(player.sprite);
     }
 
-    player_spawn.initial_x = intToFix16(2 * METATILE_W);
-    player_spawn.initial_y = intToFix16(12 * METATILE_W);
+    player_spawn.initial_x = intToFix16(15 * METATILE_W);
+    player_spawn.initial_y = intToFix16(4 * METATILE_W);
+    // 2, 12
 
     ind += GAMEOBJECT_init(&player, &spr_player,
                            fix16ToInt(player_spawn.initial_x),
                            fix16ToInt(player_spawn.initial_y),
-                           PAL_GAME, ind);
+                           PAL_GAME, false, ind);
     return ind;
 }
 
@@ -147,15 +148,25 @@ void PLAYER_object_collision()
         else if (collided == &door && player_have_key)
         {
             // kprintf("Colidiu com a PORTA!");
+
+            SPR_setVisibility(player.sprite, HIDDEN);
+            SPR_setAnim(collided->sprite, 1);
+            for (u16 i = 0; i < 85; i++)
+            {
+                SPR_update();
+                SYS_doVBlankProcess();
+            }
+
             PLAYER_respawn();
             LEVEL_bool_level_change = 1;
         }
-        else if (collided == &powerup)
+        else if (collided == &light_switch)
         {
             // kprintf("Colidiu com o POWERUP!");
-            if (key_down(0, BUTTON_B))
+            if (key_down(0, BUTTON_B) && room_lights[LEVEL_current_screen] == 0)
             {
                 room_lights[LEVEL_current_screen] = 1;
+                SPR_setAnim(collided->sprite, 1);
             }
 
             // OBJECT_collect(collided);

@@ -22,9 +22,10 @@ SPRITE spr_hud_itens "hud/hud_itens.png" 2 2 FAST
 SPRITE spr_hud_font "hud/hud_font.png" 2 2 FAST 
 SPRITE spr_g_enemy "sprites/g_enemy.png" 2 2 FAST 3
 SPRITE spr_f_enemy "sprites/f_enemy.png" 2 2 FAST 3
-SPRITE spr_door "sprites/door.png" 2 2 FAST
+SPRITE spr_door "sprites/door.png" 2 2 BEST  15
 SPRITE spr_key "sprites/key.png" 2 2 FAST 8
-SPRITE spr_powerup "sprites/powerup.png" 2 2 FAST 8
+SPRITE spr_light_switch "sprites/switch.png" 2 2 FAST 
+SPRITE spr_sparks "sprites/sparks.png" 4 4 FAST 8
 
 # MAPA
 TILESET tiles "levels/tiles.png" BEST ALL 

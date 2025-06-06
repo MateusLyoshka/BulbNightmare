@@ -107,11 +107,11 @@ u8 ENEMY_spawn(u8 index, u8 ind)
     switch (enemy_pool[index].type)
     {
     case 0:
-        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_g_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_GAME, ind);
+        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_g_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_GAME, false, ind);
         enemy_pool[index].firefly.speed_x = g_enemy_speed;
         break;
     case 1:
-        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_f_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_GAME, ind);
+        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_f_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_GAME, false, ind);
         enemy_pool[index].firefly.speed_x = f_enemy_speed;
         break;
     default:

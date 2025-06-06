@@ -3,12 +3,13 @@
 // Objetos do jogo
 GameObject door;
 GameObject key;
-GameObject powerup;
+GameObject light_switch;
+GameObject sparks;
 
 // Flags de visibilidade
 u8 door_on_screen = 0;
 u8 key_on_screen = 0;
-u8 powerup_on_screen = 0;
+u8 light_switch_on_screen = 0;
 
 // Configurações dos objetos
 ObjectConfig door_configs[] = {
@@ -23,7 +24,7 @@ ObjectConfig key_configs[] = {
     {2, 7, 13 * METATILE_W, 8 * METATILE_W, 0, 0},
     {3, 4, 3 * METATILE_W, 6 * METATILE_W, 0, 0}};
 
-ObjectConfig powerup_configs[] = {
+ObjectConfig light_switch_configs[] = {
     {0, 6, 17 * METATILE_W, 12 * METATILE_W, 0, 0},
     {1, 6, 2 * METATILE_W, 5 * METATILE_W, 0, 0},
     // {1, 6, 3 * METATILE_W, 7 * METATILE_W, 0, 0},
@@ -33,7 +34,7 @@ ObjectConfig powerup_configs[] = {
 const ObjectType object_types[] = {
     {&door, &spr_door, door_configs, sizeof(door_configs) / sizeof(ObjectConfig), &door_on_screen},
     {&key, &spr_key, key_configs, sizeof(key_configs) / sizeof(ObjectConfig), &key_on_screen},
-    {&powerup, &spr_powerup, powerup_configs, sizeof(powerup_configs) / sizeof(ObjectConfig), &powerup_on_screen}};
+    {&light_switch, &spr_light_switch, light_switch_configs, sizeof(light_switch_configs) / sizeof(ObjectConfig), &light_switch_on_screen}};
 
 u16 OBJECT_spawn_type(const ObjectType *type, u16 ind, u8 force_respawn)
 {
@@ -53,10 +54,16 @@ u16 OBJECT_spawn_type(const ObjectType *type, u16 ind, u8 force_respawn)
                 {
                     OBJECT_clear(type->obj);
                 }
+                if (type->obj == &light_switch)
+                {
+                    ind += GAMEOBJECT_init(&sparks, &spr_sparks,
+                                           type->configs[i].x - 8, type->configs[i].y - 8,
+                                           PAL_GAME, true, ind);
+                }
 
                 ind += GAMEOBJECT_init(type->obj, type->sprite,
                                        type->configs[i].x, type->configs[i].y,
-                                       PAL_GAME, ind);
+                                       PAL_GAME, false, ind);
 
                 if (type->configs[i].flip == 1)
                     SPR_setHFlip(type->obj->sprite, TRUE);

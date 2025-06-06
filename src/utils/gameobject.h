@@ -30,7 +30,7 @@ typedef struct
     u8 depth;
 } GameObject;
 
-u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite, s16 x, s16 y, u8 pal, u16 ind);
+u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite, s16 x, s16 y, u8 pal, u8 prio, u16 ind);
 void GAMEOBJECT_update_boundbox(f16 x, f16 y, GameObject *obj);
 
 #endif

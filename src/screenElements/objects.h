@@ -10,7 +10,7 @@
 
 extern GameObject door;
 extern GameObject key;
-extern GameObject powerup;
+extern GameObject light_switch;
 
 typedef struct
 {

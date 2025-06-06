@@ -14,6 +14,8 @@
 #include "screenElements/menu.h"
 #include "screenElements/darkness.h"
 
+#define _MASK
+
 // ==============================
 // Variáveis globais
 // ==============================
@@ -72,8 +74,9 @@ void game_update()
 
 		ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 		ind = OBJECT_update(ind, TRUE);
+#ifdef _MASK
 		MASK_draw();
-		// kprintf("%d aaaa", ind);
+#endif
 		player_is_alive = 1;
 		LEVEL_bool_screen_change = 0;
 	}
@@ -102,10 +105,11 @@ void game_update()
 
 void game_init()
 {
-	// ind = LEVEL_alert(ind);
+// ind = LEVEL_alert(ind);
+#ifdef _MASK
 	MASK_scroll_init();
 	MASK_draw(dark_ind);
-	// kprintf("%d a", ind);
+#endif
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
 	ind = HUD_init(ind);
