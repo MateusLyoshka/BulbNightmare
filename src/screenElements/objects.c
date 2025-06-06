@@ -5,24 +5,35 @@ ObjectConfig objects_config[MAX_OBJECTS];
 
 void OBJECT_params()
 {
-    OBJECT_init(0, 0, 16, 6, 0, 6);
-    OBJECT_init(1, 1, 15, 6, 0, 6);
-    OBJECT_init(2, 2, 13, 6, 0, 6);
-    OBJECT_init(3, 0, 16, 4, 1, 6);
-    OBJECT_init(4, 2, 15, 4, 1, 3);
-    OBJECT_init(5, 1, 3, 4, 1, 3);
-    OBJECT_init(6, 1, 3, 4, 1, 6);
+    OBJECT_init(0, 0, 16, 6, 0, 6, false);
+    OBJECT_init(1, 1, 13, 12, 0, 6, false);
+    OBJECT_init(2, 2, 14, 6, 0, 6, false);
+    OBJECT_init(3, 0, 16, 4, 1, 6, false);
+    OBJECT_init(4, 2, 15, 4, 1, 3, false);
+    OBJECT_init(5, 1, 3, 4, 1, 3, false);
+    OBJECT_init(6, 1, 3, 4, 1, 6, false);
+    OBJECT_init(7, 3, 13, 12, 0, 6, true);
 }
 
-void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen)
+void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)
 {
     objects_config[i].collected = 0;
     objects_config[i].level = level;
     objects_config[i].on_screen = 0;
     objects_config[i].screen = screen;
     objects_config[i].type = type;
-    objects_config[i].x = x * METATILE_W;
-    objects_config[i].y = y * METATILE_W;
+    if (type == 3)
+    {
+        objects_config[i].x = x * METATILE_W - 8;
+        objects_config[i].y = y * METATILE_W - 8;
+    }
+    else
+    {
+        objects_config[i].x = x * METATILE_W;
+        objects_config[i].y = y * METATILE_W;
+    }
+
+    objects_config[i].prio = prio;
     objects_initiated++;
 }
 
@@ -50,13 +61,16 @@ u16 OBJECT_spawn(u8 i, u16 ind)
     switch (objects_config[i].type)
     {
     case 0:
-        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_door, objects_config[i].x, objects_config[i].y, PAL_GAME, false, ind);
+        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_door, objects_config[i].x, objects_config[i].y, PAL_GAME, objects_config[i].prio, ind);
         break;
     case 1:
-        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_light_switch, objects_config[i].x, objects_config[i].y, PAL_GAME, false, ind);
+        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_light_switch, objects_config[i].x, objects_config[i].y, PAL_GAME, objects_config[i].prio, ind);
         break;
     case 2:
-        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_key, objects_config[i].x, objects_config[i].y, PAL_GAME, false, ind);
+        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_key, objects_config[i].x, objects_config[i].y, PAL_GAME, objects_config[i].prio, ind);
+        break;
+    case 3:
+        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_sparks, objects_config[i].x, objects_config[i].y, PAL_GAME, objects_config[i].prio, ind);
         break;
     default:
         break;
