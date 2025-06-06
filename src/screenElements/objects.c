@@ -1,164 +1,91 @@
 #include "objects.h"
 
-// Objetos do jogo
-GameObject door;
-GameObject key;
-GameObject light_switch;
-GameObject sparks;
+u8 objects_initiated = 0;
+ObjectConfig objects_config[MAX_OBJECTS];
 
-// Flags de visibilidade
-u8 door_on_screen = 0;
-u8 key_on_screen = 0;
-u8 light_switch_on_screen = 0;
-
-// Configurações dos objetos
-ObjectConfig door_configs[] = {
-    {0, 6, 16 * METATILE_W, 6 * METATILE_W, 0, 0},
-    {1, 6, 17 * METATILE_W, 5 * METATILE_W, 0, 0},
-    {2, 3, 11 * METATILE_W, 4 * METATILE_W, 0, 0},
-    {3, 8, 2 * METATILE_W, 3 * METATILE_W, 0, 0}};
-
-ObjectConfig key_configs[] = {
-    {0, 6, 2 * METATILE_W, 5 * METATILE_W, 0, 0},
-    {1, 3, 17 * METATILE_W, 4 * METATILE_W, 0, 0},
-    {2, 7, 13 * METATILE_W, 8 * METATILE_W, 0, 0},
-    {3, 4, 3 * METATILE_W, 6 * METATILE_W, 0, 0}};
-
-ObjectConfig light_switch_configs[] = {
-    {0, 6, 17 * METATILE_W, 12 * METATILE_W, 0, 0},
-    {1, 6, 2 * METATILE_W, 5 * METATILE_W, 0, 0},
-    // {1, 6, 3 * METATILE_W, 7 * METATILE_W, 0, 0},
-};
-
-// Tabela de tipos de objetos
-const ObjectType object_types[] = {
-    {&door, &spr_door, door_configs, sizeof(door_configs) / sizeof(ObjectConfig), &door_on_screen},
-    {&key, &spr_key, key_configs, sizeof(key_configs) / sizeof(ObjectConfig), &key_on_screen},
-    {&light_switch, &spr_light_switch, light_switch_configs, sizeof(light_switch_configs) / sizeof(ObjectConfig), &light_switch_on_screen}};
-
-u16 OBJECT_spawn_type(const ObjectType *type, u16 ind, u8 force_respawn)
+void OBJECT_params()
 {
-    u8 should_be_visible = 0;
+    OBJECT_init(0, 0, 16, 6, 0, 6);
+    OBJECT_init(1, 1, 15, 6, 0, 6);
+    OBJECT_init(2, 2, 14, 6, 0, 6);
+}
 
-    for (u8 i = 0; i < type->config_count; i++)
+void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen)
+{
+    objects_config[i].collected = 0;
+    objects_config[i].level = level;
+    objects_config[i].on_screen = 0;
+    objects_config[i].screen = screen;
+    objects_config[i].type = type;
+    objects_config[i].x = x * METATILE_W;
+    objects_config[i].y = y * METATILE_W;
+    objects_initiated++;
+}
+
+u16 OBJECT_update(u16 ind)
+{
+    for (u8 i = 0; i < objects_initiated; i++)
     {
-        if (type->configs[i].level == LEVEL_current_level &&
-            (type->configs[i].screen == LEVEL_current_screen) &&
-            type->configs[i].collected == 0)
+        if (objects_config[i].level == LEVEL_current_level && objects_config[i].screen == LEVEL_current_screen && !(objects_config[i].collected))
         {
-
-            if (!*(type->on_screen_flag) || force_respawn)
+            ind += OBJECT_spawn(i, ind);
+        }
+        else
+        {
+            if (objects_config[i].obj.sprite != NULL)
             {
-                // Sempre limpa antes, se for respawn forçado
-                if (force_respawn && *(type->on_screen_flag))
-                {
-                    OBJECT_clear(type->obj);
-                }
-                if (type->obj == &light_switch)
-                {
-                    ind += GAMEOBJECT_init(&sparks, &spr_sparks,
-                                           type->configs[i].x - 8, type->configs[i].y - 8,
-                                           PAL_GAME, true, ind);
-                }
-
-                ind += GAMEOBJECT_init(type->obj, type->sprite,
-                                       type->configs[i].x, type->configs[i].y,
-                                       PAL_GAME, false, ind);
-
-                if (type->configs[i].flip == 1)
-                    SPR_setHFlip(type->obj->sprite, TRUE);
-                else if (type->configs[i].flip == 2)
-                    SPR_setVFlip(type->obj->sprite, TRUE);
+                OBJECT_clear(&objects_config[i], false);
             }
-
-            GAMEOBJECT_update_boundbox(type->obj->x, type->obj->y, type->obj);
-            should_be_visible = 1;
-            break;
         }
     }
-
-    if (*(type->on_screen_flag) && !should_be_visible)
-    {
-        OBJECT_clear(type->obj);
-    }
-
-    *(type->on_screen_flag) = should_be_visible;
     return ind;
 }
 
-u16 OBJECT_update(u16 ind, u8 force_respawn)
+u16 OBJECT_spawn(u8 i, u16 ind)
 {
-    for (u8 i = 0; i < sizeof(object_types) / sizeof(ObjectType); i++)
+    switch (objects_config[i].type)
     {
-        ind = OBJECT_spawn_type(&object_types[i], ind, force_respawn);
+    case 0:
+        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_door, objects_config[i].x, objects_config[i].y, PAL_GAME, false, ind);
+        break;
+    case 1:
+        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_light_switch, objects_config[i].x, objects_config[i].y, PAL_GAME, false, ind);
+        break;
+    case 2:
+        ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_key, objects_config[i].x, objects_config[i].y, PAL_GAME, false, ind);
+        break;
+    default:
+        break;
     }
+    objects_config[i].on_screen = 1;
+    GAMEOBJECT_update_boundbox(objects_config[i].obj.x, objects_config[i].obj.y, &objects_config[i].obj); // FIXED
+
     return ind;
 }
 
-GameObject *OBJECT_check_collision(u16 player_center_x, u16 player_center_y)
+ObjectConfig *OBJECT_check_collision(u16 player_center_x, u16 player_center_y)
 {
-    for (u8 i = 0; i < sizeof(object_types) / sizeof(ObjectType); i++)
+    for (u8 i = 0; i < objects_initiated; i++)
     {
-        if (*(object_types[i].on_screen_flag) &&
-            player_center_x >= object_types[i].obj->box.left &&
-            player_center_x <= object_types[i].obj->box.right &&
-            player_center_y >= object_types[i].obj->box.top &&
-            player_center_y <= object_types[i].obj->box.bottom)
+        if (objects_config[i].on_screen &&
+            player_center_x >= objects_config[i].obj.box.left &&
+            player_center_x <= objects_config[i].obj.box.right &&
+            player_center_y >= objects_config[i].obj.box.top &&
+            player_center_y <= objects_config[i].obj.box.bottom)
         {
-            return object_types[i].obj;
+            return &objects_config[i];
         }
     }
     return NULL;
 }
 
-void OBJECT_collect(GameObject *object)
+void OBJECT_clear(ObjectConfig *config, u8 collect)
 {
-    if (object == NULL)
-        return;
-
-    for (u8 i = 0; i < sizeof(object_types) / sizeof(ObjectType); i++)
+    if (collect)
     {
-        for (u8 j = 0; j < object_types[i].config_count; j++)
-        {
-            if (object_types[i].configs[j].level == LEVEL_current_level &&
-                object_types[i].configs[j].screen == LEVEL_current_screen &&
-                object_types[i].obj == object)
-            {
-                object_types[i].configs[j].collected = 1;
-                break;
-            }
-        }
-
-        if (object_types[i].obj == object)
-        {
-            if (object->sprite != NULL)
-            {
-                SPR_releaseSprite(object->sprite);
-                object->sprite = NULL;
-            }
-
-            *(object_types[i].on_screen_flag) = 0;
-            break;
-        }
+        config->collected = 1;
     }
-}
-void OBJECT_clear(GameObject *object)
-{
-    if (object == NULL)
-        return;
-
-    for (u8 i = 0; i < sizeof(object_types) / sizeof(ObjectType); i++)
-    {
-        if (object_types[i].obj == object)
-        {
-            if (object->sprite != NULL)
-            {
-                SPR_releaseSprite(object->sprite);
-                object->sprite = NULL;
-            }
-
-            *(object_types[i].on_screen_flag) = 0;
-            break;
-        }
-    }
+    config->on_screen = 0;
+    SPR_releaseSprite(config->obj.sprite);
+    config->obj.sprite = NULL;
 }

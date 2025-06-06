@@ -49,6 +49,8 @@ int main(bool resetType)
 	enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
 	enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
 
+	OBJECT_params();
+	ENEMIES_init();
 	game_init();
 	SYS_doVBlankProcess();
 
@@ -73,7 +75,7 @@ void game_update()
 		}
 
 		ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
-		ind = OBJECT_update(ind, TRUE);
+		ind = OBJECT_update(ind);
 #ifdef _MASK
 		MASK_draw();
 #endif
@@ -113,9 +115,8 @@ void game_init()
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
 	ind = HUD_init(ind);
-	ENEMIES_init();
 	ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
-	ind = OBJECT_update(ind, TRUE);
+	ind = OBJECT_update(ind);
 	LEVEL_update_camera(&player);
 }
 

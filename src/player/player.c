@@ -4,7 +4,7 @@
 #include "player.h"
 
 GameObject player;
-GameObject *collided;
+ObjectConfig *collided;
 
 PlayerCenter player_center;
 PlayerSpawnPoint player_spawn;
@@ -20,7 +20,7 @@ u16 PLAYER_init(u16 ind)
         SPR_releaseSprite(player.sprite);
     }
 
-    player_spawn.initial_x = intToFix16(15 * METATILE_W);
+    player_spawn.initial_x = intToFix16(10 * METATILE_W);
     player_spawn.initial_y = intToFix16(4 * METATILE_W);
     // 2, 12
 
@@ -138,19 +138,19 @@ void PLAYER_object_collision()
 
     if (collided)
     {
-        if (collided == &key)
+        if (collided->type == 2)
         {
             kprintf("Colidiu com a CHAVE!");
             player_have_key = 1;
-            OBJECT_collect(collided);
+            OBJECT_clear(collided, true);
             // collided = NULL;
         }
-        else if (collided == &door && player_have_key)
+        else if (collided->type == 0 && player_have_key)
         {
-            // kprintf("Colidiu com a PORTA!");
+            kprintf("Colidiu com a PORTA!");
 
             SPR_setVisibility(player.sprite, HIDDEN);
-            SPR_setAnim(collided->sprite, 1);
+            SPR_setAnim(collided->obj.sprite, 1);
             for (u16 i = 0; i < 85; i++)
             {
                 SPR_update();
@@ -160,13 +160,14 @@ void PLAYER_object_collision()
             PLAYER_respawn();
             LEVEL_bool_level_change = 1;
         }
-        else if (collided == &light_switch)
+        else if (collided->type == 1)
         {
-            // kprintf("Colidiu com o POWERUP!");
+            kprintf("Colidiu com o switch!");
             if (key_down(0, BUTTON_B) && room_lights[LEVEL_current_screen] == 0)
             {
                 room_lights[LEVEL_current_screen] = 1;
-                SPR_setAnim(collided->sprite, 1);
+                SPR_setAnim(collided->obj.sprite, 1);
+                collided->obj.anim = 1;
             }
 
             // OBJECT_collect(collided);

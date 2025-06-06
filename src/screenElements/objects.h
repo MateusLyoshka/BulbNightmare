@@ -8,34 +8,31 @@
 #include "level.h"
 #include "../utils/globals.h"
 
+#define MAX_OBJECTS 30
+
 extern GameObject door;
 extern GameObject key;
 extern GameObject light_switch;
 
 typedef struct
 {
-    u8 level;
-    u8 screen;
+    GameObject obj;
+    u8 type; // 0 door, 1 switch, 2 key
     u16 x;
     u16 y;
-    u8 flip;
     u8 collected;
+    u8 level;
+    u8 screen;
+    u8 on_screen;
 } ObjectConfig;
 
-typedef struct
-{
-    GameObject *obj;
-    const SpriteDefinition *sprite;
-    ObjectConfig *configs;
-    u8 config_count;
-    u8 *on_screen_flag;
-} ObjectType;
+extern ObjectConfig objects_config[MAX_OBJECTS];
 
-// Adiciona esta função ao header
-GameObject *OBJECT_check_collision(u16 player_center_x, u16 player_center_y);
-u16 OBJECT_spawn_type(const ObjectType *type, u16 ind, u8 force_respawn);
-u16 OBJECT_update(u16 ind, u8 force_respawn);
-void OBJECT_collect(GameObject *object);
-void OBJECT_clear(GameObject *object);
+ObjectConfig *OBJECT_check_collision(u16 player_center_x, u16 player_center_y);
+void OBJECT_params();
+void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen);
+u16 OBJECT_spawn(u8 i, u16 ind);
+u16 OBJECT_update(u16 ind);
+void OBJECT_clear(ObjectConfig *config, u8 collect);
 
 #endif
