@@ -20,8 +20,8 @@ u16 PLAYER_init(u16 ind)
         SPR_releaseSprite(player.sprite);
     }
 
-    player_spawn.initial_x = intToFix16(10 * METATILE_W);
-    player_spawn.initial_y = intToFix16(4 * METATILE_W);
+    player_spawn.initial_x = intToFix16(2 * METATILE_W);
+    player_spawn.initial_y = intToFix16(12 * METATILE_W);
     // 2, 12
 
     ind += GAMEOBJECT_init(&player, &spr_player,

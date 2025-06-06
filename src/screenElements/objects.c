@@ -7,7 +7,11 @@ void OBJECT_params()
 {
     OBJECT_init(0, 0, 16, 6, 0, 6);
     OBJECT_init(1, 1, 15, 6, 0, 6);
-    OBJECT_init(2, 2, 14, 6, 0, 6);
+    OBJECT_init(2, 2, 13, 6, 0, 6);
+    OBJECT_init(3, 0, 16, 4, 1, 6);
+    OBJECT_init(4, 2, 15, 4, 1, 3);
+    OBJECT_init(5, 1, 3, 4, 1, 3);
+    OBJECT_init(6, 1, 3, 4, 1, 6);
 }
 
 void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen)
