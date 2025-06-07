@@ -5,14 +5,35 @@ ObjectConfig objects_config[MAX_OBJECTS];
 
 void OBJECT_params()
 {
-    OBJECT_init(0, 0, 16, 6, 0, 6, false);
-    OBJECT_init(1, 1, 13, 12, 0, 6, false);
-    OBJECT_init(2, 2, 14, 6, 0, 6, false);
-    OBJECT_init(3, 0, 16, 4, 1, 6, false);
-    OBJECT_init(4, 2, 15, 4, 1, 3, false);
-    OBJECT_init(5, 1, 3, 4, 1, 3, false);
-    OBJECT_init(6, 1, 3, 4, 1, 6, false);
-    OBJECT_init(7, 3, 13, 12, 0, 6, true);
+    // Level 1
+    OBJECT_init(0, 0, 17, 4, 0, 6, false);
+    OBJECT_init(1, 1, 2, 8, 0, 6, false);
+    OBJECT_init(2, 3, 2, 8, 0, 6, true);
+    OBJECT_init(3, 2, 17, 8, 0, 6, false);
+
+    // Level 2
+    OBJECT_init(4, 2, 17, 4, 1, 6, false);
+    OBJECT_init(5, 1, 17, 9, 1, 6, false);
+    OBJECT_init(6, 3, 17, 9, 1, 6, true);
+
+    OBJECT_init(7, 0, 2, 3, 1, 7, false);
+    OBJECT_init(8, 2, 15, 4, 1, 7, false);
+    OBJECT_init(9, 1, 3, 8, 1, 7, false);
+    OBJECT_init(10, 3, 3, 8, 1, 7, true);
+
+    // Level 3
+    OBJECT_init(11, 2, 2, 3, 2, 6, false);
+    OBJECT_init(12, 1, 17, 12, 2, 6, false);
+    OBJECT_init(13, 3, 17, 12, 2, 6, true);
+
+    OBJECT_init(14, 2, 5, 7, 2, 7, false);
+    OBJECT_init(15, 1, 17, 12, 2, 7, false);
+    OBJECT_init(16, 3, 17, 12, 2, 7, true);
+
+    OBJECT_init(17, 0, 14, 12, 2, 4, false);
+    OBJECT_init(18, 2, 14, 3, 2, 4, false);
+    OBJECT_init(19, 1, 2, 5, 2, 4, false);
+    OBJECT_init(20, 3, 2, 5, 2, 4, true);
 }
 
 void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)

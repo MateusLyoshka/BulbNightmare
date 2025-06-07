@@ -14,7 +14,7 @@
 #include "screenElements/menu.h"
 #include "screenElements/darkness.h"
 
-#define _MASK
+// #define _MASK
 
 // ==============================
 // Variáveis globais
@@ -70,14 +70,11 @@ void game_update()
 	{
 		if (!player_is_alive)
 		{
-			ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
+			// ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
 			LEVEL_scroll_update_collision(0, 448);
 		}
-		kprintf("%d", ind);
 		ind -= (ind - sprites_ind); // ind retornar para onde começaram carregar as sprites
-		kprintf("%d", ind);
-
-		ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
+		// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 		ind = OBJECT_update(ind);
 		kprintf("%d", ind);
 #ifdef _MASK
@@ -89,7 +86,7 @@ void game_update()
 	if (LEVEL_bool_level_change)
 	{
 		player_have_key = 0;
-		ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
+		// ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
 		LEVEL_current_level += 1;
 
 		ind -= (ind - sprites_ind);
@@ -112,8 +109,8 @@ void game_update()
 
 void game_init()
 {
-	ENEMIES_init();
-// ind = LEVEL_alert(ind);
+	// ENEMIES_init();
+	// ind = LEVEL_alert(ind);
 #ifdef _MASK
 	MASK_scroll_init();
 	MASK_draw(dark_ind);
@@ -122,7 +119,7 @@ void game_init()
 	ind = PLAYER_init(ind);
 	ind = HUD_init(ind);
 	sprites_ind = ind; // marca onde começou a somar indices de sprites
-	ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
+	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = OBJECT_update(ind);
 	LEVEL_update_camera(&player);
 }
