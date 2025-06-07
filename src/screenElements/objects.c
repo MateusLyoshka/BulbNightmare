@@ -22,9 +22,9 @@ void OBJECT_params()
     OBJECT_init(10, 3, 3, 8, 1, 7, true);
 
     // Level 3
-    OBJECT_init(11, 2, 2, 3, 2, 6, false);
-    OBJECT_init(12, 1, 17, 12, 2, 6, false);
-    OBJECT_init(13, 3, 17, 12, 2, 6, true);
+    OBJECT_init(11, 2, 10, 3, 2, 6, false);
+    OBJECT_init(12, 1, 15, 12, 2, 6, false);
+    OBJECT_init(13, 3, 15, 12, 2, 6, true);
 
     OBJECT_init(14, 2, 5, 7, 2, 7, false);
     OBJECT_init(15, 1, 17, 12, 2, 7, false);
@@ -34,6 +34,23 @@ void OBJECT_params()
     OBJECT_init(18, 2, 14, 3, 2, 4, false);
     OBJECT_init(19, 1, 2, 5, 2, 4, false);
     OBJECT_init(20, 3, 2, 5, 2, 4, true);
+
+    // Level 4
+    OBJECT_init(21, 2, 3, 8, 3, 6, false);
+    OBJECT_init(22, 1, 17, 4, 3, 6, false);
+    OBJECT_init(23, 3, 17, 4, 3, 6, true);
+
+    OBJECT_init(24, 1, 12, 3, 3, 3, false);
+    OBJECT_init(25, 3, 12, 3, 3, 3, true);
+
+    OBJECT_init(26, 0, 11, 12, 3, 4, false);
+    OBJECT_init(27, 1, 14, 4, 3, 4, false);
+    OBJECT_init(28, 3, 14, 4, 3, 4, true);
+
+    OBJECT_init(29, 2, 1, 9, 3, 7, false);
+    OBJECT_init(30, 2, 16, 9, 3, 7, false);
+    OBJECT_init(31, 1, 11, 3, 3, 7, false);
+    OBJECT_init(32, 3, 11, 3, 3, 7, true);
 }
 
 void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)

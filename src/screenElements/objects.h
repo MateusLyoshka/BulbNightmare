@@ -8,7 +8,7 @@
 #include "level.h"
 #include "../utils/globals.h"
 
-#define MAX_OBJECTS 30
+#define MAX_OBJECTS 50
 
 extern GameObject door;
 extern GameObject key;
