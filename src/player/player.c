@@ -29,6 +29,7 @@ u16 PLAYER_init(u16 ind)
                            fix16ToInt(player_spawn.initial_x),
                            fix16ToInt(player_spawn.initial_y),
                            PAL_GAME, false, ind);
+    player_lives = 3;
     return ind;
 }
 

@@ -1,7 +1,9 @@
 #include "objects.h"
 
-u8 objects_initiated = 0;
+u8 objects_spawned = 0;
 ObjectConfig objects_config[MAX_OBJECTS];
+
+u8 objects_initiated = 0;
 
 void OBJECT_params()
 {
@@ -72,12 +74,23 @@ void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)
     }
 
     objects_config[i].prio = prio;
-    objects_initiated++;
+    objects_spawned++;
 }
 
 u16 OBJECT_update(u16 ind)
 {
-    for (u8 i = 0; i < objects_initiated; i++)
+    if (objects_initiated)
+    {
+        for (u8 i = 0; i < objects_spawned; i++)
+        {
+            if (objects_config[i].level == LEVEL_current_level && objects_config[i].screen == LEVEL_current_screen && !(objects_config[i].collected))
+            {
+                OBJECT_clear(&objects_config[i], false);
+            }
+        }
+    }
+
+    for (u8 i = 0; i < objects_spawned; i++)
     {
         if (objects_config[i].level == LEVEL_current_level && objects_config[i].screen == LEVEL_current_screen && !(objects_config[i].collected))
         {
@@ -91,6 +104,7 @@ u16 OBJECT_update(u16 ind)
             }
         }
     }
+    objects_initiated = 1;
     return ind;
 }
 
@@ -121,7 +135,7 @@ u16 OBJECT_spawn(u8 i, u16 ind)
 
 ObjectConfig *OBJECT_check_collision(u16 player_center_x, u16 player_center_y)
 {
-    for (u8 i = 0; i < objects_initiated; i++)
+    for (u8 i = 0; i < objects_spawned; i++)
     {
         if (objects_config[i].on_screen &&
             player_center_x >= objects_config[i].obj.box.left &&

@@ -9,14 +9,23 @@ GameObject key_sprite;
 GameObject key_text_sprite;
 GameObject key_text_sprite_2;
 
-u16 HUD_init(u16 ind)
+u8 hud_initiated = 0;
+
+u16 HUD_background(u16 ind)
 {
-    HUD_clear();
     VDP_setTextPlane(WINDOW);
     VDP_setWindowVPos(FALSE, HUD_TILES);
-    VDP_drawImageEx(WINDOW, &img_hud, TILE_ATTR_FULL(PAL_GAME, 1, 0, 0, ind), 0, 0, FALSE, DMA);
+    VDP_drawImageEx(WINDOW, &img_hud, TILE_ATTR_FULL(PAL_GAME, 1, 0, 0, ind), 0, 0, true, DMA);
     ind += img_hud.tileset->numTile;
+    return ind;
+}
 
+u16 HUD_init(u16 ind)
+{
+    if (hud_initiated)
+    {
+        HUD_clear();
+    }
     ind += GAMEOBJECT_init(&lives_sprite, &spr_hud_itens, 16, 0, PAL_GAME, true, ind);
     ind += GAMEOBJECT_init(&lives_text, &spr_font_x, 32, 0, PAL_GAME, true, ind);
 
@@ -39,6 +48,8 @@ u16 HUD_init(u16 ind)
     SPR_setAnim(key_text_sprite.sprite, player_have_key);
     SPR_setAnim(key_text_sprite_2.sprite, 4);
 
+    hud_initiated = 1;
+
     return ind;
 }
 
@@ -54,21 +65,29 @@ void HUD_update()
     SPR_setAnim(key_sprite.sprite, 1);
     SPR_setAnim(key_text_sprite.sprite, player_have_key);
     SPR_setAnim(key_text_sprite_2.sprite, 4);
-    // SPR_setAnim(eye_text_sprite, 1);
-    // SPR_setAnim(key_sprite, 1);
-    // SPR_setAnim(key_text_sprite, player_have_key);
 }
 
 void HUD_clear()
 {
-    // SPR_releaseSprite(eye_sprite);
-    // SPR_releaseSprite(eye_text_sprite);
+    SPR_releaseSprite(lives_sprite.sprite);
+    SPR_releaseSprite(lives_text.sprite);
 
-    // SPR_releaseSprite(key_sprite);
-    // SPR_releaseSprite(key_text_sprite);
+    SPR_releaseSprite(eye_sprite.sprite);
+    SPR_releaseSprite(eye_text_sprite.sprite);
+    SPR_releaseSprite(eye_text_sprite_2.sprite);
 
-    // eye_sprite = NULL;
-    // eye_text_sprite = NULL;
-    // key_sprite = NULL;
-    // key_text_sprite = NULL;
+    SPR_releaseSprite(key_sprite.sprite);
+    SPR_releaseSprite(key_text_sprite.sprite);
+    SPR_releaseSprite(key_text_sprite_2.sprite);
+
+    lives_sprite.sprite = NULL;
+    lives_text.sprite = NULL;
+
+    eye_sprite.sprite = NULL;
+    eye_text_sprite.sprite = NULL;
+    eye_text_sprite_2.sprite = NULL;
+
+    key_sprite.sprite = NULL;
+    key_text_sprite.sprite = NULL;
+    key_text_sprite_2.sprite = NULL;
 }

@@ -14,7 +14,7 @@
 #include "screenElements/menu.h"
 #include "screenElements/darkness.h"
 
-// #define _MASK
+#define _MASK
 
 // ==============================
 // Variáveis globais
@@ -32,6 +32,7 @@ void game_update();
 void menu_init();
 void level_change();
 void screen_change();
+void player_death();
 
 int main(bool resetType)
 {
@@ -53,8 +54,9 @@ int main(bool resetType)
 	enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
 
 	OBJECT_params();
-	game_init();
+	dark_ind = HUD_background(dark_ind);
 	SYS_doVBlankProcess();
+	game_init();
 
 	while (true)
 	{
@@ -70,10 +72,7 @@ void game_update()
 {
 	if (!player_is_alive)
 	{
-		player_lives -= 1;
-		PLAYER_respawn();
-		LEVEL_scroll_update_collision(0, 448);
-		player_is_alive = 1;
+		player_death();
 	}
 
 	if (LEVEL_bool_screen_change)
@@ -90,23 +89,23 @@ void game_update()
 	PLAYER_update();
 	LEVEL_update_camera(&player);
 
-	ENEMIES_update_hub(enemies_current_level, enemies_past_level);
+	// ENEMIES_update_hub(enemies_current_level, enemies_past_level);
 	HUD_update();
 }
 
 void game_init()
 {
 	// ENEMIES_init();
-	// ind = LEVEL_alert(ind);
+	ind = LEVEL_alert(ind);
 #ifdef _MASK
 	MASK_scroll_init();
 	MASK_draw(dark_ind);
 #endif
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
-	ind = HUD_init(ind);
 	sprites_ind = ind; // marca onde começou a somar indices de sprites
 	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
+	ind = HUD_init(ind);
 	ind = OBJECT_update(ind);
 	LEVEL_update_camera(&player);
 }
@@ -136,13 +135,20 @@ void level_change()
 {
 	player_have_key = 0;
 	// ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
-	LEVEL_current_level += 1;
+	if (player_lives)
+	{
+		LEVEL_current_level += 1;
+	}
+	else
+	{
+		LEVEL_current_level = 0;
+	}
 
 	enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
 	enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
 	SYS_doVBlankProcess();
 	game_init();
-
+	PLAYER_respawn();
 	player_is_alive = 1;
 	LEVEL_bool_level_change = 0;
 }
@@ -156,4 +162,19 @@ void screen_change()
 	MASK_draw();
 #endif
 	LEVEL_bool_screen_change = 0;
+}
+
+void player_death()
+{
+	player_lives -= 1;
+	if (!player_lives)
+	{
+		level_change();
+	}
+	else
+	{
+		LEVEL_scroll_update_collision(0, 448);
+		PLAYER_respawn();
+		player_is_alive = 1;
+	}
 }
