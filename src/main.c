@@ -14,12 +14,10 @@
 #include "screenElements/menu.h"
 #include "screenElements/darkness.h"
 
-// #define _MASK
-
 // ==============================
 // Variáveis globais
 // ==============================
-u16 ind = TILE_USER_INDEX + 48;
+u16 ind = TILE_USER_INDEX + 64;
 u16 sprites_ind = 0;
 u8 game_initiated;
 
@@ -75,7 +73,7 @@ void game_update()
 		level_change();
 	}
 
-	// MASK_scroll_update();
+	MASK_scroll_update();
 	update_input();
 	PLAYER_update();
 	LEVEL_update_camera(&player);
@@ -89,14 +87,12 @@ void game_init()
 	if (!game_initiated)
 	{
 		OBJECT_key_reset();
-		dark_ind = HUD_background(dark_ind);
-#ifdef _MASK
-		MASK_scroll_init();
-		MASK_draw(dark_ind);
-#endif
 	}
-	// ENEMIES_init();
 	ind = LEVEL_alert(ind);
+	MASK_scroll_init();
+	MASK_draw(dark_ind);
+	// dark_ind = HUD_background(dark_ind);
+	// ENEMIES_init();
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
 	sprites_ind = ind; // marca onde começou a somar indices de sprites

@@ -241,6 +241,8 @@ u16 black_palette[64] = {0};
 u16 target_palette[64];
 u16 LEVEL_alert(u16 ind)
 {
+    VDP_setHorizontalScroll(BG_A, 0);
+    VDP_setVerticalScroll(BG_A, 0);
     ind = BACKGROUND_init_generalized(LEVEL_current_level, 1, PAL0, TRUE, ind);
     fadeIn(60, target_palette, black_palette, PAL0);
     waitMs(1000);
