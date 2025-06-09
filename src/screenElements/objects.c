@@ -81,14 +81,12 @@ void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)
 
 u16 OBJECT_update(u16 ind)
 {
-    if (objects_initiated)
+
+    for (u8 i = 0; i < objects_spawned; i++)
     {
-        for (u8 i = 0; i < objects_spawned; i++)
+        if (objects_config[i].level == LEVEL_current_level && objects_config[i].screen == LEVEL_current_screen && !(objects_config[i].collected))
         {
-            if (objects_config[i].level == LEVEL_current_level && objects_config[i].screen == LEVEL_current_screen && !(objects_config[i].collected))
-            {
-                OBJECT_clear(&objects_config[i], false);
-            }
+            OBJECT_clear(&objects_config[i], false);
         }
     }
 
@@ -100,14 +98,23 @@ u16 OBJECT_update(u16 ind)
         }
         else
         {
-            if (objects_config[i].obj.sprite != NULL)
-            {
-                OBJECT_clear(&objects_config[i], false);
-            }
+
+            OBJECT_clear(&objects_config[i], false);
         }
     }
-    objects_initiated = 1;
+    // objects_initiated = 1;
     return ind;
+}
+
+void OBJECT_key_reset()
+{
+    for (u8 i = 0; i < objects_spawned; i++)
+    {
+        if (objects_config[i].type == 2)
+        {
+            objects_config[i].collected = 0;
+        }
+    }
 }
 
 u16 OBJECT_spawn(u8 i, u16 ind)
@@ -157,7 +164,10 @@ void OBJECT_clear(ObjectConfig *config, u8 collect)
     {
         config->collected = 1;
     }
-    config->on_screen = 0;
-    SPR_releaseSprite(config->obj.sprite);
-    config->obj.sprite = NULL;
+    config->on_screen = 0;          // Marca que não está mais ativo na tela
+    if (config->obj.sprite != NULL) // Adiciona verificação para segurança
+    {
+        SPR_releaseSprite(config->obj.sprite);
+        config->obj.sprite = NULL; // Crucial: marca que não há mais sprite associado
+    }
 }

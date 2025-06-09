@@ -241,7 +241,7 @@ u16 black_palette[64] = {0};
 u16 target_palette[64];
 u16 LEVEL_alert(u16 ind)
 {
-    ind = BACKGROUND_init_generalized(LEVEL_current_level, 0, PAL0, TRUE, ind);
+    ind = BACKGROUND_init_generalized(LEVEL_current_level, 1, PAL0, TRUE, ind);
     fadeIn(60, target_palette, black_palette, PAL0);
     waitMs(1000);
     fadeOut(60);

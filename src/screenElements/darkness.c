@@ -15,7 +15,7 @@ void MASK_scroll_init()
 
 void MASK_draw()
 {
-    kprintf("%d room light", room_lights[LEVEL_current_screen]);
+    dark_ind = TILE_USER_INDEX;
     if (room_lights[LEVEL_current_screen] == 0)
     {
         VDP_drawImageEx(BG_A, &dark_mask, TILE_ATTR_FULL(PAL_BACKGROUND_A, 1, 0, 0, dark_ind), 0, 0, false, DMA);
