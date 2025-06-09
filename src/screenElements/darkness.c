@@ -16,6 +16,7 @@ void MASK_scroll_init()
 void MASK_draw()
 {
     dark_ind = TILE_USER_INDEX;
+    kprintf("%d", room_lights[LEVEL_current_screen]);
     if (room_lights[LEVEL_current_screen] == 0)
     {
         VDP_drawImageEx(BG_A, &dark_mask, TILE_ATTR_FULL(PAL_BACKGROUND_A, 1, 0, 0, dark_ind), 0, 0, false, DMA);
@@ -32,7 +33,7 @@ void MASK_scroll_update()
         BACKGROUND_clear(1);
         room_lights[LEVEL_current_screen] = 2;
     }
-    else if (room_lights[LEVEL_current_level] == 0)
+    else if (room_lights[LEVEL_current_screen] == 0)
     {
         VDP_setHorizontalScroll(BG_A, player_center.x - 34);
         VDP_setVerticalScroll(BG_A, -player_center.y + 34);

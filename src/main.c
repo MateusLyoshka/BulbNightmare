@@ -131,9 +131,7 @@ void screen_change()
 	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = HUD_init(ind);
 	ind = OBJECT_update(ind);
-#ifdef _MASK
 	MASK_draw();
-#endif
 	LEVEL_bool_screen_change = 0;
 }
 

@@ -222,6 +222,11 @@ void PLAYER_check_collisions()
 
 void PLAYER_respawn()
 {
+    for (u8 i = 0; i < 90; i++)
+    {
+        SYS_doVBlankProcess();
+    }
+
     // Reposiciona o player
     player.x = player_spawn.initial_x;
     player.y = player_spawn.initial_y;

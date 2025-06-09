@@ -126,6 +126,11 @@ u16 OBJECT_spawn(u8 i, u16 ind)
         break;
     case 1:
         ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_light_switch, objects_config[i].x, objects_config[i].y, PAL_GAME, objects_config[i].prio, ind);
+        if (room_lights[LEVEL_current_screen] != 0)
+        {
+            SPR_setAnim(objects_config[i].obj.sprite, 1);
+        }
+
         break;
     case 2:
         ind += GAMEOBJECT_init(&objects_config[i].obj, &spr_key, objects_config[i].x, objects_config[i].y, PAL_GAME, objects_config[i].prio, ind);
