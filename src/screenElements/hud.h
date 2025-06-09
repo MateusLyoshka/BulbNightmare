@@ -6,6 +6,7 @@
 #include "../utils/gameobject.h"
 #include "../utils/globals.h"
 #include "../player/player.h"
+#include "objects.h"
 
 extern u8 player_gems;
 extern u8 hud_initiated;

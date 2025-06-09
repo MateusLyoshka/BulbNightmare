@@ -42,11 +42,11 @@ u16 HUD_init(u16 ind)
 
     SPR_setAnim(eye_sprite.sprite, 0);
     SPR_setAnim(eye_text_sprite.sprite, 0);
-    SPR_setAnim(eye_text_sprite_2.sprite, 3);
+    SPR_setAnim(eye_text_sprite_2.sprite, switchs_on_level[LEVEL_current_level]);
 
     SPR_setAnim(key_sprite.sprite, 1);
-    SPR_setAnim(key_text_sprite.sprite, player_have_key);
-    SPR_setAnim(key_text_sprite_2.sprite, 4);
+    SPR_setAnim(key_text_sprite.sprite, player_keys);
+    SPR_setAnim(key_text_sprite_2.sprite, keys_on_level[LEVEL_current_level]);
 
     hud_initiated = 1;
 
@@ -59,12 +59,12 @@ void HUD_update()
     SPR_setAnim(lives_text.sprite, player_lives);
 
     SPR_setAnim(eye_sprite.sprite, 0);
-    SPR_setAnim(eye_text_sprite.sprite, 0);
-    SPR_setAnim(eye_text_sprite_2.sprite, 3);
+    SPR_setAnim(eye_text_sprite.sprite, switchs_on);
+    SPR_setAnim(eye_text_sprite_2.sprite, switchs_on_level[LEVEL_current_level]);
 
     SPR_setAnim(key_sprite.sprite, 1);
-    SPR_setAnim(key_text_sprite.sprite, player_have_key);
-    SPR_setAnim(key_text_sprite_2.sprite, 4);
+    SPR_setAnim(key_text_sprite.sprite, player_keys);
+    SPR_setAnim(key_text_sprite_2.sprite, keys_on_level[LEVEL_current_level]);
 }
 
 void HUD_clear()

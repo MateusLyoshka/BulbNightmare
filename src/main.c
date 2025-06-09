@@ -14,7 +14,7 @@
 #include "screenElements/menu.h"
 #include "screenElements/darkness.h"
 
-#define _MASK
+// #define _MASK
 
 // ==============================
 // Variáveis globais
@@ -133,7 +133,6 @@ void menu_init()
 
 void level_change()
 {
-	player_have_key = 0;
 	// ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
 	if (player_lives)
 	{
@@ -146,15 +145,19 @@ void level_change()
 
 	enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
 	enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
+	objects_initiated = 0;
 	SYS_doVBlankProcess();
 	game_init();
 	PLAYER_respawn();
+	switchs_on = 0;
+	player_keys = 0;
 	player_is_alive = 1;
 	LEVEL_bool_level_change = 0;
 }
 
 void screen_change()
 {
+	objects_initiated = 0;
 	ind -= (ind - sprites_ind); // ind retornar para onde começaram carregar as sprites
 	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = OBJECT_update(ind);
