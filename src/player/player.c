@@ -8,10 +8,11 @@ ObjectConfig *collided;
 
 PlayerCenter player_center;
 PlayerSpawnPoint player_spawn;
-f16 player_gravity = 30;
+f16 player_gravity = 45;
 f16 player_speed = 70;
 u8 player_is_alive = 1;
 u8 player_have_key = 0;
+u8 player_lives = 3;
 
 u16 PLAYER_init(u16 ind)
 {
@@ -215,10 +216,6 @@ void PLAYER_check_collisions()
     PLAYER_enemy_collision();
     PLAYER_spike_collision();
     PLAYER_object_collision();
-    if (!player_is_alive)
-    {
-        PLAYER_respawn();
-    }
 }
 
 void PLAYER_respawn()

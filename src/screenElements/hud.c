@@ -29,7 +29,7 @@ u16 HUD_init(u16 ind)
     ind += GAMEOBJECT_init(&key_text_sprite_2, &spr_font_L, 160, 0, PAL_GAME, true, ind);
 
     SPR_setAnim(lives_sprite.sprite, 2);
-    SPR_setAnim(lives_text.sprite, 4);
+    SPR_setAnim(lives_text.sprite, player_lives);
 
     SPR_setAnim(eye_sprite.sprite, 0);
     SPR_setAnim(eye_text_sprite.sprite, 0);
@@ -45,7 +45,7 @@ u16 HUD_init(u16 ind)
 void HUD_update()
 {
     SPR_setAnim(lives_sprite.sprite, 2);
-    SPR_setAnim(lives_text.sprite, 4);
+    SPR_setAnim(lives_text.sprite, player_lives);
 
     SPR_setAnim(eye_sprite.sprite, 0);
     SPR_setAnim(eye_text_sprite.sprite, 0);

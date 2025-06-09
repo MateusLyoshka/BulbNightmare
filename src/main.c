@@ -30,6 +30,8 @@ u8 enemies_past_level;
 void game_init();
 void game_update();
 void menu_init();
+void level_change();
+void screen_change();
 
 int main(bool resetType)
 {
@@ -66,36 +68,21 @@ int main(bool resetType)
 
 void game_update()
 {
-	if (LEVEL_bool_screen_change || !player_is_alive)
+	if (!player_is_alive)
 	{
-		if (!player_is_alive)
-		{
-			// ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
-			LEVEL_scroll_update_collision(0, 448);
-		}
-		ind -= (ind - sprites_ind); // ind retornar para onde começaram carregar as sprites
-		// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
-		ind = OBJECT_update(ind);
-		kprintf("%d", ind);
-#ifdef _MASK
-		MASK_draw();
-#endif
+		player_lives -= 1;
+		PLAYER_respawn();
+		LEVEL_scroll_update_collision(0, 448);
 		player_is_alive = 1;
-		LEVEL_bool_screen_change = 0;
+	}
+
+	if (LEVEL_bool_screen_change)
+	{
+		screen_change();
 	}
 	if (LEVEL_bool_level_change)
 	{
-		player_have_key = 0;
-		// ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
-		LEVEL_current_level += 1;
-
-		ind -= (ind - sprites_ind);
-		enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
-		enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
-		SYS_doVBlankProcess();
-		game_init();
-		player_is_alive = 1;
-		LEVEL_bool_level_change = 0;
+		level_change();
 	}
 
 	MASK_scroll_update();
@@ -143,4 +130,30 @@ void menu_init()
 		SPR_update();
 		SYS_doVBlankProcess();
 	}
+}
+
+void level_change()
+{
+	player_have_key = 0;
+	// ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
+	LEVEL_current_level += 1;
+
+	enemies_current_level = ENEMIES_enemies_on_level[LEVEL_current_level + 1];
+	enemies_past_level = ENEMIES_enemies_on_level[LEVEL_current_level];
+	SYS_doVBlankProcess();
+	game_init();
+
+	player_is_alive = 1;
+	LEVEL_bool_level_change = 0;
+}
+
+void screen_change()
+{
+	ind -= (ind - sprites_ind); // ind retornar para onde começaram carregar as sprites
+	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
+	ind = OBJECT_update(ind);
+#ifdef _MASK
+	MASK_draw();
+#endif
+	LEVEL_bool_screen_change = 0;
 }

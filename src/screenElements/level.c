@@ -6,7 +6,7 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_current_level = 3;
+u8 LEVEL_current_level = 0;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 u8 LEVEL_bool_level_change = 0;
@@ -167,7 +167,10 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
     u8 col = screen_x / SCREEN_W;
     u8 row = screen_y / SCREEN_H;
 
-    LEVEL_bool_screen_change = 1;
+    if (player_is_alive)
+    {
+        LEVEL_bool_screen_change = 1;
+    }
 
     LEVEL_current_screen = row * MAP_X_SCREENS + col;
 

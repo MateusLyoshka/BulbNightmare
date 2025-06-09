@@ -7,6 +7,7 @@
 #include "../utils/gameobject.h"
 #include "resources.h"
 #include "background.h"
+#include "../player/player.h"
 
 #define NUMBER_OF_LEVELS 5
 extern u8 LEVEL_current_level;
