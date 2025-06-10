@@ -8,6 +8,7 @@
 #include "../enemies/enemies.h"
 #include "../screenElements/objects.h"
 #include "../screenElements/darkness.h"
+#include "../screenElements/darkness.h"
 // utils
 
 typedef struct

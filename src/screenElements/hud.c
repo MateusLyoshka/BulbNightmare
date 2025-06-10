@@ -11,13 +11,28 @@ GameObject key_text_sprite_2;
 
 u8 hud_initiated = 0;
 
+const u32 tile_black[8] =
+    {
+        0x11111111,
+        0x11111111,
+        0x11111111,
+        0x11111111,
+        0x11111111,
+        0x11111111,
+        0x11111111,
+        0x11111111};
+
 u16 HUD_background(u16 ind)
 {
+    VDP_loadTileData((const u32 *)tile_black, ind, 1, DMA);
+
     VDP_setTextPlane(WINDOW);
     VDP_setWindowVPos(FALSE, HUD_TILES);
-    VDP_drawImageEx(WINDOW, &img_hud, TILE_ATTR_FULL(PAL_GAME, 1, 0, 0, ind), 0, 0, true, DMA);
-    ind += img_hud.tileset->numTile;
-    return ind;
+    VDP_fillTileMapRect(
+        WINDOW,
+        TILE_ATTR_FULL(PAL0, 0, 0, 0, ind),
+        0, 0, 40, HUD_TILES);
+    return ind + 1;
 }
 
 u16 HUD_init(u16 ind)

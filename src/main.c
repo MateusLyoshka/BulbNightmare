@@ -17,7 +17,7 @@
 // ==============================
 // Variáveis globais
 // ==============================
-u16 ind = TILE_USER_INDEX + 64;
+u16 ind = TILE_USER_INDEX + 32;
 u16 sprites_ind = 0;
 u8 game_initiated;
 
@@ -89,9 +89,9 @@ void game_init()
 		OBJECT_key_reset();
 	}
 	ind = LEVEL_alert(ind);
-	// MASK_scroll_init();
-	// MASK_draw(dark_ind);
-	// dark_ind = HUD_background(dark_ind);
+	MASK_scroll_init();
+	MASK_draw(dark_ind);
+	ind = HUD_background(ind);
 	// ENEMIES_init();
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
@@ -116,7 +116,7 @@ void level_change()
 	{
 		LEVEL_current_level = 0;
 	}
-	ind = TILE_USER_INDEX + 48;
+	ind = TILE_USER_INDEX + 32;
 	SYS_doVBlankProcess();
 	game_init();
 	player_keys = 0;
