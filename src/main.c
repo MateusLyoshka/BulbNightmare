@@ -88,9 +88,9 @@ void game_init()
 	{
 		OBJECT_key_reset();
 	}
-	ind = LEVEL_alert(ind);
-	MASK_scroll_init();
-	MASK_draw(dark_ind);
+	// ind = LEVEL_alert(ind);
+	// MASK_scroll_init();
+	// MASK_draw(dark_ind);
 	// dark_ind = HUD_background(dark_ind);
 	// ENEMIES_init();
 	ind = LEVEL_init(ind);
@@ -131,7 +131,7 @@ void screen_change()
 	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = HUD_init(ind);
 	ind = OBJECT_update(ind);
-	MASK_draw();
+	// MASK_draw();
 	LEVEL_bool_screen_change = 0;
 }
 
