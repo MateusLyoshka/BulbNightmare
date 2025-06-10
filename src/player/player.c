@@ -154,7 +154,7 @@ void PLAYER_object_collision()
 
             SPR_setVisibility(player.sprite, HIDDEN);
             SPR_setAnim(collided->obj.sprite, 1);
-            for (u16 i = 0; i < 85; i++)
+            for (u16 i = 0; i < 40; i++)
             {
                 SPR_update();
                 SYS_doVBlankProcess();
@@ -222,9 +222,14 @@ void PLAYER_check_collisions()
 
 void PLAYER_respawn()
 {
-    for (u8 i = 0; i < 90; i++)
+    if (!player_is_alive)
     {
-        SYS_doVBlankProcess();
+        SPR_setAnim(player.sprite, 8);
+        for (u16 i = 0; i < 20; i++)
+        {
+            SPR_update();
+            SYS_doVBlankProcess();
+        }
     }
 
     // Reposiciona o player
@@ -242,13 +247,17 @@ void PLAYER_respawn()
                     fix16ToInt(player.x),
                     fix16ToInt(player.y));
 
-    // Reseta animação se necessário
-    player.anim = 0;
-    SPR_setAnim(player.sprite, player.anim);
-
-    // Reseta gravidade se necessário
     player_gravity = abs(player_gravity); // Garante gravidade para baixo
     SPR_setVFlip(player.sprite, FALSE);
+
+    SPR_setAnim(player.sprite, 9);
+    for (u16 i = 0; i < 36; i++)
+    {
+        SPR_update();
+        SYS_doVBlankProcess();
+    }
+    player.anim = 0;
+    SPR_setAnim(player.sprite, player.anim);
 }
 
 u8 PLAYER_on_ground()

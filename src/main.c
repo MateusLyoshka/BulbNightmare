@@ -88,7 +88,7 @@ void game_init()
 	{
 		OBJECT_key_reset();
 	}
-	// ind = LEVEL_alert(ind);
+	ind = LEVEL_alert(ind);
 	// MASK_scroll_init();
 	// MASK_draw(dark_ind);
 	// dark_ind = HUD_background(dark_ind);
@@ -101,6 +101,7 @@ void game_init()
 	ind = HUD_init(ind);
 	ind = OBJECT_update(ind);
 	LEVEL_update_camera(&player);
+	PLAYER_respawn();
 	game_initiated = 1;
 }
 
@@ -118,9 +119,8 @@ void level_change()
 	ind = TILE_USER_INDEX + 48;
 	SYS_doVBlankProcess();
 	game_init();
-	PLAYER_respawn();
-	switchs_on = 0;
 	player_keys = 0;
+	switchs_on = 0;
 	player_is_alive = 1;
 	LEVEL_bool_level_change = 0;
 }

@@ -18,7 +18,7 @@ SPRITE spr_font_L "hud/font2.png" 2 2 FAST
 SPRITE spr_font_N "hud/font_numbers.png" 2 2 FAST 
 
 # SPRITES level
-SPRITE spr_player "sprites/player.png" 2 2 BEST 3
+SPRITE spr_player "sprites/player.png" 2 2 BEST 4
 SPRITE spr_hud_itens "hud/hud_itens.png" 2 2 FAST 
 SPRITE spr_g_enemy "sprites/g_enemy.png" 2 2 FAST 3
 SPRITE spr_f_enemy "sprites/f_enemy.png" 2 2 FAST 3
