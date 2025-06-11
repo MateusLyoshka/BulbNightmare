@@ -36,6 +36,7 @@ extern u8 player_is_alive;
 extern u8 player_keys;
 extern u8 player_lives;
 extern u8 switchs_on;
+extern PlayerSpawnPoint player_spawn;
 
 u16 PLAYER_init(u16 ind);
 void PLAYER_update();
@@ -46,5 +47,6 @@ void PLAYER_object_collision();
 void PLAYER_spike_collision();
 void PLAYER_enemy_collision();
 void PLAYER_respawn();
+void PLAYER_free();
 
 #endif

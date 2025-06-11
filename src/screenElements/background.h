@@ -16,6 +16,7 @@ typedef enum
     BG_LOGO,
     BG_MENU,
     BG_INSTRUCT,
+    BG_PAUSE,
     BG_MAX
 } BackgroundType;
 
@@ -24,7 +25,7 @@ extern u16 target_palette[64];
 
 extern u8 bg_proceed;
 
-u16 BACKGROUND_init_generalized(BackgroundType type, u8 bg, u8 pal, u8 set_fade, u16 ind);
+u16 BACKGROUND_init_generalized(BackgroundType type, u8 bg, u8 pal, u8 set_fade, u8 prio, u16 ind);
 u16 BACKGROUND_clear(u8 bg);
 u16 BACKGROUND_full_clear(u16 ind);
 

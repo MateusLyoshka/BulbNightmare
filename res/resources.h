@@ -3,6 +3,7 @@
 
 extern const u8 snd_start[25600];
 extern const Image menu_bg;
+extern const Image pause_bg;
 extern const Image img_hud;
 extern const Image dark_mask;
 extern const Image utf_logo;
@@ -24,6 +25,7 @@ extern const SpriteDefinition spr_key;
 extern const SpriteDefinition spr_light_switch;
 extern const SpriteDefinition spr_sparks;
 extern const SpriteDefinition spr_menu;
+extern const SpriteDefinition spr_pause;
 extern const SpriteDefinition spr_start;
 extern const TileSet tiles;
 extern const Palette game_pal;

@@ -26,7 +26,6 @@ u16 HUD_background(u16 ind)
 {
     VDP_loadTileData((const u32 *)tile_black, ind, 1, DMA);
 
-    VDP_setTextPlane(WINDOW);
     VDP_setWindowVPos(FALSE, HUD_TILES);
     VDP_fillTileMapRect(
         WINDOW,

@@ -1,5 +1,6 @@
 # IMAGE backgrounds
 IMAGE menu_bg "backgrounds\menu_bg.png" BEST 
+IMAGE pause_bg "backgrounds/pause_background.png" FAST 
 IMAGE img_hud  "hud/hud.png" FAST
 IMAGE dark_mask "backgrounds/dark_mask.png" FAST 
 IMAGE utf_logo "backgrounds/utfpr.png" FAST 
@@ -29,6 +30,7 @@ SPRITE spr_sparks "sprites/sparks.png" 4 4 FAST 8
 
 # SPRITES menu
 SPRITE spr_menu "sprites/menu_buttons.png" 7 7 FAST 8
+SPRITE spr_pause "sprites/pause.png" 7 7 FAST 8
 SPRITE spr_start "sprites/start.png" 7 3 FAST 8
 
 # MAPA

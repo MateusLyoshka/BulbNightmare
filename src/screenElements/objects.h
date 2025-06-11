@@ -39,5 +39,6 @@ u16 OBJECT_spawn(u8 i, u16 ind);
 u16 OBJECT_update(u16 ind);
 void OBJECT_clear(ObjectConfig *config, u8 collect);
 void OBJECT_key_reset();
+void OBJECT_clear_all();
 
 #endif

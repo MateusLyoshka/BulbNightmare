@@ -176,3 +176,14 @@ void OBJECT_clear(ObjectConfig *config, u8 collect)
         config->obj.sprite = NULL; // Crucial: marca que não há mais sprite associado
     }
 }
+
+void OBJECT_clear_all()
+{
+    for (u8 i = 0; i < objects_spawned; i++)
+    {
+        if (objects_config[i].level == LEVEL_current_level && objects_config[i].screen == LEVEL_current_screen && !(objects_config[i].collected))
+        {
+            OBJECT_clear(&objects_config[i], false);
+        }
+    }
+}

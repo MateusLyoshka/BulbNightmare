@@ -9,7 +9,7 @@ s8 menu_option = -1;
 
 u16 MENU_init(u16 ind)
 {
-    ind += GAMEOBJECT_init(&start, &spr_start, 97, 86, PAL_BACKGROUND_A, false, ind);
+    ind += GAMEOBJECT_init(&start, &spr_start, 97, 86, PAL_BACKGROUND_A, true, ind);
     // kprintf("a");
     return ind;
 }
@@ -20,7 +20,7 @@ u16 MENU_update(u16 ind)
     {
         menu_option++;
         SPR_releaseSprite(start.sprite);
-        ind += GAMEOBJECT_init(&menu, &spr_menu, 96, 72, PAL_BACKGROUND_A, false, ind);
+        ind += GAMEOBJECT_init(&menu, &spr_menu, 96, 72, PAL_BACKGROUND_A, true, ind);
     }
     else if (key_pressed(0, BUTTON_DOWN) && menu_option == 0)
     {
@@ -53,14 +53,14 @@ u16 MENU_update(u16 ind)
     else if (key_pressed(0, BUTTON_A) && menu_option == 1 && current_room == 0)
     {
         current_room = 1;
-        ind = BACKGROUND_init_generalized(7, 0, PAL_BACKGROUND_B, false, ind);
+        ind = BACKGROUND_init_generalized(7, 0, PAL_BACKGROUND_B, false, false, ind);
         SPR_releaseSprite(menu.sprite);
     }
     else if (key_pressed(0, BUTTON_A) && current_room == 1)
     {
         current_room = 0;
-        ind = BACKGROUND_init_generalized(6, 0, PAL_BACKGROUND_B, false, ind);
-        ind = GAMEOBJECT_init(&menu, &spr_menu, 96, 72, PAL_BACKGROUND_A, false, ind);
+        ind = BACKGROUND_init_generalized(6, 1, PAL_BACKGROUND_B, false, true, ind);
+        ind = GAMEOBJECT_init(&menu, &spr_menu, 96, 72, PAL_BACKGROUND_A, true, ind);
         SPR_setAnim(menu.sprite, menu_option);
     }
 

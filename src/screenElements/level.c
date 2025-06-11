@@ -6,7 +6,7 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_current_level = 0;
+u8 LEVEL_current_level = 1;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 u8 LEVEL_bool_level_change = 0;
@@ -247,7 +247,7 @@ u16 LEVEL_alert(u16 ind)
 {
     VDP_setHorizontalScroll(BG_A, 0);
     VDP_setVerticalScroll(BG_A, 0);
-    ind = BACKGROUND_init_generalized(LEVEL_current_level, 1, PAL0, TRUE, ind);
+    ind = BACKGROUND_init_generalized(LEVEL_current_level, 1, PAL0, TRUE, false, ind);
     fadeIn(60, target_palette, black_palette, PAL0);
     waitMs(1000);
     fadeOut(60);

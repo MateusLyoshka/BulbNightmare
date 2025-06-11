@@ -13,6 +13,7 @@
 #include "screenElements/objects.h"
 #include "screenElements/menu.h"
 #include "screenElements/darkness.h"
+#include "screenElements/pause.h"
 
 // ==============================
 // Variáveis globais
@@ -30,6 +31,8 @@ void menu_init();
 void level_change();
 void screen_change();
 void player_death();
+void pause_init();
+void game_reset();
 
 int main(bool resetType)
 {
@@ -41,6 +44,10 @@ int main(bool resetType)
 	{
 		SYS_hardReset();
 	}
+
+	player_spawn.initial_x = intToFix16(2 * METATILE_W);
+	player_spawn.initial_y = intToFix16(12 * METATILE_W);
+	// 2, 12
 
 	// menu_init();
 	SYS_showFrameLoad(true);
@@ -59,6 +66,7 @@ int main(bool resetType)
 
 void game_update()
 {
+	pause_init();
 	if (!player_is_alive)
 	{
 		player_death();
@@ -89,12 +97,13 @@ void game_init()
 		OBJECT_key_reset();
 	}
 	ind = LEVEL_alert(ind);
-	MASK_scroll_init();
-	MASK_draw(dark_ind);
 	ind = HUD_background(ind);
 	// ENEMIES_init();
 	ind = LEVEL_init(ind);
 	ind = PLAYER_init(ind);
+	MASK_scroll_init();
+	MASK_draw(dark_ind);
+	MASK_scroll_update();
 	sprites_ind = ind; // marca onde começou a somar indices de sprites
 
 	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
@@ -108,7 +117,7 @@ void game_init()
 void level_change()
 {
 	// ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
-	if (player_lives)
+	if (player_lives && !pause_proceed)
 	{
 		LEVEL_current_level += 1;
 	}
@@ -117,7 +126,6 @@ void level_change()
 		LEVEL_current_level = 0;
 	}
 	ind = TILE_USER_INDEX + 32;
-	SYS_doVBlankProcess();
 	game_init();
 	player_keys = 0;
 	switchs_on = 0;
@@ -131,7 +139,7 @@ void screen_change()
 	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
 	ind = HUD_init(ind);
 	ind = OBJECT_update(ind);
-	// MASK_draw();
+	MASK_draw();
 	LEVEL_bool_screen_change = 0;
 }
 
@@ -154,13 +162,13 @@ void player_death()
 
 void menu_init()
 {
-	ind = BACKGROUND_init_generalized(5, 0, PAL0, true, ind);
+	ind = BACKGROUND_init_generalized(5, 1, PAL0, true, true, ind);
 	fadeIn(60, target_palette, black_palette, PAL0);
 	waitMs(1000);
 	fadeOut(60);
 	ind = BACKGROUND_clear(0);
 
-	ind = BACKGROUND_init_generalized(6, 0, PAL0, true, ind);
+	ind = BACKGROUND_init_generalized(6, 1, PAL0, true, true, ind);
 	fadeIn(60, target_palette, black_palette, PAL0);
 	ind = MENU_init(ind);
 
@@ -171,4 +179,58 @@ void menu_init()
 		SPR_update();
 		SYS_doVBlankProcess();
 	}
+	ind = TILE_USER_INDEX + 32;
+}
+
+void pause_init()
+{
+	if (key_pressed(0, BUTTON_START))
+	{
+		ind = PAUSE_init(ind);
+		while (!pause_proceed)
+		{
+			PAUSE_update();
+			update_input();
+			SPR_update();
+			SYS_doVBlankProcess();
+		}
+		PAUSE_clear();
+		SPR_update();
+		if (pause_proceed == 1)
+		{
+			ind = TILE_USER_INDEX + 32;
+			ind = HUD_background(ind);
+			ind = LEVEL_init(ind);
+			MASK_scroll_init();
+			MASK_draw(dark_ind);
+		}
+		else if (pause_proceed == 2)
+		{
+			level_change();
+		}
+		else if (pause_proceed == 3)
+		{
+			game_reset();
+		}
+		pause_proceed = 0;
+	}
+}
+
+void game_reset()
+{
+
+	game_initiated = 0;
+	hud_initiated = 0;
+	LEVEL_current_level = 0;
+	ind = BACKGROUND_clear(0);
+	ind = BACKGROUND_clear(1);
+	ind = BACKGROUND_clear(2);
+	VDP_setWindowVPos(FALSE, 0);
+	PLAYER_free();
+	OBJECT_clear_all();
+	HUD_clear();
+	SPR_update();
+	SYS_doVBlankProcess();
+	menu_init();
+	game_init();
 }
