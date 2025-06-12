@@ -14,6 +14,7 @@ u8 player_is_alive = 1;
 u8 player_keys = 0;
 u8 player_lives = 3;
 u8 switchs_on = 0;
+u8 player_can_jump = 1;
 
 u16 PLAYER_init(u16 ind)
 {
@@ -99,7 +100,7 @@ void PLAYER_get_input()
     {
         player.anim = 0;
     }
-    if (key_pressed(0, BUTTON_A) && PLAYER_on_ground())
+    if (key_pressed(0, BUTTON_A) && PLAYER_on_ground() && player_can_jump)
     {
         player.speed_y = 0;
         player_gravity = -player_gravity;
@@ -183,7 +184,8 @@ void PLAYER_spike_collision()
 {
     if (collision_map[player_center.tile_x][player_center.tile_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[player_center.tile_x][player_center.tile_y] == BOTTOM_SPIKE_LEVEL_INDEX)
     {
-        // kprintf("Espinho no centro do player! (%d, %d)", player_center.tile_x, player_center.tile_y);
+        // kprintf("Espinho no centro do player! (%d, %d)", player_center.tile_x, player_center.tile_y)
+        kprintf("colidiu com espinho");
         player_is_alive = 0;
         return;
     }

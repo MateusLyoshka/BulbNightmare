@@ -36,6 +36,7 @@ extern u8 player_is_alive;
 extern u8 player_keys;
 extern u8 player_lives;
 extern u8 switchs_on;
+extern u8 player_can_jump;
 extern PlayerSpawnPoint player_spawn;
 
 u16 PLAYER_init(u16 ind);

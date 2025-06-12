@@ -2,7 +2,7 @@
 #define _PAUSE
 
 #include <genesis.h>
-#include "background.h"
+#include "../screenElements/background.h"
 #include "../utils/gameobject.h"
 
 extern u8 pause_proceed;
