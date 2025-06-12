@@ -13,6 +13,7 @@ typedef enum
     ALERT_3,
     ALERT_4,
     ALERT_5,
+    ALERT_6,
     BG_LOGO,
     BG_MENU,
     BG_INSTRUCT,

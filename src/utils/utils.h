@@ -8,10 +8,21 @@
 extern u8 buttons[NUMBER_OF_JOYPADS];
 extern u8 buttons_old[NUMBER_OF_JOYPADS];
 
-inline void UTILS_clear_palette(u8 pal)
+static const u16 custom_palette_colors[4] = {
+    RGB24_TO_VDPCOLOR(0x340000), // #610000
+    RGB24_TO_VDPCOLOR(0x570000), // #520000
+    RGB24_TO_VDPCOLOR(0x340034), // #430000
+    RGB24_TO_VDPCOLOR(0xac0000)  // #340000
+};
+
+// Função para setar as 4 primeiras cores da paleta 3
+static inline void set_palette3_custom_colors()
 {
-    const u16 blank_palette[16] = {0};
-    PAL_setPalette(pal, blank_palette, DMA);
+    for (u8 i = 0; i < 4; i++)
+    {
+        PAL_setColor(16 * 3 + 1 + i, custom_palette_colors[i]);
+        // 48 = 16*3 (paleta 3, cor 0)
+    }
 }
 
 inline void fadeIn(u16 speed, u16 *target_palette, u16 *black_palette, u8 pal)

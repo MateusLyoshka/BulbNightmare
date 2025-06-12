@@ -6,6 +6,7 @@ const Image *background_images[BG_MAX] = {
     [ALERT_3] = &alert_3,
     [ALERT_4] = &alert_4,
     [ALERT_5] = &alert_5,
+    [ALERT_6] = &alert_6,
     [BG_LOGO] = &utf_logo,
     [BG_MENU] = &menu_bg,
     [BG_PAUSE] = &pause_bg,

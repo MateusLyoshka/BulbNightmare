@@ -9,7 +9,7 @@ u16 PAUSE_init(u16 ind)
     BACKGROUND_clear(1);
     VDP_setHorizontalScroll(BG_A, 0);
     VDP_setVerticalScroll(BG_A, 0);
-    ind = BACKGROUND_init_generalized(8, 1, PAL_BACKGROUND_A, false, true, ind);
+    ind = BACKGROUND_init_generalized(9, 1, PAL_BACKGROUND_A, false, true, ind);
     ind = GAMEOBJECT_init(&pause, &spr_pause, 128, 80, PAL_GAME, true, ind);
     pause_option = 0;
     pause_proceed = 0;

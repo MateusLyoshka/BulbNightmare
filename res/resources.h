@@ -13,6 +13,7 @@ extern const Image alert_2;
 extern const Image alert_3;
 extern const Image alert_4;
 extern const Image alert_5;
+extern const Image alert_6;
 extern const SpriteDefinition spr_font_x;
 extern const SpriteDefinition spr_font_L;
 extern const SpriteDefinition spr_font_N;
@@ -34,5 +35,7 @@ extern const MapDefinition level1_map;
 extern const MapDefinition level2_map;
 extern const MapDefinition level3_map;
 extern const MapDefinition level4_map;
+extern const MapDefinition level5_map;
+extern const MapDefinition level6_map;
 
 #endif // _RES_RESOURCES_H_

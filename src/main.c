@@ -19,7 +19,6 @@
 // Variáveis globais
 // ==============================
 u16 ind = TILE_USER_INDEX + 32;
-u16 sprites_ind = 0;
 u8 game_initiated;
 
 // ==============================
@@ -71,7 +70,6 @@ void game_update()
 	{
 		player_death();
 	}
-
 	if (LEVEL_bool_screen_change)
 	{
 		screen_change();
@@ -85,7 +83,6 @@ void game_update()
 	update_input();
 	PLAYER_update();
 	LEVEL_update_camera(&player);
-
 	// ENEMIES_update_hub(enemies_current_level, enemies_past_level);
 	HUD_update();
 }
@@ -104,11 +101,10 @@ void game_init()
 	MASK_scroll_init();
 	MASK_draw(dark_ind);
 	MASK_scroll_update();
-	sprites_ind = ind; // marca onde começou a somar indices de sprites
 
 	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
-	ind = HUD_init(ind);
-	ind = OBJECT_update(ind);
+	HUD_init(ind);
+	OBJECT_update(ind);
 	LEVEL_update_camera(&player);
 	PLAYER_respawn();
 	game_initiated = 1;
@@ -131,14 +127,18 @@ void level_change()
 	switchs_on = 0;
 	player_is_alive = 1;
 	LEVEL_bool_level_change = 0;
+	if (LEVEL_current_level == 4)
+	{
+		// boss flux
+	}
 }
 
 void screen_change()
 {
-	ind -= (ind - sprites_ind); // ind retornar para onde começaram carregar as sprites
+
 	// ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
-	ind = HUD_init(ind);
-	ind = OBJECT_update(ind);
+	HUD_init(ind);
+	OBJECT_update(ind);
 	MASK_draw();
 	LEVEL_bool_screen_change = 0;
 }
@@ -218,7 +218,8 @@ void pause_init()
 
 void game_reset()
 {
-
+	player_keys = 0;
+	switchs_on = 0;
 	game_initiated = 0;
 	hud_initiated = 0;
 	LEVEL_current_level = 0;
@@ -233,4 +234,11 @@ void game_reset()
 	SYS_doVBlankProcess();
 	menu_init();
 	game_init();
+}
+
+void boss_flux()
+{
+	while (!LEVEL_bool_level_change)
+	{
+		}
 }
