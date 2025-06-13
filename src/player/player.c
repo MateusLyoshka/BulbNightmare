@@ -14,7 +14,9 @@ u8 player_is_alive = 1;
 u8 player_keys = 0;
 u8 player_lives = 3;
 u8 switchs_on = 0;
+
 u8 player_can_jump = 1;
+u8 player_can_walk = 1;
 
 u16 PLAYER_init(u16 ind)
 {
@@ -84,13 +86,13 @@ void PLAYER_get_input()
     player.speed_x = 0;
     // player.speed_y = 0;
 
-    if (key_down(0, BUTTON_RIGHT))
+    if (key_down(0, BUTTON_RIGHT) && player_can_walk)
     {
         player.speed_x = player_speed;
         SPR_setHFlip(player.sprite, false);
         player.anim = 4;
     }
-    else if (key_down(0, BUTTON_LEFT))
+    else if (key_down(0, BUTTON_LEFT) && player_can_walk)
     {
         player.speed_x = -player_speed;
         SPR_setHFlip(player.sprite, true);

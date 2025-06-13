@@ -38,9 +38,7 @@ u16 GAME_init()
     // ENEMIES_init();
     ind = LEVEL_init(ind);
     ind = PLAYER_init(ind);
-    MASK_scroll_init();
-    MASK_draw(dark_ind);
-    MASK_scroll_update();
+    GAME_mask_init();
 
     // ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
     HUD_init(ind);
@@ -49,6 +47,13 @@ u16 GAME_init()
     PLAYER_respawn();
     game_initiated = 1;
     return ind;
+}
+
+void GAME_mask_init()
+{
+    MASK_scroll_init();
+    MASK_draw(dark_ind);
+    MASK_scroll_update();
 }
 
 void GAME_player_death()
@@ -108,7 +113,7 @@ void GAME_menu_init()
     fadeIn(60, target_palette, black_palette, PAL0);
     waitMs(1000);
     fadeOut(60, PAL0);
-    ind = BACKGROUND_clear(0);
+    ind = BACKGROUND_clear(1);
 
     ind = BACKGROUND_init_generalized(7, 1, PAL0, true, true, ind);
 

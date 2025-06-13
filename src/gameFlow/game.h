@@ -25,3 +25,4 @@ void GAME_screen_change();
 void GAME_player_death();
 void GAME_pause_init();
 void GAME_reset();
+void GAME_mask_init();

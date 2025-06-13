@@ -165,8 +165,8 @@ void LEVEL_move_and_slide(GameObject *obj)
 
 void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
 {
-    // kprintf("screen x %d", screen_x);
-    // kprintf("screen y %d", screen_y);
+    kprintf("screen x %d", screen_x);
+    kprintf("screen y %d", screen_y);
     // kprintf("actual screen %d", LEVEL_current_screen);
     screen_x = offset_x;
     screen_y = offset_y;

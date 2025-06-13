@@ -6,7 +6,7 @@ IMAGE dark_mask "backgrounds/dark_mask.png" FAST
 IMAGE utf_logo "backgrounds/utfpr.png" FAST 
 IMAGE instructions "backgrounds/instructions.png" FAST 
 
-IMAGE boss_bg "backgrounds/boss/boss1.png" FAST 
+IMAGE boss_bg "backgrounds/boss/boss2.png" FAST 
 
 # IMAGE bg_alerts
 IMAGE alert_1 "backgrounds/level_alert/level1.png" FAST

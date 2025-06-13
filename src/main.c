@@ -20,11 +20,11 @@ int main(bool resetType)
 	player_spawn.initial_y = intToFix16(12 * METATILE_W);
 	// 2, 12
 
-	GAME_menu_init();
+	// GAME_menu_init();
 	SYS_showFrameLoad(true);
 	OBJECT_params();
-	GAME_init();
-	// BOSS_flux();
+	// GAME_init();
+	BOSS_flux();
 	while (true)
 	{
 		GAME_update();
