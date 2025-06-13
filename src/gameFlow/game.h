@@ -17,7 +17,7 @@
 #include "pause.h"
 #include "../enemies/boss.h"
 
-void GAME_init();
+u16 GAME_init();
 void GAME_update();
 void GAME_menu_init();
 void GAME_level_change();

@@ -1,5 +1,10 @@
 #include "background.h"
 
+u16 target_palette[16];
+u16 black_palette[16] = {
+    0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000,
+    0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000, 0x0000}; // Initialized to all black
+
 const Image *background_images[BG_MAX] = {
     [ALERT_1] = &alert_1,
     [ALERT_2] = &alert_2,
@@ -10,6 +15,7 @@ const Image *background_images[BG_MAX] = {
     [BG_LOGO] = &utf_logo,
     [BG_MENU] = &menu_bg,
     [BG_PAUSE] = &pause_bg,
+    [BG_BOSS] = &boss_bg,
     [BG_INSTRUCT] = &instructions,
 };
 u8 bg_proceed = 0;

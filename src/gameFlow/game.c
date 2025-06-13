@@ -27,13 +27,13 @@ void GAME_update()
     HUD_update();
 }
 
-void GAME_init()
+u16 GAME_init()
 {
     if (!game_initiated)
     {
         OBJECT_key_reset();
     }
-    ind = LEVEL_alert(ind);
+    // ind = LEVEL_alert(ind);
     ind = HUD_background(ind);
     // ENEMIES_init();
     ind = LEVEL_init(ind);
@@ -48,6 +48,24 @@ void GAME_init()
     LEVEL_update_camera(&player);
     PLAYER_respawn();
     game_initiated = 1;
+    return ind;
+}
+
+void GAME_player_death()
+{
+    player_lives -= 1;
+    if (!player_lives)
+    {
+        game_initiated = 0;
+        GAME_level_change();
+    }
+    else
+    {
+        LEVEL_scroll_update_collision(0, 448);
+        GAME_screen_change();
+        PLAYER_respawn();
+        player_is_alive = 1;
+    }
 }
 
 void GAME_level_change()
@@ -84,29 +102,12 @@ void GAME_screen_change()
     LEVEL_bool_screen_change = 0;
 }
 
-void GAME_player_death()
-{
-    player_lives -= 1;
-    if (!player_lives)
-    {
-        game_initiated = 0;
-        GAME_level_change();
-    }
-    else
-    {
-        LEVEL_scroll_update_collision(0, 448);
-        GAME_screen_change();
-        PLAYER_respawn();
-        player_is_alive = 1;
-    }
-}
-
 void GAME_menu_init()
 {
     ind = BACKGROUND_init_generalized(6, 1, PAL0, true, true, ind);
     fadeIn(60, target_palette, black_palette, PAL0);
     waitMs(1000);
-    fadeOut(60);
+    fadeOut(60, PAL0);
     ind = BACKGROUND_clear(0);
 
     ind = BACKGROUND_init_generalized(7, 1, PAL0, true, true, ind);

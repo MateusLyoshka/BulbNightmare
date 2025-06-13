@@ -18,11 +18,12 @@ typedef enum
     BG_MENU,
     BG_INSTRUCT,
     BG_PAUSE,
+    BG_BOSS,
     BG_MAX
 } BackgroundType;
 
-extern u16 black_palette[64];
-extern u16 target_palette[64];
+extern u16 black_palette[16];
+extern u16 target_palette[16];
 
 extern u8 bg_proceed;
 

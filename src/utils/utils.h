@@ -25,17 +25,25 @@ static inline void set_palette3_custom_colors()
     }
 }
 
-inline void fadeIn(u16 speed, u16 *target_palette, u16 *black_palette, u8 pal)
+inline void fadeIn(u16 speed, u16 *target_palette_data, u16 *black_palette_data, u8 pal_idx)
 {
+    // Define a paleta de hardware especificada (pal_idx) para as cores de black_palette_data
+    // Isso garante que a paleta esteja preta antes do fadeIn.
+    PAL_setPalette(pal_idx, black_palette_data, DMA);
 
-    PAL_setPalette(pal, black_palette, DMA);
-
-    PAL_fadeIn(0, 63, target_palette, speed, FALSE);
+    // Faz o fade IN para as cores em target_palette_data.
+    // Para afetar apenas a paleta especificada por pal_idx (16 cores):
+    u16 start_color_index = pal_idx * 16;
+    u16 end_color_index = start_color_index + 15;
+    PAL_fadeIn(start_color_index, end_color_index, target_palette_data, speed, FALSE);
 }
 
-inline void fadeOut(u16 speed)
+inline void fadeOut(u16 speed, u8 pal_idx) // Adicionado pal_idx para especificar qual paleta fazer fadeOut
 {
-    PAL_fadeOut(0, 63, speed, FALSE);
+    // Faz o fade OUT da paleta especificada por pal_idx (16 cores).
+    u16 start_color_index = pal_idx * 16;
+    u16 end_color_index = start_color_index + 15;
+    PAL_fadeOut(start_color_index, end_color_index, speed, FALSE);
 }
 
 // #define wrap(X, L, H) ((X < L)? H : ((X > H)? : L: X))

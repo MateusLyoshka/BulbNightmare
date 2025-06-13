@@ -8,6 +8,7 @@ extern const Image img_hud;
 extern const Image dark_mask;
 extern const Image utf_logo;
 extern const Image instructions;
+extern const Image boss_bg;
 extern const Image alert_1;
 extern const Image alert_2;
 extern const Image alert_3;

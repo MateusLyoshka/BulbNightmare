@@ -39,6 +39,8 @@ void LEVEL_generate_screen_collision_map(u8 first_index, u8 last_index)
                     collision_map[x][y] = 1;
                 else if (tile_index == BOTTOM_SPIKE_LEVEL_INDEX || tile_index == TOP_SPIKE_LEVEL_INDEX)
                     collision_map[x][y] = 2;
+                else
+                    collision_map[x][y] = 0;
             }
             else
             {
@@ -247,16 +249,20 @@ u8 LEVEL_wall_at(s16 x, s16 y)
         return 0;
 }
 
-u16 black_palette[64] = {0};
-u16 target_palette[64];
 u16 LEVEL_alert(u16 ind)
 {
     VDP_setHorizontalScroll(BG_A, 0);
     VDP_setVerticalScroll(BG_A, 0);
     ind = BACKGROUND_init_generalized(LEVEL_current_level, 1, PAL0, TRUE, false, ind);
+    // Agora, target_palette contém as cores desejadas para PAL0, e PAL0 na VRAM está preta.
+    // black_palette é uma paleta toda preta.
+
+    // Chama fadeIn para PAL0.
+    // target_palette e black_palette são os dados para uma única paleta de 16 cores.
     fadeIn(60, target_palette, black_palette, PAL0);
     waitMs(1000);
-    fadeOut(60);
+    // Chama fadeOut especificamente para PAL0.
+    fadeOut(60, PAL0);
     ind = BACKGROUND_full_clear(ind);
     return ind;
 }

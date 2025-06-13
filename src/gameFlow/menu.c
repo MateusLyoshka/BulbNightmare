@@ -49,7 +49,7 @@ u16 MENU_update(u16 ind)
     }
     else if (key_pressed(0, BUTTON_A) && menu_option == 0)
     {
-        fadeOut(60);
+        fadeOut(60, PAL0);
         waitMs(400);
         SPR_releaseSprite(menu.sprite);
         ind = BACKGROUND_clear(1);
