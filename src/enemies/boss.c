@@ -1,5 +1,9 @@
 #include "boss.h"
 
+GameObject boss;
+GameObject face;
+GameObject dialog;
+
 u16 boss_ind = TILE_USER_INDEX + 32;
 u8 boss_proceed = 0;
 
@@ -39,10 +43,15 @@ void BOSS_flux()
     VDP_setHorizontalScroll(BG_A, 0);
     VDP_setVerticalScroll(BG_A, 0);
     boss_ind = BACKGROUND_init_generalized(10, 1, PAL0, true, false, boss_ind + 64);
-    for (u8 i = 0; i < 120; i++)
-    {
-        SYS_doVBlankProcess();
-    }
+    boss_ind = GAMEOBJECT_init(&face, &spr_face, 145, 42, PAL0, false, boss_ind);
+    boss_ind = GAMEOBJECT_init(&boss, &spr_boss, 96, 0, PAL0, false, boss_ind);
+    boss_ind = GAMEOBJECT_init(&dialog, &spr_dialog, 102, 168, PAL0, false, boss_ind);
+    SPR_update();
+    SPR_setAnim(face.sprite, 1);
+    // for (u8 i = 0; i < 120; i++)
+    // {
+    //     SYS_doVBlankProcess();
+    // }
     player_can_walk = 1;
     fadeIn(20, target_palette, black_palette, PAL0);
     waitMs(2000);

@@ -2,6 +2,7 @@
 #define _GAMEOBJECT_H_
 
 #include <genesis.h>
+#include "resources.h"
 #include "sprite_eng.h"
 #include "../utils/globals.h"
 #include "../utils/utils.h"
