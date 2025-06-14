@@ -16,5 +16,6 @@
 u16 BOSS_init(u16 ind);
 void BOSS_flux();
 void BOSS_flux_update(u8 mask_bool);
+void BOSS_speak_anim();
 
 #endif

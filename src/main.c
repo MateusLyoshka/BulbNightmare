@@ -16,7 +16,7 @@ int main(bool resetType)
 		SYS_hardReset();
 	}
 
-	player_spawn.initial_x = intToFix16(2 * METATILE_W);
+	player_spawn.initial_x = intToFix16(18 * METATILE_W);
 	player_spawn.initial_y = intToFix16(12 * METATILE_W);
 	// 2, 12
 

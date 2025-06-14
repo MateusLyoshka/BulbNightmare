@@ -15,6 +15,14 @@ static const u16 custom_palette_colors[4] = {
     RGB24_TO_VDPCOLOR(0xac0000)  // #340000
 };
 
+u16 getRandomValue_90_150_step30()
+{
+    u16 randomIndex = random() % 3;
+    s16 result = 90 + (randomIndex * 30);
+
+    return result;
+}
+
 // Função para setar as 4 primeiras cores da paleta 3
 static inline void set_palette3_custom_colors()
 {
