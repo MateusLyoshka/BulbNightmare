@@ -21,6 +21,7 @@ void BOSS_flux()
 {
     boss_ind = LEVEL_init(boss_ind);
     boss_ind = PLAYER_init(boss_ind);
+    PAL_setPalette(PAL_BACKGROUND_B, boss_pal.data, DMA);
     GAME_mask_init();
     LEVEL_update_camera(&player);
 

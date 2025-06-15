@@ -35,6 +35,7 @@ extern const SpriteDefinition spr_start;
 extern const TileSet tiles;
 extern const Palette game_pal;
 extern const Palette level_pal;
+extern const Palette boss_pal;
 extern const MapDefinition level1_map;
 extern const MapDefinition level2_map;
 extern const MapDefinition level3_map;

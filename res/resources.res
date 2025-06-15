@@ -44,6 +44,7 @@ SPRITE spr_start "sprites/start.png" 7 3 FAST 8
 TILESET tiles "levels/tiles.png" BEST ALL 
 PALETTE game_pal "levels/game.pal"
 PALETTE level_pal "levels/level.pal"
+PALETTE boss_pal "levels/boss.pal"
 MAP level1_map "levels/level1/level1.tmx" tiles_layer BEST 0
 MAP level2_map "levels/level2/level2.tmx" tiles_layer BEST 0
 MAP level3_map "levels/level3/level3.tmx" tiles_layer BEST 0
