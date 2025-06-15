@@ -165,8 +165,8 @@ void LEVEL_move_and_slide(GameObject *obj)
 
 void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
 {
-    kprintf("screen x %d", screen_x);
-    kprintf("screen y %d", screen_y);
+    // kprintf("screen x %d", screen_x);
+    // kprintf("screen y %d", screen_y);
     // kprintf("actual screen %d", LEVEL_current_screen);
     screen_x = offset_x;
     screen_y = offset_y;
@@ -174,7 +174,6 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
     // Receive the offset again in case the function was called from another file (allows teleporting the player anywhere, anytime)
     screen_x_control = offset_x;
     screen_y_control = offset_y;
-    kprintf("screen x: %d, screen y: %d", screen_x_control, screen_y_control);
 
     u8 col = screen_x / SCREEN_W;
     u8 row = screen_y / SCREEN_H;
@@ -185,6 +184,7 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
     }
 
     LEVEL_current_screen = row * MAP_X_SCREENS + col;
+    kprintf("screen x: %d, screen y: %d, screen %d", screen_x_control, screen_y_control, LEVEL_current_screen);
 
     MAP_scrollTo(map, screen_x, screen_y);
     LEVEL_generate_screen_collision_map(0, 5);

@@ -27,8 +27,10 @@ void BOSS_flux()
     SPR_update();
     SYS_doVBlankProcess();
     PLAYER_respawn();
-    kprintf("%d", boss_ind);
+
     player_can_jump = 0;
+    player_can_walk = 1;
+    BOSS_flux_update(true);
     while (!boss_proceed)
     {
         BOSS_flux_update(true);
@@ -36,6 +38,8 @@ void BOSS_flux()
         {
             player_can_walk = 0;
             LEVEL_scroll_update_collision(640, 448);
+            LEVEL_bool_screen_change = 0;
+            LEVEL_bool_level_change = 0;
             for (u8 i = 0; i < 120; i++)
             {
                 SYS_doVBlankProcess();
@@ -54,17 +58,18 @@ void BOSS_flux()
     SPR_update();
     SPR_setAnim(face.sprite, 0);
     SPR_setAnim(boss.sprite, 0);
-    for (u8 i = 0; i < 120; i++)
-    {
-        SYS_doVBlankProcess();
-    }
+    // for (u8 i = 0; i < 120; i++)
+    // {
+    //     SYS_doVBlankProcess();
+    // }
     player_can_walk = 0;
     fadeIn(20, target_palette, black_palette, PAL0);
     // waitMs(2000);
     BOSS_flux_update(false);
     // waitMs(500);
     boss_ind = GAMEOBJECT_init(&dialog, &spr_dialog, 96, 168, PAL0, false, boss_ind);
-    BOSS_speak_anim(false);
+    // BOSS_speak_anim(false);
+
     while (!boss_proceed)
     {
         if (key_pressed(0, BUTTON_A))
@@ -80,7 +85,7 @@ void BOSS_flux()
             }
             if (dialog_next < 10)
             {
-                BOSS_speak_anim(dialog_next > 8);
+                // BOSS_speak_anim(dialog_next > 8);
             }
         }
         if (dialog_next == 8 && !transformed)
@@ -113,13 +118,15 @@ void BOSS_flux()
         BOSS_flux_update(false);
     }
     BOSS_clear();
-    boss_ind = GAMEOBJECT_init(&boss_key, &spr_key, 14 * METATILE_W, 12 * METATILE_W, PAL_GAME, true, boss_ind);
-    boss_ind = GAMEOBJECT_init(&boss_door, &spr_door, 18 * METATILE_W, 12 * METATILE_W, PAL_GAME, true, boss_ind);
+
+    OBJECT_update(boss_ind);
     player_can_walk = 1;
-    while (true)
+    while (!LEVEL_bool_level_change)
     {
         BOSS_flux_update(false);
     }
+
+    return;
 }
 
 void BOSS_clear()
@@ -131,6 +138,7 @@ void BOSS_clear()
     boss.sprite = NULL;
     face.sprite = NULL;
     dialog.sprite = NULL;
+    SPR_update();
 }
 
 void BOSS_speak_anim()
@@ -189,10 +197,6 @@ void BOSS_flux_update(u8 mask_bool)
     if (mask_bool)
     {
         MASK_scroll_update();
-    }
-    if (LEVEL_bool_level_change)
-    {
-        GAME_level_change();
     }
 
     update_input();

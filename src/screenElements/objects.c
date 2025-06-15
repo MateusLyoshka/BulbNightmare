@@ -4,8 +4,8 @@ u8 objects_spawned = 0;
 ObjectConfig objects_config[MAX_OBJECTS];
 u8 objects_initiated = 0;
 
-u8 keys_on_level[] = {1, 2, 3, 4};
-u8 switchs_on_level[] = {1, 2, 3, 4};
+u8 keys_on_level[] = {1, 2, 3, 4, 1};
+u8 switchs_on_level[] = {1, 2, 3, 4, 0};
 
 void OBJECT_params()
 {
@@ -56,8 +56,8 @@ void OBJECT_params()
     OBJECT_init(31, 1, 11, 3, 3, 7, false);
     OBJECT_init(32, 3, 11, 3, 3, 7, true);
 
-    OBJECT_init(33, 0, 17, 12, 4, 7, true);
-    OBJECT_init(34, 2, 13, 12, 4, 7, true);
+    OBJECT_init(33, 0, 15, 12, 4, 8, true);
+    OBJECT_init(34, 2, 11, 12, 4, 8, true);
 }
 
 void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)
@@ -97,6 +97,7 @@ u16 OBJECT_update(u16 ind)
     {
         if (objects_config[i].level == LEVEL_current_level && objects_config[i].screen == LEVEL_current_screen && !(objects_config[i].collected))
         {
+            kprintf("object update");
             ind += OBJECT_spawn(i, ind);
         }
         else
