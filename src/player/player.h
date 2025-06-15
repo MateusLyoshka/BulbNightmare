@@ -50,5 +50,6 @@ void PLAYER_spike_collision();
 void PLAYER_enemy_collision();
 void PLAYER_respawn();
 void PLAYER_free();
+void PLAYER_invert_gravity();
 
 #endif

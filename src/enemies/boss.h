@@ -17,5 +17,9 @@ u16 BOSS_init(u16 ind);
 void BOSS_flux();
 void BOSS_flux_update(u8 mask_bool);
 void BOSS_speak_anim();
+void BOSS_transform_anim();
+u16 BOSS_random_crown_anim(u16 min_val, u16 max_val, u16 step);
+void BOSS_laugh_anim();
+void BOSS_clear();
 
 #endif

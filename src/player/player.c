@@ -134,6 +134,13 @@ void PLAYER_get_input()
 #endif
 }
 
+void PLAYER_invert_gravity()
+{
+    player.speed_y = 0;
+    player_gravity = -player_gravity;
+    SPR_setVFlip(player.sprite, player_gravity < 0);
+}
+
 void PLAYER_object_collision()
 {
     collided = OBJECT_check_collision(player_center.x, player_center.y);

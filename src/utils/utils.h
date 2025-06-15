@@ -15,14 +15,24 @@ static const u16 custom_palette_colors[4] = {
     RGB24_TO_VDPCOLOR(0xac0000)  // #340000
 };
 
-u16 getRandomValue_90_150_step30()
+static inline u16 getRandomValueBetween(u16 min_val, u16 max_val, u16 step)
 {
-    u16 randomIndex = random() % 3;
-    s16 result = 90 + (randomIndex * 30);
+    if (step == 0 || min_val > max_val)
+    {
+        return min_val; // Fallback for invalid parameters
+    }
+
+    // Calculate the number of possible values
+    u16 num_options = ((max_val - min_val) / step) + 1;
+
+    // Generate a random index from 0 to num_options - 1
+    u16 random_index = random() % num_options;
+
+    // Calculate the result
+    u16 result = min_val + (random_index * step);
 
     return result;
 }
-
 // Função para setar as 4 primeiras cores da paleta 3
 static inline void set_palette3_custom_colors()
 {

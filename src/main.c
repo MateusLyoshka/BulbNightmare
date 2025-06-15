@@ -22,7 +22,7 @@ int main(bool resetType)
 
 	SYS_showFrameLoad(true);
 	// GAME_menu_init();
-	// OBJECT_params();
+	OBJECT_params();
 	// GAME_init();
 	BOSS_flux();
 	while (true)

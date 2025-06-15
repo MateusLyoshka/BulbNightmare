@@ -55,6 +55,9 @@ void OBJECT_params()
     OBJECT_init(30, 2, 16, 9, 3, 7, false);
     OBJECT_init(31, 1, 11, 3, 3, 7, false);
     OBJECT_init(32, 3, 11, 3, 3, 7, true);
+
+    OBJECT_init(33, 0, 17, 12, 4, 7, true);
+    OBJECT_init(34, 2, 13, 12, 4, 7, true);
 }
 
 void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)
@@ -142,7 +145,7 @@ u16 OBJECT_spawn(u8 i, u16 ind)
         break;
     }
     objects_config[i].on_screen = 1;
-    GAMEOBJECT_update_boundbox(objects_config[i].obj.x, objects_config[i].obj.y, &objects_config[i].obj); // FIXED
+    GAMEOBJECT_update_boundbox(objects_config[i].obj.x, objects_config[i].obj.y, &objects_config[i].obj);
 
     return ind;
 }
