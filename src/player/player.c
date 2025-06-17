@@ -11,7 +11,7 @@ PlayerSpawnPoint player_spawn;
 f16 player_gravity = 45;
 f16 player_speed = 70;
 u8 player_is_alive = 1;
-u8 player_keys = 0;
+u8 player_keys = 4;
 u8 player_lives = 3;
 u8 switchs_on = 0;
 

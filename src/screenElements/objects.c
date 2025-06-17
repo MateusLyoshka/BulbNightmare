@@ -47,7 +47,7 @@ void OBJECT_params()
     OBJECT_init(24, 1, 12, 3, 3, 3, false);
     OBJECT_init(25, 3, 12, 3, 3, 3, true);
 
-    OBJECT_init(26, 0, 11, 12, 3, 4, false);
+    OBJECT_init(26, 0, 3, 12, 3, 6, false); // 11, 12, tela 4
     OBJECT_init(27, 1, 14, 4, 3, 4, false);
     OBJECT_init(28, 3, 14, 4, 3, 4, true);
 

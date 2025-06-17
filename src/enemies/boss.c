@@ -19,16 +19,8 @@ void BOSS_init()
     dialog_next = 0;
     transformed = 0;
     laughing = 0;
-    boss_ind = LEVEL_alert(boss_ind);
-    boss_ind = LEVEL_init(boss_ind);
-    boss_ind = PLAYER_init(boss_ind);
-    PAL_setPalette(PAL_BACKGROUND_B, level4_pal.data, DMA);
-    GAME_mask_init();
-    LEVEL_update_camera(&player);
 
-    SPR_update();
-    SYS_doVBlankProcess();
-    PLAYER_respawn();
+    boss_ind = GAME_init();
 
     player_can_jump = 0;
     player_can_walk = 1;
@@ -41,9 +33,9 @@ void BOSS_flux()
 
     while (!boss_proceed)
     {
-        BOSS_flux_update(true);
         if (player_center.tile_x == 4 && LEVEL_current_screen == 7)
         {
+            kprintf("a");
             player_can_walk = 0;
             LEVEL_scroll_update_collision(640, 448);
             LEVEL_bool_screen_change = 0;
@@ -55,6 +47,7 @@ void BOSS_flux()
             BACKGROUND_clear(1);
             boss_proceed = 1;
         }
+        BOSS_flux_update(true);
     }
 
     boss_proceed = 0;

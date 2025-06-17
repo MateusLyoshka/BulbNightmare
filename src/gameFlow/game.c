@@ -47,14 +47,23 @@ u16 GAME_init()
         OBJECT_key_reset();
     }
     ind = LEVEL_alert(ind);
-    ind = HUD_background(ind);
+    if (LEVEL_current_level < 4)
+    {
+        ind = HUD_background(ind);
+        HUD_init(ind);
+    }
+    else
+    {
+        HUD_clear();
+        VDP_setWindowVPos(FALSE, 0);
+    }
     // ENEMIES_init();
     ind = LEVEL_init(ind);
     ind = PLAYER_init(ind);
     GAME_mask_init();
 
     // ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
-    HUD_init(ind);
+
     OBJECT_update(ind);
     LEVEL_update_camera(&player);
     PLAYER_respawn();
