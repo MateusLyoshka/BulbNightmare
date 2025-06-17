@@ -12,8 +12,9 @@
 #include "../screenElements/darkness.h"
 #include "../gameFlow/pause.h"
 #include "../gameFlow/game.h"
+#include "../utils/globals.h"
 
-u16 BOSS_init(u16 ind);
+void BOSS_init();
 void BOSS_flux();
 void BOSS_flux_update(u8 mask_bool);
 void BOSS_speak_anim();

@@ -6,7 +6,7 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_current_level = 4;
+u8 LEVEL_current_level = 0;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 u8 LEVEL_bool_level_change = 0;
@@ -63,7 +63,7 @@ u16 LEVEL_init(u16 ind)
     u8 row = screen_y / SCREEN_H;
     LEVEL_current_screen = row * MAP_X_SCREENS + col;
 
-    // PAL_setPalette(PAL_BACKGROUND_B, level_pal.data, DMA);
+    // PAL_setPalette(PAL_BACKGROUND_B, level1_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
 
     // kprintf("current level %d", LEVEL_current_level);

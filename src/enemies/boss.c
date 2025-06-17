@@ -12,16 +12,17 @@ u8 dialog_next = 0;
 u8 transformed = 0;
 u8 laughing = 0;
 
-u16 BOSS_init(u16 ind)
+void BOSS_init()
 {
-    return ind;
-}
-
-void BOSS_flux()
-{
+    boss_ind = TILE_USER_INDEX + 32;
+    boss_proceed = 0;
+    dialog_next = 0;
+    transformed = 0;
+    laughing = 0;
+    boss_ind = LEVEL_alert(boss_ind);
     boss_ind = LEVEL_init(boss_ind);
     boss_ind = PLAYER_init(boss_ind);
-    PAL_setPalette(PAL_BACKGROUND_B, boss_pal.data, DMA);
+    PAL_setPalette(PAL_BACKGROUND_B, level4_pal.data, DMA);
     GAME_mask_init();
     LEVEL_update_camera(&player);
 
@@ -32,6 +33,12 @@ void BOSS_flux()
     player_can_jump = 0;
     player_can_walk = 1;
     BOSS_flux_update(true);
+}
+
+void BOSS_flux()
+{
+    BOSS_init();
+
     while (!boss_proceed)
     {
         BOSS_flux_update(true);
@@ -57,8 +64,7 @@ void BOSS_flux()
     boss_ind = GAMEOBJECT_init(&face, &spr_face, 145, 42, PAL0, false, boss_ind);
     boss_ind = GAMEOBJECT_init(&boss, &spr_boss, 96, 0, PAL0, false, boss_ind);
     SPR_update();
-    SPR_setAnim(face.sprite, 0);
-    SPR_setAnim(boss.sprite, 0);
+
     // for (u8 i = 0; i < 120; i++)
     // {
     //     SYS_doVBlankProcess();

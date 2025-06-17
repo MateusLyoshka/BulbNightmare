@@ -3,6 +3,18 @@
 u16 ind = TILE_USER_INDEX + 32;
 u8 game_initiated;
 
+const u16 *game_palettes[6];
+
+void GAME_init_palettes()
+{
+    game_palettes[0] = level1_pal.data;
+    game_palettes[1] = level2_pal.data;
+    game_palettes[2] = level3_pal.data;
+    game_palettes[3] = level4_pal.data;
+    game_palettes[4] = level4_pal.data;
+    game_palettes[5] = boss_pal.data;
+}
+
 void GAME_update()
 {
     GAME_pause_init();
@@ -29,11 +41,12 @@ void GAME_update()
 
 u16 GAME_init()
 {
+    set_black_palletes();
     if (!game_initiated)
     {
         OBJECT_key_reset();
     }
-    // ind = LEVEL_alert(ind);
+    ind = LEVEL_alert(ind);
     ind = HUD_background(ind);
     // ENEMIES_init();
     ind = LEVEL_init(ind);
@@ -46,7 +59,16 @@ u16 GAME_init()
     LEVEL_update_camera(&player);
     PLAYER_respawn();
     game_initiated = 1;
+    SPR_update();
+    SYS_doVBlankProcess();
+    GAME_update_palletes();
     return ind;
+}
+
+void GAME_update_palletes()
+{
+    PAL_setPalette(PAL_GAME, game_pal.data, DMA);
+    PAL_setPalette(PAL_BACKGROUND_B, game_palettes[LEVEL_current_level], DMA);
 }
 
 void GAME_mask_init()
@@ -54,6 +76,7 @@ void GAME_mask_init()
     MASK_scroll_init();
     MASK_draw(dark_ind);
     MASK_scroll_update();
+    SPR_update();
 }
 
 void GAME_player_death()
@@ -85,15 +108,17 @@ void GAME_level_change()
         LEVEL_current_level = 0;
     }
     ind = TILE_USER_INDEX + 32;
-    GAME_init();
     player_keys = 0;
     switchs_on = 0;
     player_is_alive = 1;
     LEVEL_bool_level_change = 0;
-    kprintf("%d", LEVEL_current_level);
     if (LEVEL_current_level == 4)
     {
         BOSS_flux();
+    }
+    else
+    {
+        GAME_init();
     }
 }
 

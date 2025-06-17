@@ -4,6 +4,9 @@
 #include <genesis.h>
 #include <sprite_eng.h>
 
+extern const u16 black_palette[16];
+extern u16 target_palette[16];
+
 extern char text[5];
 
 #define PLAYER_MAX_HEALTH 10

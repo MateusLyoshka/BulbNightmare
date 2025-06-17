@@ -33,14 +33,17 @@ extern const SpriteDefinition spr_menu;
 extern const SpriteDefinition spr_pause;
 extern const SpriteDefinition spr_start;
 extern const TileSet tiles;
-extern const Palette game_pal;
-extern const Palette level_pal;
-extern const Palette boss_pal;
 extern const MapDefinition level1_map;
 extern const MapDefinition level2_map;
 extern const MapDefinition level3_map;
 extern const MapDefinition level4_map;
 extern const MapDefinition level5_map;
 extern const MapDefinition level6_map;
+extern const Palette game_pal;
+extern const Palette level1_pal;
+extern const Palette level2_pal;
+extern const Palette level3_pal;
+extern const Palette level4_pal;
+extern const Palette boss_pal;
 
 #endif // _RES_RESOURCES_H_

@@ -10,11 +10,6 @@ u16 GAMEOBJECT_init(GameObject *const obj, const SpriteDefinition *const sprite,
     obj->speed_y = 0;
     obj->anim = 0;
 
-    if (sprite != &spr_boss && sprite != &spr_face && sprite != &spr_dialog)
-    {
-        PAL_setPalette(pal, sprite->palette->data, DMA);
-    }
-
     obj->sprite = SPR_addSprite(sprite, x, y, TILE_ATTR_FULL(pal, prio, FALSE, 0, ind));
     obj->w = obj->sprite->definition->w;
     obj->h = obj->sprite->definition->h;

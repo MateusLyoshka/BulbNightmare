@@ -10,21 +10,21 @@ int main(bool resetType)
 	VDP_setScreenWidth320();
 	SPR_init();
 	VDP_setPlaneSize(64, 64, true);
+	SYS_showFrameLoad(true);
 
 	if (!resetType)
 	{
 		SYS_hardReset();
 	}
 
-	player_spawn.initial_x = intToFix16(18 * METATILE_W);
+	player_spawn.initial_x = intToFix16(2 * METATILE_W);
 	player_spawn.initial_y = intToFix16(12 * METATILE_W);
 	// 2, 12
 
-	SYS_showFrameLoad(true);
+	GAME_init_palettes();
 	// GAME_menu_init();
 	OBJECT_params();
-	// GAME_init();
-	BOSS_flux();
+	GAME_init();
 	while (true)
 	{
 		GAME_update();

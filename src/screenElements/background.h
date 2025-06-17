@@ -22,9 +22,6 @@ typedef enum
     BG_MAX
 } BackgroundType;
 
-extern u16 black_palette[16];
-extern u16 target_palette[16];
-
 extern u8 bg_proceed;
 
 u16 BACKGROUND_init_generalized(BackgroundType type, u8 bg, u8 pal, u8 set_fade, u8 prio, u16 ind);

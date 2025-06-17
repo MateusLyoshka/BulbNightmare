@@ -42,15 +42,21 @@ SPRITE spr_start "sprites/start.png" 7 3 FAST 8
 
 # MAPA
 TILESET tiles "levels/tiles.png" BEST ALL 
-PALETTE game_pal "levels/game.pal"
-PALETTE level_pal "levels/level.pal"
-PALETTE boss_pal "levels/boss.pal"
 MAP level1_map "levels/level1/level1.tmx" tiles_layer BEST 0
 MAP level2_map "levels/level2/level2.tmx" tiles_layer BEST 0
 MAP level3_map "levels/level3/level3.tmx" tiles_layer BEST 0
 MAP level4_map "levels/level4/level4.tmx" tiles_layer BEST 0
 MAP level5_map "levels/level5/level5.tmx" tiles_layer BEST 0
 MAP level6_map "levels/level6/level6.tmx" tiles_layer BEST 0
+
+# PALETTES
+PALETTE game_pal "levels/game.pal"
+
+PALETTE level1_pal "palettes/level1.pal"
+PALETTE level2_pal "palettes/level2.pal"
+PALETTE level3_pal "palettes/level3.pal"
+PALETTE level4_pal "palettes/level4.pal"
+PALETTE boss_pal "palettes/level5.pal"
 
 # SOUNDS
 WAV snd_start "sfx/game_start.wav" XGM 

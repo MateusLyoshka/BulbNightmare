@@ -32,7 +32,8 @@
         "darkness.h": "c",
         "pause.h": "c",
         "hud.h": "c",
-        "menu.h": "c"
+        "menu.h": "c",
+        "game.h": "c"
     },
     "gens.path": "C:\\Users\\lyoshka\\Desktop\\Studio\\GameDevelopment\\Emuladores\\GensKMOD\\gens.exe",
     "C_Cpp.errorSquiggles": "disabled"
