@@ -1,10 +1,14 @@
 #include "boss.h"
 
+u16 random_timer = 0;
+u8 timer_defined = 0;
+
 GameObject boss;
 GameObject face;
 GameObject dialog;
 GameObject boss_key;
 GameObject boss_door;
+GameObject enchant;
 
 u16 boss_ind = TILE_USER_INDEX + 32;
 u8 boss_proceed = 0;
@@ -22,7 +26,7 @@ void BOSS_init()
 
     boss_ind = GAME_init();
 
-    player_can_jump = 1;
+    player_can_jump = 0;
     player_can_walk = 1;
     BOSS_flux_update(true);
 }
@@ -57,21 +61,21 @@ void BOSS_flux()
     boss_ind = GAMEOBJECT_init(&boss, &spr_boss, 96, 0, PAL0, false, boss_ind);
     SPR_update();
 
-    // for (u8 i = 0; i < 120; i++)
-    // {
-    //     SYS_doVBlankProcess();
-    // }
+    for (u8 i = 0; i < 120; i++)
+    {
+        BOSS_flux_update(false);
+    }
     player_can_walk = 0;
     fadeIn(20, target_palette, black_palette, PAL0);
-    // waitMs(2000);
+    waitMs(2000);
     BOSS_flux_update(false);
-    // waitMs(500);
+    waitMs(500);
     boss_ind = GAMEOBJECT_init(&dialog, &spr_dialog, 96, 168, PAL0, false, boss_ind);
-    // BOSS_speak_anim(false);
+    BOSS_speak_anim(false);
 
     while (!boss_proceed)
     {
-        if (key_pressed(0, BUTTON_A))
+        if (key_pressed(0, BUTTON_B))
         {
             dialog_next += 1;
             if (dialog_next == 12)
@@ -84,20 +88,30 @@ void BOSS_flux()
             }
             if (dialog_next < 10)
             {
-                // BOSS_speak_anim(dialog_next > 8);
+                BOSS_speak_anim(dialog_next > 8);
             }
         }
         if (dialog_next == 8 && !transformed)
         {
             BOSS_transform_anim();
+            GAMEOBJECT_init(&enchant, &spr_enchant, player_center.x - 8, player_center.y - 8, PAL_GAME, false, boss_ind);
+            for (u8 i = 0; i < 60; i++)
+            {
+                BOSS_flux_update(false);
+            }
+            SPR_releaseSprite(enchant.sprite);
             PLAYER_invert_gravity();
             BOSS_flux_update(false);
-
             while (!PLAYER_on_ground())
             {
                 BOSS_flux_update(false);
             }
-            // waitMs(1000);
+            GAMEOBJECT_init(&enchant, &spr_enchant, player_center.x - 8, player_center.y - 8, PAL_GAME, false, boss_ind);
+            for (u8 i = 0; i < 60; i++)
+            {
+                BOSS_flux_update(false);
+            }
+            SPR_releaseSprite(enchant.sprite);
             PLAYER_invert_gravity();
             BOSS_flux_update(false);
 
@@ -204,4 +218,32 @@ void BOSS_flux_update(u8 mask_bool)
     LEVEL_update_camera(&player);
     SPR_update();
     SYS_doVBlankProcess();
+}
+
+void BOSS_power()
+{
+    if (!timer_defined || !player_is_alive)
+    {
+        random_timer = getRandomValueBetween(180, 300, 60);
+        timer_defined = 1;
+    }
+    if (random_timer == 180)
+    {
+        GAMEOBJECT_init(&enchant, &spr_enchant, player_center.x - 8, player_center.y - 8, PAL_GAME, false, boss_ind);
+    }
+    if (enchant.sprite != NULL)
+    {
+
+        s16 enchant_pos_x = player_center.x - (enchant.w / 2);
+        s16 enchant_pos_y = player_center.y - (enchant.h / 2);
+
+        SPR_setPosition(enchant.sprite, enchant_pos_x, enchant_pos_y);
+    }
+    if (random_timer == 0)
+    {
+        PLAYER_invert_gravity();
+        timer_defined = 0;
+        SPR_releaseSprite(enchant.sprite);
+    }
+    random_timer--;
 }

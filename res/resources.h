@@ -26,6 +26,7 @@ extern const SpriteDefinition spr_door;
 extern const SpriteDefinition spr_key;
 extern const SpriteDefinition spr_light_switch;
 extern const SpriteDefinition spr_sparks;
+extern const SpriteDefinition spr_enchant;
 extern const SpriteDefinition spr_boss;
 extern const SpriteDefinition spr_face;
 extern const SpriteDefinition spr_dialog;

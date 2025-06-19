@@ -30,6 +30,10 @@ void GAME_update()
     {
         GAME_level_change();
     }
+    if (LEVEL_current_level == 5)
+    {
+        BOSS_power();
+    }
 
     MASK_scroll_update();
     update_input();

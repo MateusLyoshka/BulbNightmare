@@ -30,7 +30,7 @@ SPRITE spr_door "sprites/door.png" 2 2 BEST  15
 SPRITE spr_key "sprites/key.png" 2 2 FAST 8
 SPRITE spr_light_switch "sprites/switch.png" 2 2 FAST 
 SPRITE spr_sparks "sprites/sparks.png" 4 4 FAST 8
-
+SPRITE spr_enchant "sprites/enchant.png" 2 2 FAST 8
 SPRITE spr_boss "sprites/enemies/boss/boss.png" 12 24 FAST 8
 SPRITE spr_face "sprites/enemies/boss/face.png" 4 4 FAST 10
 SPRITE spr_dialog "sprites/enemies/boss/dialog.png" 16 4 FAST
