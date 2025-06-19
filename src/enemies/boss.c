@@ -15,6 +15,7 @@ u8 boss_proceed = 0;
 u8 dialog_next = 0;
 u8 transformed = 0;
 u8 laughing = 0;
+u8 room_black_bool = 0;
 
 void BOSS_init()
 {
@@ -34,22 +35,32 @@ void BOSS_init()
 void BOSS_flux()
 {
     BOSS_init();
-    player_is_alive = 1;
+
     while (!boss_proceed)
     {
         BOSS_flux_update(true);
-        if (player_center.tile_x == 4 && LEVEL_current_screen == 7)
+
+        if (LEVEL_current_screen == 7)
         {
-            player_can_walk = 0;
-            LEVEL_scroll_update_collision(640, 448);
-            LEVEL_bool_screen_change = 0;
-            LEVEL_bool_level_change = 0;
-            for (u8 i = 0; i < 120; i++)
+            if (!room_black_bool)
             {
-                SYS_doVBlankProcess();
+                PAL_setPalette(PAL_BACKGROUND_B, black_palette, DMA);
+                room_black_bool = 1;
             }
-            BACKGROUND_clear(1);
-            boss_proceed = 1;
+
+            if (player_center.tile_x == 4)
+            {
+                player_can_walk = 0;
+                LEVEL_scroll_update_collision(640, 448);
+                LEVEL_bool_screen_change = 0;
+                LEVEL_bool_level_change = 0;
+                for (u8 i = 0; i < 120; i++)
+                {
+                    SYS_doVBlankProcess();
+                }
+                BACKGROUND_clear(1);
+                boss_proceed = 1;
+            }
         }
     }
 
@@ -61,7 +72,7 @@ void BOSS_flux()
     boss_ind = GAMEOBJECT_init(&boss, &spr_boss, 96, 0, PAL0, false, boss_ind);
     SPR_update();
 
-    for (u8 i = 0; i < 120; i++)
+    for (u8 i = 0; i < 60; i++)
     {
         BOSS_flux_update(false);
     }
@@ -220,7 +231,7 @@ void BOSS_flux_update(u8 mask_bool)
     SYS_doVBlankProcess();
 }
 
-void BOSS_power()
+void BOSS_power(u16 ind)
 {
     if (!timer_defined || !player_is_alive)
     {
@@ -229,7 +240,7 @@ void BOSS_power()
     }
     if (random_timer == 180)
     {
-        GAMEOBJECT_init(&enchant, &spr_enchant, player_center.x - 8, player_center.y - 8, PAL_GAME, false, boss_ind);
+        GAMEOBJECT_init(&enchant, &spr_enchant, player_center.x - 8, player_center.y - 8, PAL_GAME, false, ind);
     }
     if (enchant.sprite != NULL)
     {

@@ -7,7 +7,10 @@ void MASK_scroll_init()
 {
     for (u8 i = 0; i < MAP_TOTAL_SCREENS; i++)
     {
-        room_lights[i] = 0;
+        if (LEVEL_current_level == 5)
+            room_lights[i] = 1;
+        else
+            room_lights[i] = 0;
     }
     PAL_setColor(33, RGB24_TO_VDPCOLOR(0));
     VDP_setScrollingMode(HSCROLL_PLANE, VSCROLL_PLANE);

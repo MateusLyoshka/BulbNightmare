@@ -11,8 +11,8 @@ PlayerSpawnPoint player_spawn;
 f16 player_gravity = 45;
 f16 player_speed = 70;
 u8 player_is_alive = 1;
-u8 player_keys = 4;
-u8 player_lives = 3;
+u8 player_keys = 0;
+u8 player_lives = 10;
 u8 switchs_on = 0;
 
 u8 player_can_jump = 1;
@@ -48,7 +48,6 @@ void PLAYER_update()
 {
     PLAYER_center_update();
     PLAYER_check_collisions();
-    kprintf("alive %d", player_is_alive);
     if (player_is_alive)
     {
         if (player_gravity > 0)
@@ -87,7 +86,6 @@ void PLAYER_get_input()
     // player.speed_y = 0;
     if (key_down(0, BUTTON_RIGHT) && player_can_walk)
     {
-        kprintf("oi");
         player.speed_x = player_speed;
         SPR_setHFlip(player.sprite, false);
         player.anim = 4;
@@ -193,9 +191,7 @@ void PLAYER_spike_collision()
 {
     if (collision_map[player_center.tile_x][player_center.tile_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[player_center.tile_x][player_center.tile_y] == BOTTOM_SPIKE_LEVEL_INDEX)
     {
-        // kprintf("Espinho no centro do player! (%d, %d)", player_center.tile_x, player_center.tile_y)
-        kprintf("colidiu com espinho");
-        player_is_alive = 0;
+        // player_is_alive = 0;
         return;
     }
 }

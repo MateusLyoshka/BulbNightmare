@@ -17,7 +17,6 @@ void GAME_init_palettes()
 
 void GAME_update()
 {
-    GAME_pause_init();
     if (!player_is_alive)
     {
         GAME_player_death();
@@ -32,9 +31,10 @@ void GAME_update()
     }
     if (LEVEL_current_level == 5)
     {
-        BOSS_power();
+        BOSS_power(ind);
     }
 
+    GAME_pause_init();
     MASK_scroll_update();
     update_input();
     PLAYER_update();

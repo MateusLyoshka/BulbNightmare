@@ -22,6 +22,6 @@ void BOSS_transform_anim();
 u16 BOSS_random_crown_anim(u16 min_val, u16 max_val, u16 step);
 void BOSS_laugh_anim();
 void BOSS_clear();
-void BOSS_power();
+void BOSS_power(u16 ind);
 
 #endif

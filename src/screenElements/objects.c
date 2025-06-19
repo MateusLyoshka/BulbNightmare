@@ -4,8 +4,8 @@ u8 objects_spawned = 0;
 ObjectConfig objects_config[MAX_OBJECTS];
 u8 objects_initiated = 0;
 
-u8 keys_on_level[] = {1, 2, 3, 4, 1};
-u8 switchs_on_level[] = {1, 2, 3, 4, 0};
+u8 keys_on_level[] = {1, 2, 3, 4, 1, 1};
+u8 switchs_on_level[] = {1, 2, 3, 4, 0, 0};
 
 void OBJECT_params()
 {
@@ -57,11 +57,11 @@ void OBJECT_params()
     OBJECT_init(32, 1, 11, 3, 3, 7, false);
     OBJECT_init(33, 3, 11, 3, 3, 7, true);
 
-    OBJECT_init(34, 0, 15, 12, 4, 8, true);
-    OBJECT_init(35, 2, 11, 12, 4, 8, true);
+    OBJECT_init(34, 0, 15, 12, 4, 8, false);
+    OBJECT_init(35, 2, 11, 12, 4, 8, false);
 
-    OBJECT_init(36, 1, 11, 12, 5, 6, true);
-    OBJECT_init(37, 3, 11, 12, 5, 6, true);
+    OBJECT_init(36, 0, 1, 1, 5, 1, false);
+    OBJECT_init(37, 2, 5, 6, 5, 8, false);
 }
 
 void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)
