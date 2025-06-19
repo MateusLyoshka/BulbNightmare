@@ -11,7 +11,7 @@ PlayerSpawnPoint player_spawn;
 f16 player_gravity = 45;
 f16 player_speed = 70;
 u8 player_is_alive = 1;
-u8 player_keys = 0;
+u8 player_keys = 4;
 u8 player_lives = 0;
 u8 switchs_on = 0;
 
@@ -191,7 +191,7 @@ void PLAYER_spike_collision()
 {
     if (collision_map[player_center.tile_x][player_center.tile_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[player_center.tile_x][player_center.tile_y] == BOTTOM_SPIKE_LEVEL_INDEX)
     {
-        // player_is_alive = 0;
+        player_is_alive = 0;
         return;
     }
 }
@@ -210,7 +210,7 @@ void PLAYER_enemy_collision()
             player_center.y >= e->box.top && player_center.y <= e->box.bottom)
         {
             // kprintf("Colidiu com inimigo %d!", i);
-            // player_is_alive = 0;
+            player_is_alive = 0;
             return;
         }
     }

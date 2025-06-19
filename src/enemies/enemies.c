@@ -3,7 +3,7 @@
 Enemy enemy_pool[MAX_ENEMIES];
 
 const f16 g_enemy_speed = 35;
-const f16 f_enemy_speed = 20;
+const f16 f_enemy_speed = 28;
 
 u8 enemy_counter = 0;
 
@@ -45,6 +45,16 @@ void ENEMY_params()
     ENEMY_init(15, GROUND, 16, 12, LEVEL_SCREEN_4, 3);
     ENEMY_init(16, GROUND, 6, 5, LEVEL_SCREEN_5, 3);
     ENEMY_init(17, FLYING, 13, 9, LEVEL_SCREEN_5, 3);
+
+    // LEVEL 5
+    ENEMY_init(18, GROUND, 2, 9, LEVEL_SCREEN_1, 5);
+    ENEMY_init(19, GROUND, 11, 5, LEVEL_SCREEN_1, 5);
+    ENEMY_init(20, FLYING, 6, 4, LEVEL_SCREEN_1, 5);
+    ENEMY_init(21, FLYING, 3, 5, LEVEL_SCREEN_2, 5);
+    ENEMY_init(22, FLYING, 16, 10, LEVEL_SCREEN_2, 5);
+    ENEMY_init(23, GROUND, 11, 9, LEVEL_SCREEN_3, 5);
+    ENEMY_init(24, GROUND, 2, 9, LEVEL_SCREEN_3, 5);
+    ENEMY_init(25, FLYING, 7, 6, LEVEL_SCREEN_3, 5);
 }
 
 void ENEMY_init(u8 index, u8 type, u16 start_x, u16 start_y, u8 screen, u8 level)
@@ -85,6 +95,7 @@ void ENEMY_unspwan(u8 index)
     SPR_releaseSprite(enemy_pool[index].firefly.sprite);
     enemy_pool[index].firefly.sprite = NULL;
     enemy_pool[index].on_screen = 0;
+    SPR_update();
 }
 
 u8 ENEMY_spawn(u8 index, u8 ind)

@@ -101,6 +101,7 @@ void GAME_player_death()
     }
     else
     {
+
         LEVEL_scroll_update_collision(0, 448);
         GAME_screen_change();
         PLAYER_respawn();
