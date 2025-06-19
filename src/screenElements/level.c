@@ -6,7 +6,7 @@ Map *map;
 u8 collision_map[SCREEN_METATILES_W + OFFSCREEN_TILES * 2][SCREEN_METATILES_H + OFFSCREEN_TILES * 2] = {0};
 
 u8 collision_result = 0;
-u8 LEVEL_current_level = 5;
+u8 LEVEL_current_level = 3;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 u8 LEVEL_bool_level_change = 0;

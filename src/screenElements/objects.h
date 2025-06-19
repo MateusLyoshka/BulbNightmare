@@ -14,8 +14,8 @@ extern GameObject door;
 extern GameObject key;
 extern GameObject light_switch;
 
-extern u8 keys_on_level[5];
-extern u8 switchs_on_level[5];
+extern u16 keys_on_level[6];
+extern u16 switchs_on_level[6];
 
 typedef struct
 {

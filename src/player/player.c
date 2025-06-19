@@ -12,7 +12,7 @@ f16 player_gravity = 45;
 f16 player_speed = 70;
 u8 player_is_alive = 1;
 u8 player_keys = 0;
-u8 player_lives = 10;
+u8 player_lives = 0;
 u8 switchs_on = 0;
 
 u8 player_can_jump = 1;
@@ -29,7 +29,7 @@ u16 PLAYER_init(u16 ind)
                            fix16ToInt(player_spawn.initial_x),
                            fix16ToInt(player_spawn.initial_y),
                            PAL_GAME, false, ind);
-    player_lives = 3;
+    player_lives = 9;
     return ind;
 }
 
@@ -199,7 +199,7 @@ void PLAYER_spike_collision()
 void PLAYER_enemy_collision()
 {
 
-    for (u8 i = ENEMIES_enemies_on_level[LEVEL_current_level]; i < ENEMIES_enemies_on_level[LEVEL_current_level + 1]; i++)
+    for (u8 i = 0; i < enemy_counter; i++)
     {
         if (enemy_pool[i].firefly.sprite == NULL)
             continue; // inimigo inexistente

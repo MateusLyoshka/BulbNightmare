@@ -4,8 +4,8 @@ u8 objects_spawned = 0;
 ObjectConfig objects_config[MAX_OBJECTS];
 u8 objects_initiated = 0;
 
-u8 keys_on_level[] = {1, 2, 3, 4, 1, 1};
-u8 switchs_on_level[] = {1, 2, 3, 4, 0, 0};
+u16 keys_on_level[] = {1, 2, 3, 4, 1, 1};
+u16 switchs_on_level[] = {1, 2, 3, 4, 0, 0};
 
 void OBJECT_params()
 {

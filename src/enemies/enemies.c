@@ -5,19 +5,11 @@ Enemy enemy_pool[MAX_ENEMIES];
 const f16 g_enemy_speed = 35;
 const f16 f_enemy_speed = 20;
 
-const u8 ENEMIES_enemies_on_level[] = {
-    0,
-    2,
-    5,
-    9,
-    14,
-};
+u8 enemy_counter = 0;
 
-void ENEMIES_level_change_despawn(u8 enemies_current_level, u8 enemies_past_level)
+void ENEMIES_level_change_despawn()
 {
-    // kprintf("past: %d", enemies_past_level);
-    // kprintf("current: %d", enemies_current_level);
-    for (u8 i = enemies_past_level; i < enemies_current_level; i++)
+    for (u8 i = 0; i < enemy_counter; i++)
     {
         if (enemy_pool[i].firefly.sprite != NULL)
         {
@@ -26,61 +18,54 @@ void ENEMIES_level_change_despawn(u8 enemies_current_level, u8 enemies_past_leve
     }
 }
 
-void ENEMIES_init()
+void ENEMY_params()
 {
     // LEVEL 1
-    if (LEVEL_current_level == 0)
-    {
-        ENEMY_init(LEVEL_1_ENEMY_1, 0, 7, 9, LEVEL_SCREEN_1, 0);
-        ENEMY_init(LEVEL_1_ENEMY_2, 1, 7, 7, LEVEL_SCREEN_1, 0);
-    }
-    if (LEVEL_current_level == 1)
-    {
-        // LEVEL 2
-        ENEMY_init(LEVEL_2_ENEMY_1, 1, 7, 5, LEVEL_SCREEN_1, 1);
-        ENEMY_init(LEVEL_2_ENEMY_2, 0, 9, 12, LEVEL_SCREEN_1, 1);
-        ENEMY_init(LEVEL_2_ENEMY_3, 1, 8, 6, LEVEL_SCREEN_4, 1);
-    }
-    if (LEVEL_current_level == 2)
-    {
-        // LEVEL 3
-        ENEMY_init(LEVEL_3_ENEMY_1, 0, 9, 12, LEVEL_SCREEN_1, 2);
-        ENEMY_init(LEVEL_3_ENEMY_2, 0, 9, 12, LEVEL_SCREEN_2, 2);
-        ENEMY_init(LEVEL_3_ENEMY_3, 1, 18, 10, LEVEL_SCREEN_4, 2);
-        ENEMY_init(LEVEL_3_ENEMY_4, 1, 2, 9, LEVEL_SCREEN_4, 2);
-    }
-    if (LEVEL_current_level == 3)
-    {
-        // LEVEL 4
-        ENEMY_init(LEVEL_4_ENEMY_1, 1, 5, 7, LEVEL_SCREEN_1, 3);
-        ENEMY_init(LEVEL_4_ENEMY_2, 1, 3, 8, LEVEL_SCREEN_2, 3);
-        ENEMY_init(LEVEL_4_ENEMY_3, 1, 8, 5, LEVEL_SCREEN_2, 3);
-        ENEMY_init(LEVEL_4_ENEMY_4, 1, 8, 4, LEVEL_SCREEN_3, 3);
-        ENEMY_init(LEVEL_4_ENEMY_5, 0, 6, 12, LEVEL_SCREEN_5, 3);
-    }
-    if (LEVEL_current_level == 4)
-    {
-    }
+    ENEMY_init(0, GROUND, 6, 9, LEVEL_SCREEN_1, 0);
+    ENEMY_init(1, FLYING, 2, 5, LEVEL_SCREEN_1, 0);
+
+    // LEVEL 2
+    ENEMY_init(2, FLYING, 9, 8, LEVEL_SCREEN_1, 1);
+    ENEMY_init(3, GROUND, 4, 9, LEVEL_SCREEN_2, 1);
+    ENEMY_init(4, GROUND, 7, 4, LEVEL_SCREEN_2, 1);
+
+    // LEVEL 3
+    ENEMY_init(5, GROUND, 14, 12, LEVEL_SCREEN_1, 2);
+    ENEMY_init(6, FLYING, 10, 4, LEVEL_SCREEN_2, 2);
+    ENEMY_init(7, FLYING, 14, 6, LEVEL_SCREEN_2, 2);
+    ENEMY_init(8, FLYING, 11, 8, LEVEL_SCREEN_2, 2);
+    ENEMY_init(9, FLYING, 12, 9, LEVEL_SCREEN_2, 2);
+    ENEMY_init(10, GROUND, 4, 12, LEVEL_SCREEN_5, 2);
+
+    // LEVEL 4
+    ENEMY_init(11, FLYING, 5, 7, LEVEL_SCREEN_1, 3);
+    ENEMY_init(12, FLYING, 8, 8, LEVEL_SCREEN_4, 3);
+    ENEMY_init(13, FLYING, 12, 8, LEVEL_SCREEN_4, 3);
+    ENEMY_init(14, GROUND, 6, 12, LEVEL_SCREEN_4, 3);
+    ENEMY_init(15, GROUND, 16, 12, LEVEL_SCREEN_4, 3);
+    ENEMY_init(16, GROUND, 6, 5, LEVEL_SCREEN_5, 3);
+    ENEMY_init(17, FLYING, 13, 9, LEVEL_SCREEN_5, 3);
 }
 
-void ENEMY_init(u8 index, u8 type, u16 last_x, u16 last_y, u8 screen, u8 level)
+void ENEMY_init(u8 index, u8 type, u16 start_x, u16 start_y, u8 screen, u8 level)
 {
-    // kprintf("%d", level);
-    u16 last_x_calc = last_x * METATILE_W;
-    u16 last_y_calc = last_y * METATILE_W;
-    enemy_pool[index].last_x = last_x_calc;
-    enemy_pool[index].last_y = last_y_calc;
+
+    u16 x_calc = start_x * METATILE_W;
+    u16 start_y_calc = start_y * METATILE_W;
+    enemy_pool[index].start_x = x_calc;
+    enemy_pool[index].start_y = start_y_calc;
     enemy_pool[index].type = type;
     enemy_pool[index].on_screen = 0;
     enemy_pool[index].spawn_level = level;
     enemy_pool[index].spawn_screen = screen;
-    // enemy_pool[index].travel_min_range = min_range + last_x / METATILE_W;
-    // enemy_pool[index].travel_max_range = max_range + last_x / METATILE_W;
+    // enemy_pool[index].travel_min_range = min_range + x / METATILE_W;
+    // enemy_pool[index].travel_max_range = max_range + x / METATILE_W;
+    enemy_counter++;
 }
 
-u8 ENEMIES_spawn_hub(u8 current_level_enemies, u8 last_level_enemies, u8 ind)
+u8 ENEMIES_spawn_hub(u8 ind)
 {
-    for (u8 i = last_level_enemies; i < current_level_enemies; i++)
+    for (u8 i = 0; i < enemy_counter; i++)
     {
         // kprintf("spawn_screen: %d, screen: %d, spawn_level: %d level: %d", enemy_pool[i].spawn_screen, LEVEL_current_screen, enemy_pool[i].spawn_level, LEVEL_current_level);
         if (enemy_pool[i].spawn_screen == LEVEL_current_screen && enemy_pool[i].spawn_level == LEVEL_current_level)
@@ -107,11 +92,11 @@ u8 ENEMY_spawn(u8 index, u8 ind)
     switch (enemy_pool[index].type)
     {
     case 0:
-        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_g_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_GAME, false, ind);
+        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_g_enemy, enemy_pool[index].start_x, enemy_pool[index].start_y, PAL_GAME, false, ind);
         enemy_pool[index].firefly.speed_x = g_enemy_speed;
         break;
     case 1:
-        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_f_enemy, enemy_pool[index].last_x, enemy_pool[index].last_y, PAL_GAME, false, ind);
+        ind += GAMEOBJECT_init(&enemy_pool[index].firefly, &spr_f_enemy, enemy_pool[index].start_x, enemy_pool[index].start_y, PAL_GAME, false, ind);
         enemy_pool[index].firefly.speed_x = f_enemy_speed;
         break;
     default:
@@ -121,9 +106,9 @@ u8 ENEMY_spawn(u8 index, u8 ind)
     return ind;
 }
 
-void ENEMIES_update_hub(u8 current_level_enemies, u8 last_level_enemies)
+void ENEMIES_update_hub()
 {
-    for (u8 i = last_level_enemies; i < current_level_enemies; i++)
+    for (u8 i = 0; i < enemy_counter; i++)
     {
         if (enemy_pool[i].on_screen)
         {

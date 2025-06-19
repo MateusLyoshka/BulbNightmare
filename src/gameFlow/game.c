@@ -39,7 +39,7 @@ void GAME_update()
     update_input();
     PLAYER_update();
     LEVEL_update_camera(&player);
-    // ENEMIES_update_hub(enemies_current_level, enemies_past_level);
+    ENEMIES_update_hub();
     HUD_update();
 }
 
@@ -61,12 +61,11 @@ u16 GAME_init()
         HUD_clear();
         VDP_setWindowVPos(FALSE, 0);
     }
-    // ENEMIES_init();
     ind = LEVEL_init(ind);
     ind = PLAYER_init(ind);
-    GAME_mask_init();
+    ind = ENEMIES_spawn_hub(ind);
 
-    // ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
+    GAME_mask_init();
 
     OBJECT_update(ind);
     LEVEL_update_camera(&player);
@@ -111,7 +110,7 @@ void GAME_player_death()
 
 void GAME_level_change()
 {
-    // ENEMIES_level_change_despawn(enemies_current_level, enemies_past_level);
+    ENEMIES_level_change_despawn();
     if (player_lives && !pause_proceed)
     {
         LEVEL_current_level += 1;
@@ -138,7 +137,7 @@ void GAME_level_change()
 void GAME_screen_change()
 {
 
-    // ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
+    ind = ENEMIES_spawn_hub(ind);
     OBJECT_update(ind);
     MASK_draw();
     LEVEL_bool_screen_change = 0;
