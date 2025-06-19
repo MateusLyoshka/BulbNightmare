@@ -52,7 +52,7 @@ u16 GAME_init()
         ind = HUD_background(ind);
         HUD_init(ind);
     }
-    else
+    else if (LEVEL_current_level == 4)
     {
         HUD_clear();
         VDP_setWindowVPos(FALSE, 0);
@@ -135,7 +135,6 @@ void GAME_screen_change()
 {
 
     // ind = ENEMIES_spawn_hub(enemies_current_level, enemies_past_level, ind);
-    HUD_init(ind);
     OBJECT_update(ind);
     MASK_draw();
     LEVEL_bool_screen_change = 0;

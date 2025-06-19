@@ -48,16 +48,20 @@ void OBJECT_params()
     OBJECT_init(25, 3, 12, 3, 3, 3, true);
 
     OBJECT_init(26, 0, 3, 12, 3, 6, false); // 11, 12, tela 4
-    OBJECT_init(27, 1, 14, 4, 3, 4, false);
-    OBJECT_init(28, 3, 14, 4, 3, 4, true);
+    OBJECT_init(27, 2, 16, 8, 3, 4, false);
+    OBJECT_init(28, 1, 14, 4, 3, 4, false);
+    OBJECT_init(29, 3, 14, 4, 3, 4, true);
 
-    OBJECT_init(29, 2, 1, 9, 3, 7, false);
-    OBJECT_init(30, 2, 16, 9, 3, 7, false);
-    OBJECT_init(31, 1, 11, 3, 3, 7, false);
-    OBJECT_init(32, 3, 11, 3, 3, 7, true);
+    OBJECT_init(30, 2, 1, 9, 3, 7, false);
+    OBJECT_init(31, 2, 16, 9, 3, 7, false);
+    OBJECT_init(32, 1, 11, 3, 3, 7, false);
+    OBJECT_init(33, 3, 11, 3, 3, 7, true);
 
-    OBJECT_init(33, 0, 15, 12, 4, 8, true);
-    OBJECT_init(34, 2, 11, 12, 4, 8, true);
+    OBJECT_init(34, 0, 15, 12, 4, 8, true);
+    OBJECT_init(35, 2, 11, 12, 4, 8, true);
+
+    OBJECT_init(36, 1, 11, 12, 5, 6, true);
+    OBJECT_init(37, 3, 11, 12, 5, 6, true);
 }
 
 void OBJECT_init(u8 i, u8 type, u16 x, u16 y, u8 level, u8 screen, u8 prio)

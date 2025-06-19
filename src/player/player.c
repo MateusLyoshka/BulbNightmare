@@ -48,7 +48,7 @@ void PLAYER_update()
 {
     PLAYER_center_update();
     PLAYER_check_collisions();
-
+    kprintf("alive %d", player_is_alive);
     if (player_is_alive)
     {
         if (player_gravity > 0)
@@ -85,9 +85,9 @@ void PLAYER_get_input()
 {
     player.speed_x = 0;
     // player.speed_y = 0;
-
     if (key_down(0, BUTTON_RIGHT) && player_can_walk)
     {
+        kprintf("oi");
         player.speed_x = player_speed;
         SPR_setHFlip(player.sprite, false);
         player.anim = 4;
@@ -214,7 +214,7 @@ void PLAYER_enemy_collision()
             player_center.y >= e->box.top && player_center.y <= e->box.bottom)
         {
             // kprintf("Colidiu com inimigo %d!", i);
-            player_is_alive = 0;
+            // player_is_alive = 0;
             return;
         }
     }

@@ -22,7 +22,7 @@ void BOSS_init()
 
     boss_ind = GAME_init();
 
-    player_can_jump = 0;
+    player_can_jump = 1;
     player_can_walk = 1;
     BOSS_flux_update(true);
 }
@@ -30,12 +30,12 @@ void BOSS_init()
 void BOSS_flux()
 {
     BOSS_init();
-
+    player_is_alive = 1;
     while (!boss_proceed)
     {
+        BOSS_flux_update(true);
         if (player_center.tile_x == 4 && LEVEL_current_screen == 7)
         {
-            kprintf("a");
             player_can_walk = 0;
             LEVEL_scroll_update_collision(640, 448);
             LEVEL_bool_screen_change = 0;
@@ -47,7 +47,6 @@ void BOSS_flux()
             BACKGROUND_clear(1);
             boss_proceed = 1;
         }
-        BOSS_flux_update(true);
     }
 
     boss_proceed = 0;
@@ -121,6 +120,7 @@ void BOSS_flux()
 
     OBJECT_update(boss_ind);
     player_can_walk = 1;
+    player_can_jump = 1;
     while (!LEVEL_bool_level_change)
     {
         BOSS_flux_update(false);
@@ -194,13 +194,13 @@ u16 BOSS_random_crown_anim(u16 min_val, u16 max_val, u16 step)
 
 void BOSS_flux_update(u8 mask_bool)
 {
+    update_input();
+    PLAYER_update();
     if (mask_bool)
     {
         MASK_scroll_update();
     }
 
-    update_input();
-    PLAYER_update();
     LEVEL_update_camera(&player);
     SPR_update();
     SYS_doVBlankProcess();
