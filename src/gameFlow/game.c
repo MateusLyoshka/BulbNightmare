@@ -137,8 +137,11 @@ void GAME_level_change()
 
 void GAME_screen_change()
 {
+    if (player_is_alive || (!player_is_alive && LEVEL_last_screen != 6))
+    {
 
-    ind = ENEMIES_spawn_hub(ind);
+        ind = ENEMIES_spawn_hub(ind);
+    }
     OBJECT_update(ind);
     MASK_draw();
     LEVEL_bool_screen_change = 0;

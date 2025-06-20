@@ -14,6 +14,7 @@ extern u8 LEVEL_current_level;
 extern u8 LEVEL_current_screen;
 extern u8 LEVEL_bool_level_change;
 extern u8 LEVEL_bool_screen_change;
+extern u8 LEVEL_last_screen;
 
 extern u8 collision_result;
 

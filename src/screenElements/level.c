@@ -10,6 +10,7 @@ u8 LEVEL_current_level = 3;
 u8 LEVEL_current_screen = 0;
 u8 LEVEL_bool_screen_change = 0;
 u8 LEVEL_bool_level_change = 0;
+u8 LEVEL_last_screen = 6;
 
 // Top-Left screen position in map
 u16 screen_x = 0;
@@ -62,6 +63,7 @@ u16 LEVEL_init(u16 ind)
     u8 col = screen_x / SCREEN_W;
     u8 row = screen_y / SCREEN_H;
     LEVEL_current_screen = row * MAP_X_SCREENS + col;
+    LEVEL_last_screen = LEVEL_current_screen;
 
     // PAL_setPalette(PAL_BACKGROUND_B, level1_pal.data, DMA);
     VDP_loadTileSet(&tiles, ind, DMA);
@@ -182,7 +184,7 @@ void LEVEL_scroll_update_collision(s16 offset_x, s16 offset_y)
     {
         LEVEL_bool_screen_change = 1;
     }
-
+    LEVEL_last_screen = LEVEL_current_screen;
     LEVEL_current_screen = row * MAP_X_SCREENS + col;
     kprintf("screen x: %d, screen y: %d, screen %d", screen_x_control, screen_y_control, LEVEL_current_screen);
 
