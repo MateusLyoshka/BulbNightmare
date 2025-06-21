@@ -48,6 +48,7 @@ void PLAYER_check_collisions();
 void PLAYER_object_collision();
 void PLAYER_spike_collision();
 void PLAYER_enemy_collision();
+void PLAYER_death_anim();
 void PLAYER_respawn();
 void PLAYER_free();
 void PLAYER_invert_gravity();

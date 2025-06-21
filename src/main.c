@@ -22,8 +22,9 @@ int main(bool resetType)
 	// 2, 12
 
 	GAME_init_palettes();
-	// GAME_menu_init();
 	ENEMY_params();
+	GAME_update_palletes();
+	GAME_menu_init();
 	OBJECT_params();
 	GAME_init();
 	while (true)

@@ -93,7 +93,11 @@ void GAME_mask_init()
 
 void GAME_player_death()
 {
-    player_lives -= 1;
+    if (LEVEL_current_level < 5)
+    {
+        player_lives -= 1;
+    }
+
     if (!player_lives)
     {
         game_initiated = 0;
@@ -101,7 +105,7 @@ void GAME_player_death()
     }
     else
     {
-
+        PLAYER_death_anim();
         LEVEL_scroll_update_collision(0, 448);
         GAME_screen_change();
         PLAYER_respawn();
@@ -149,6 +153,7 @@ void GAME_screen_change()
 
 void GAME_menu_init()
 {
+
     ind = BACKGROUND_init_generalized(6, 1, PAL0, true, true, ind);
     fadeIn(60, target_palette, black_palette, PAL0);
     waitMs(1000);
@@ -214,10 +219,13 @@ void GAME_reset()
     ind = BACKGROUND_clear(0);
     ind = BACKGROUND_clear(1);
     ind = BACKGROUND_clear(2);
+    OBJECT_update(ind);
+    ENEMIES_update_hub();
     VDP_setWindowVPos(FALSE, 0);
     PLAYER_free();
     OBJECT_clear_all();
     HUD_clear();
+    ENEMIES_level_change_despawn();
     SPR_update();
     SYS_doVBlankProcess();
     GAME_menu_init();

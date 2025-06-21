@@ -11,7 +11,7 @@ PlayerSpawnPoint player_spawn;
 f16 player_gravity = 45;
 f16 player_speed = 70;
 u8 player_is_alive = 1;
-u8 player_keys = 4;
+u8 player_keys = 0;
 u8 player_lives = 0;
 u8 switchs_on = 0;
 
@@ -223,7 +223,7 @@ void PLAYER_check_collisions()
     PLAYER_object_collision();
 }
 
-void PLAYER_respawn()
+void PLAYER_death_anim()
 {
     if (!player_is_alive)
     {
@@ -234,8 +234,10 @@ void PLAYER_respawn()
             SYS_doVBlankProcess();
         }
     }
+}
 
-    // Reposiciona o player
+void PLAYER_respawn()
+{
     player.x = player_spawn.initial_x;
     player.y = player_spawn.initial_y;
 

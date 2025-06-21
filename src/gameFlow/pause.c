@@ -45,10 +45,12 @@ void PAUSE_update()
     else if (key_pressed(0, BUTTON_A) && pause_option == 1)
     {
         pause_proceed = 2;
+        set_black_palletes();
     }
     else if (key_pressed(0, BUTTON_A) && pause_option == 2)
     {
         pause_proceed = 3;
+        set_black_palletes();
     }
 }
 

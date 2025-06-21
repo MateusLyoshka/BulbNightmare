@@ -13,8 +13,8 @@ u16 MENU_init(u16 ind)
     current_room = 0;
     menu_option = -1;
     bg_proceed = 0;
+    PAL_setPalette(PAL_BACKGROUND_A, spr_start.palette->data, DMA);
     ind += GAMEOBJECT_init(&start, &spr_start, 97, 86, PAL_BACKGROUND_A, true, ind);
-    // kprintf("a");
     return ind;
 }
 
@@ -49,9 +49,10 @@ u16 MENU_update(u16 ind)
     }
     else if (key_pressed(0, BUTTON_A) && menu_option == 0)
     {
+        SPR_releaseSprite(menu.sprite);
+        SPR_update();
         fadeOut(60, PAL0);
         waitMs(400);
-        SPR_releaseSprite(menu.sprite);
         ind = BACKGROUND_clear(1);
         bg_proceed = 1;
     }
