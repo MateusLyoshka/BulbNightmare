@@ -19,6 +19,7 @@
 
 extern const u16 *game_palettes[6];
 
+void GAME_init_sounds();
 void GAME_init_palettes();
 void GAME_update_palletes();
 u16 GAME_init();

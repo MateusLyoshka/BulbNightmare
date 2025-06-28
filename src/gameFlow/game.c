@@ -15,6 +15,18 @@ void GAME_init_palettes()
     game_palettes[5] = boss_pal.data;
 }
 
+void GAME_init_sounds()
+{
+    XGM_setPCM(65, snd_start, sizeof(snd_start));
+    XGM_setPCM(66, snd_death, sizeof(snd_death));
+    XGM_setPCM(67, snd_key, sizeof(snd_key));
+    XGM_setPCM(68, snd_switch, sizeof(snd_switch));
+    XGM_setPCM(69, snd_jump, sizeof(snd_jump));
+    XGM_setPCM(70, snd_button_change, sizeof(snd_button_change));
+    XGM_setPCM(71, snd_boss_power, sizeof(snd_boss_power));
+    XGM_setPCM(72, snd_door, sizeof(snd_door));
+}
+
 void GAME_update()
 {
     if (!player_is_alive)

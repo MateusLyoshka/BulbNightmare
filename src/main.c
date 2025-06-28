@@ -21,12 +21,14 @@ int main(bool resetType)
 	player_spawn.initial_y = intToFix16(12 * METATILE_W);
 	// 2, 12
 
+	GAME_init_sounds();
 	GAME_init_palettes();
 	ENEMY_params();
 	GAME_update_palletes();
 	GAME_menu_init();
 	OBJECT_params();
 	GAME_init();
+	XGM_startPlay(game_track);
 	while (true)
 	{
 		GAME_update();

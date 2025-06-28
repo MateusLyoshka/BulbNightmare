@@ -105,6 +105,7 @@ void BOSS_flux()
         if (dialog_next == 8 && !transformed)
         {
             BOSS_transform_anim();
+            XGM_startPlayPCM(71, 1, SOUND_PCM_CH2);
             GAMEOBJECT_init(&enchant, &spr_enchant, player_center.x - 8, player_center.y - 8, PAL_GAME, false, boss_ind);
             for (u8 i = 0; i < 60; i++)
             {
@@ -117,6 +118,7 @@ void BOSS_flux()
             {
                 BOSS_flux_update(false);
             }
+            XGM_startPlayPCM(71, 1, SOUND_PCM_CH2);
             GAMEOBJECT_init(&enchant, &spr_enchant, player_center.x - 8, player_center.y - 8, PAL_GAME, false, boss_ind);
             for (u8 i = 0; i < 60; i++)
             {
@@ -240,6 +242,7 @@ void BOSS_power(u16 ind)
     }
     if (random_timer == 180)
     {
+        XGM_startPlayPCM(71, 1, SOUND_PCM_CH2);
         GAMEOBJECT_init(&enchant, &spr_enchant, player_center.x - 8, player_center.y - 8, PAL_GAME, false, ind);
     }
     if (enchant.sprite != NULL)

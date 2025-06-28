@@ -29,7 +29,7 @@ u16 PLAYER_init(u16 ind)
                            fix16ToInt(player_spawn.initial_x),
                            fix16ToInt(player_spawn.initial_y),
                            PAL_GAME, false, ind);
-    player_lives = 9;
+    player_lives = PLAYER_LIVES;
     return ind;
 }
 
@@ -102,6 +102,8 @@ void PLAYER_get_input()
     }
     if (key_pressed(0, BUTTON_A) && PLAYER_on_ground() && player_can_jump)
     {
+        XGM_startPlayPCM(69, 1, SOUND_PCM_CH1);
+
         player.speed_y = 0;
         player_gravity = -player_gravity;
         SPR_setVFlip(player.sprite, player_gravity < 0);
@@ -147,15 +149,16 @@ void PLAYER_object_collision()
     {
         if (collided->type == 2)
         {
-            kprintf("Colidiu com a CHAVE!");
+            // kprintf("Colidiu com a CHAVE!");
+            XGM_startPlayPCM(67, 1, SOUND_PCM_CH1);
             player_keys += 1;
             OBJECT_clear(collided, true);
             // collided = NULL;
         }
         else if (collided->type == 0 && player_keys == keys_on_level[LEVEL_current_level])
         {
-            kprintf("Colidiu com a PORTA!");
-
+            // kprintf("Colidiu com a PORTA!");
+            XGM_startPlayPCM(72, 1, SOUND_PCM_CH1);
             SPR_setVisibility(player.sprite, HIDDEN);
             SPR_setAnim(collided->obj.sprite, 1);
             for (u16 i = 0; i < 40; i++)
@@ -171,6 +174,7 @@ void PLAYER_object_collision()
         {
             if (key_down(0, BUTTON_B) && room_lights[LEVEL_current_screen] == 0)
             {
+                XGM_startPlayPCM(68, 1, SOUND_PCM_CH1);
                 switchs_on += 1;
                 room_lights[LEVEL_current_screen] = 1;
                 SPR_setAnim(collided->obj.sprite, 1);
@@ -225,6 +229,7 @@ void PLAYER_check_collisions()
 
 void PLAYER_death_anim()
 {
+    XGM_startPlayPCM(66, 1, SOUND_PCM_CH1);
     if (!player_is_alive)
     {
         SPR_setAnim(player.sprite, 8);

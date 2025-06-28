@@ -59,4 +59,13 @@ PALETTE level4_pal "palettes/level4.pal"
 PALETTE boss_pal "palettes/level5.pal"
 
 # SOUNDS
-WAV snd_start "sfx/game_start.wav" XGM 
+WAV snd_boss_power "sfx/boss_power.wav" XGM 
+WAV snd_button_change "sfx/button_change.wav" XGM 
+WAV snd_death "sfx/death.wav" XGM 
+WAV snd_jump "sfx/jump.wav" XGM 
+WAV snd_key "sfx/key.wav" XGM 
+WAV snd_switch "sfx/switch.wav" XGM 
+WAV snd_door "sfx/door.wav" XGM 
+WAV snd_start "sfx/start.wav" XGM 
+ 
+XGM game_track "sfx/my_father_eyes.vgm"

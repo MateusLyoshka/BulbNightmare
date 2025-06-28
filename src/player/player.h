@@ -11,6 +11,8 @@
 #include "../screenElements/darkness.h"
 // utils
 
+#define PLAYER_LIVES 9
+
 typedef struct
 {
     fix16 initial_x;

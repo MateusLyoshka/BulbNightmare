@@ -1,7 +1,15 @@
 #ifndef _RES_RESOURCES_H_
 #define _RES_RESOURCES_H_
 
-extern const u8 snd_start[25600];
+extern const u8 snd_boss_power[3584];
+extern const u8 snd_button_change[6400];
+extern const u8 snd_death[3072];
+extern const u8 snd_jump[1280];
+extern const u8 snd_key[2816];
+extern const u8 snd_switch[11008];
+extern const u8 snd_door[15104];
+extern const u8 snd_start[6912];
+extern const u8 game_track[0];
 extern const Image menu_bg;
 extern const Image pause_bg;
 extern const Image img_hud;

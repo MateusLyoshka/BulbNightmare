@@ -20,35 +20,42 @@ void PAUSE_update()
 {
     if (key_pressed(0, BUTTON_DOWN) && pause_option == 0)
     {
+        XGM_startPlayPCM(70, 1, SOUND_PCM_CH1);
         pause_option++;
         SPR_setAnim(pause.sprite, pause_option);
     }
     else if (key_pressed(0, BUTTON_DOWN) && pause_option == 1)
     {
+        XGM_startPlayPCM(70, 1, SOUND_PCM_CH1);
         pause_option++;
         SPR_setAnim(pause.sprite, pause_option);
     }
     else if (key_pressed(0, BUTTON_UP) && pause_option == 2)
     {
+        XGM_startPlayPCM(70, 1, SOUND_PCM_CH1);
         pause_option--;
         SPR_setAnim(pause.sprite, pause_option);
     }
     else if (key_pressed(0, BUTTON_UP) && pause_option == 1)
     {
+        XGM_startPlayPCM(70, 1, SOUND_PCM_CH1);
         pause_option--;
         SPR_setAnim(pause.sprite, pause_option);
     }
     else if (key_pressed(0, BUTTON_A) && pause_option == 0)
     {
+        XGM_startPlayPCM(65, 1, SOUND_PCM_CH1);
         pause_proceed = 1;
     }
     else if (key_pressed(0, BUTTON_A) && pause_option == 1)
     {
+        XGM_startPlayPCM(65, 1, SOUND_PCM_CH1);
         pause_proceed = 2;
         set_black_palletes();
     }
     else if (key_pressed(0, BUTTON_A) && pause_option == 2)
     {
+        XGM_startPlayPCM(65, 1, SOUND_PCM_CH1);
         pause_proceed = 3;
         set_black_palletes();
     }
