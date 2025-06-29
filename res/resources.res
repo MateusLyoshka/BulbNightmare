@@ -4,9 +4,15 @@ IMAGE pause_bg "backgrounds/pause_background.png" FAST
 IMAGE img_hud  "hud/hud.png" FAST
 IMAGE dark_mask "backgrounds/dark_mask.png" FAST 
 IMAGE utf_logo "backgrounds/utfpr.png" FAST 
-IMAGE instructions "backgrounds/instructions.png" FAST 
+IMAGE instructions "backgrounds/controls.png" FAST 
 
 IMAGE boss_bg "backgrounds/boss/boss2.png" FAST 
+
+# IMAGE backgrounds end game
+IMAGE dialog_1 "backgroundS/end_game/dialog_1.png" FAST  
+IMAGE dialog_2 "backgroundS/end_game/dialog_2.png" FAST  
+IMAGE dialog_3 "backgroundS/end_game/dialog_3.png" FAST  
+IMAGE final_screen "backgroundS/end_game/final_screen.png" FAST  
 
 # IMAGE bg_alerts
 IMAGE alert_1 "backgrounds/level_alert/level1.png" FAST
@@ -15,6 +21,7 @@ IMAGE alert_3 "backgrounds/level_alert/level3.png" FAST
 IMAGE alert_4 "backgrounds/level_alert/level4.png" FAST
 IMAGE alert_5 "backgrounds/level_alert/level5.png" FAST
 IMAGE alert_6 "backgrounds/level_alert/level6.png" FAST
+
 
 # SPRITES hud
 SPRITE spr_font_x "hud/font.png" 2 2 FAST 

@@ -19,6 +19,10 @@ typedef enum
     BG_INSTRUCT,
     BG_PAUSE,
     BG_BOSS,
+    BG_DIALOG_1,
+    BG_DIALOG_2,
+    BG_DIALOG_3,
+    FINAL_SCREEN,
     BG_MAX
 } BackgroundType;
 

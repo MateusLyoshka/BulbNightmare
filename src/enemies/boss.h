@@ -14,6 +14,8 @@
 #include "../gameFlow/game.h"
 #include "../utils/globals.h"
 
+extern GameObject enchant;
+
 void BOSS_init();
 void BOSS_flux();
 void BOSS_flux_update(u8 mask_bool);

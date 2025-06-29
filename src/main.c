@@ -25,8 +25,8 @@ int main(bool resetType)
 	GAME_init_palettes();
 	ENEMY_params();
 	GAME_update_palletes();
-	GAME_menu_init();
 	OBJECT_params();
+	GAME_menu_init();
 	GAME_init();
 	XGM_startPlay(game_track);
 	while (true)

@@ -2,6 +2,7 @@
 
 u16 ind = TILE_USER_INDEX + 32;
 u8 game_initiated;
+u8 game_ended = 0;
 
 const u16 *game_palettes[6];
 
@@ -125,6 +126,31 @@ void GAME_player_death()
     }
 }
 
+void GAME_end_game()
+{
+    set_black_palletes();
+    ind = BACKGROUND_init_generalized(11, 1, PAL0, true, true, ind);
+    fadeIn(60, target_palette, black_palette, PAL0);
+    waitMs(1000);
+    fadeOut(60, PAL0);
+    ind = BACKGROUND_init_generalized(12, 1, PAL0, true, true, ind);
+    fadeIn(60, target_palette, black_palette, PAL0);
+    waitMs(1000);
+    fadeOut(60, PAL0);
+    ind = BACKGROUND_init_generalized(13, 1, PAL0, true, true, ind);
+    fadeIn(60, target_palette, black_palette, PAL0);
+    waitMs(1000);
+    fadeOut(60, PAL0);
+    ind = BACKGROUND_init_generalized(14, 1, PAL0, true, true, ind);
+    fadeIn(120, target_palette, black_palette, PAL0);
+    waitMs(4000);
+    fadeOut(120, PAL0);
+    ind = BACKGROUND_clear(1);
+    game_ended = 1;
+    LEVEL_bool_level_change = 0;
+    GAME_reset();
+}
+
 void GAME_level_change()
 {
     ENEMIES_level_change_despawn();
@@ -135,6 +161,12 @@ void GAME_level_change()
     else
     {
         LEVEL_current_level = 0;
+    }
+    if (LEVEL_current_level == 6)
+    {
+        kprintf("level: %d", LEVEL_current_level);
+        GAME_end_game();
+        return;
     }
     ind = TILE_USER_INDEX + 32;
     player_keys = 0;
@@ -227,17 +259,27 @@ void GAME_reset()
     switchs_on = 0;
     game_initiated = 0;
     hud_initiated = 0;
+
+    if (LEVEL_current_level < 5)
+    {
+        HUD_clear();
+    }
+
+    if (enchant.sprite != NULL)
+    {
+        SPR_releaseSprite(enchant.sprite);
+        enchant.sprite = NULL;
+    }
     LEVEL_current_level = 0;
     ind = BACKGROUND_clear(0);
     ind = BACKGROUND_clear(1);
     ind = BACKGROUND_clear(2);
     OBJECT_update(ind);
     ENEMIES_update_hub();
+    OBJECT_clear_all();
+    ENEMIES_level_change_despawn();
     VDP_setWindowVPos(FALSE, 0);
     PLAYER_free();
-    OBJECT_clear_all();
-    HUD_clear();
-    ENEMIES_level_change_despawn();
     SPR_update();
     SYS_doVBlankProcess();
     GAME_menu_init();

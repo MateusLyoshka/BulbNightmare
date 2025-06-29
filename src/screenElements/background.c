@@ -12,7 +12,10 @@ const Image *background_images[BG_MAX] = {
     [BG_PAUSE] = &pause_bg,
     [BG_BOSS] = &boss_bg,
     [BG_INSTRUCT] = &instructions,
-};
+    [BG_DIALOG_1] = &dialog_1,
+    [BG_DIALOG_2] = &dialog_2,
+    [BG_DIALOG_3] = &dialog_3,
+    [FINAL_SCREEN] = &final_screen};
 u8 bg_proceed = 0;
 
 u16 BACKGROUND_init_generalized(BackgroundType type, u8 bg, u8 pal, u8 set_fade, u8 prio, u16 ind)
