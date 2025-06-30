@@ -10,7 +10,7 @@ int main(bool resetType)
 	VDP_setScreenWidth320();
 	SPR_init();
 	VDP_setPlaneSize(64, 64, true);
-	SYS_showFrameLoad(true);
+	// SYS_showFrameLoad(true);
 
 	if (!resetType)
 	{
