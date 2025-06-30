@@ -28,7 +28,7 @@ int main(bool resetType)
 	OBJECT_params();
 	GAME_menu_init();
 	GAME_init();
-	XGM_startPlay(game_track);
+
 	while (true)
 	{
 		GAME_update();
