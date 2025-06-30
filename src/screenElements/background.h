@@ -16,13 +16,15 @@ typedef enum
     ALERT_6,
     BG_LOGO,
     BG_MENU,
-    BG_INSTRUCT,
+    BG_INSTRUCT1,
     BG_PAUSE,
     BG_BOSS,
     BG_DIALOG_1,
     BG_DIALOG_2,
     BG_DIALOG_3,
     FINAL_SCREEN,
+    BG_INSTRUCT2,
+    BG_CREDITS,
     BG_MAX
 } BackgroundType;
 

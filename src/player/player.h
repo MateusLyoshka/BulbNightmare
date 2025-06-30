@@ -41,6 +41,7 @@ extern u8 switchs_on;
 extern u8 player_can_jump;
 extern u8 player_can_walk;
 extern PlayerSpawnPoint player_spawn;
+extern u8 player_cheat_on;
 
 u16 PLAYER_init(u16 ind);
 void PLAYER_update();

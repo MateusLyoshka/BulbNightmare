@@ -65,13 +65,36 @@ u16 MENU_update(u16 ind)
     }
     else if (key_pressed(0, BUTTON_A) && menu_option == 1 && current_room == 0)
     {
+        u8 proceed = 0;
         XGM_startPlayPCM(65, 1, SOUND_PCM_CH1);
         current_room = 1;
         ind = BACKGROUND_init_generalized(8, 1, PAL_BACKGROUND_B, false, false, ind);
         SPR_releaseSprite(menu.sprite);
+        update_input();
+
+        while (!proceed)
+        {
+            if (key_pressed(0, BUTTON_A))
+            {
+                proceed = 1;
+            }
+            update_input();
+            SPR_update();
+            SYS_doVBlankProcess();
+        }
+
+        BACKGROUND_clear(1);
+        ind = BACKGROUND_init_generalized(15, 1, PAL_BACKGROUND_B, false, false, ind);
     }
-    else if (key_pressed(0, BUTTON_A) && current_room == 1)
+    else if (key_pressed(0, BUTTON_A) && menu_option == 2 && current_room == 0)
     {
+        ind = BACKGROUND_init_generalized(16, 1, PAL_BACKGROUND_B, false, false, ind);
+        SPR_releaseSprite(menu.sprite);
+        current_room = 2;
+    }
+    else if (key_pressed(0, BUTTON_A) && (current_room == 1 || current_room == 2))
+    {
+        ind = BACKGROUND_clear(1);
         current_room = 0;
         ind = BACKGROUND_init_generalized(7, 1, PAL_BACKGROUND_B, false, true, ind);
         ind = GAMEOBJECT_init(&menu, &spr_menu, 96, 72, PAL_BACKGROUND_A, true, ind);

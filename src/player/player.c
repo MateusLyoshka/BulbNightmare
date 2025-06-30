@@ -14,6 +14,7 @@ u8 player_is_alive = 1;
 u8 player_keys = 0;
 u8 player_lives = 0;
 u8 switchs_on = 0;
+u8 player_cheat_on = 0;
 
 u8 player_can_jump = 1;
 u8 player_can_walk = 1;
@@ -83,7 +84,6 @@ void PLAYER_update()
 void PLAYER_get_input()
 {
     player.speed_x = 0;
-    // player.speed_y = 0;
     if (key_down(0, BUTTON_RIGHT) && player_can_walk)
     {
         player.speed_x = player_speed;
@@ -153,7 +153,6 @@ void PLAYER_object_collision()
             XGM_startPlayPCM(67, 1, SOUND_PCM_CH1);
             player_keys += 1;
             OBJECT_clear(collided, true);
-            // collided = NULL;
         }
         else if (collided->type == 0 && player_keys == keys_on_level[LEVEL_current_level])
         {
@@ -180,9 +179,6 @@ void PLAYER_object_collision()
                 SPR_setAnim(collided->obj.sprite, 1);
                 collided->obj.anim = 1;
             }
-
-            // OBJECT_collect(collided);
-            // collided = NULL;
         }
         else
         {
@@ -195,7 +191,11 @@ void PLAYER_spike_collision()
 {
     if (collision_map[player_center.tile_x][player_center.tile_y] == TOP_SPIKE_LEVEL_INDEX || collision_map[player_center.tile_x][player_center.tile_y] == BOTTOM_SPIKE_LEVEL_INDEX)
     {
-        player_is_alive = 0;
+        if (!player_cheat_on)
+        {
+            player_is_alive = 0;
+        }
+
         return;
     }
 }
@@ -206,15 +206,18 @@ void PLAYER_enemy_collision()
     for (u8 i = 0; i < enemy_counter; i++)
     {
         if (enemy_pool[i].firefly.sprite == NULL)
-            continue; // inimigo inexistente
+            continue;
 
         GameObject *e = &enemy_pool[i].firefly;
 
         if (player_center.x >= e->box.left && player_center.x <= e->box.right &&
             player_center.y >= e->box.top && player_center.y <= e->box.bottom)
         {
-            // kprintf("Colidiu com inimigo %d!", i);
-            player_is_alive = 0;
+            if (!player_cheat_on)
+            {
+                player_is_alive = 0;
+            }
+
             return;
         }
     }

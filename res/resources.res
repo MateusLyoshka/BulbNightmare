@@ -4,7 +4,9 @@ IMAGE pause_bg "backgrounds/pause_background.png" FAST
 IMAGE img_hud  "hud/hud.png" FAST
 IMAGE dark_mask "backgrounds/dark_mask.png" FAST 
 IMAGE utf_logo "backgrounds/utfpr.png" FAST 
-IMAGE instructions "backgrounds/controls.png" FAST 
+IMAGE instructions1 "backgrounds/controls1.png" FAST 
+IMAGE instructions2 "backgrounds/controls2.png" FAST 
+IMAGE credits "backgrounds/credits.png" FAST 
 
 IMAGE boss_bg "backgrounds/boss/boss2.png" FAST 
 
@@ -74,5 +76,7 @@ WAV snd_key "sfx/key.wav" XGM
 WAV snd_switch "sfx/switch.wav" XGM 
 WAV snd_door "sfx/door.wav" XGM 
 WAV snd_start "sfx/start.wav" XGM 
+WAV snd_cheat_on "sfx/cheat_on.wav" XGM 
+WAV snd_cheat_off "sfx/cheat_off.wav" XGM 
  
 XGM game_track "sfx/my_father_eyes.vgm"

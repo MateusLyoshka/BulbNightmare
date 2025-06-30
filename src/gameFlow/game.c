@@ -26,6 +26,8 @@ void GAME_init_sounds()
     XGM_setPCM(70, snd_button_change, sizeof(snd_button_change));
     XGM_setPCM(71, snd_boss_power, sizeof(snd_boss_power));
     XGM_setPCM(72, snd_door, sizeof(snd_door));
+    XGM_setPCM(73, snd_cheat_on, sizeof(snd_cheat_on));
+    XGM_setPCM(74, snd_cheat_off, sizeof(snd_cheat_off));
 }
 
 void GAME_update()
@@ -45,6 +47,19 @@ void GAME_update()
     if (LEVEL_current_level == 5)
     {
         BOSS_power(ind);
+    }
+    if (key_pressed(0, BUTTON_C) && player_is_alive)
+    {
+        if (!player_cheat_on)
+        {
+            XGM_startPlayPCM(73, 1, SOUND_PCM_CH1);
+            player_cheat_on = 1;
+        }
+        else
+        {
+            XGM_startPlayPCM(74, 1, SOUND_PCM_CH1);
+            player_cheat_on = 0;
+        }
     }
 
     GAME_pause_init();
