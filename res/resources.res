@@ -78,5 +78,3 @@ WAV snd_door "sfx/door.wav" XGM
 WAV snd_start "sfx/start.wav" XGM 
 WAV snd_cheat_on "sfx/cheat_on.wav" XGM 
 WAV snd_cheat_off "sfx/cheat_off.wav" XGM 
- 
-XGM game_track "sfx/my_father_eyes.vgm"
