@@ -11,7 +11,6 @@ extern const u8 snd_door[15104];
 extern const u8 snd_start[6912];
 extern const u8 snd_cheat_on[6400];
 extern const u8 snd_cheat_off[6400];
-extern const u8 game_track[0];
 extern const Image menu_bg;
 extern const Image pause_bg;
 extern const Image img_hud;
