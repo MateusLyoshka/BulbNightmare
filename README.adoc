@@ -1,141 +1,95 @@
-== Setting up SGDK with Visual Studio Code
+= BulbNightmare
 
-This small project will help to setup a working environment (tested in Windows) for Sega Mega Drive developing with SGDK toolchain and Visual Studio Code as prefered editor. Visual Studio Code will be setup with c/cpp code extension and tasks to build and clean the workspace.
+== Table of Contents
 
-
-=== Prerequisites
-
-. Download link:https://github.com/Stephane-D/SGDK[SGDK]
-. Download link:https://code.visualstudio.com/[Visual Studio Code]
-
-
-=== Setup
-
-* Extract SGDK to a prefered directory.
-* Create an environment variable `GDK` pointing to the SGDK directory (e.g. "C:/dev/sgdk").
-* Install Visual Studio Code.
-* Install the following extensions in vsCode: `C/C++ for Visual Studio Code`
-* Clone this github repo: `git clone https://github.com/pleft/SEGA_VSCode_Template.git`.
-
-=== Usage
-
-* Open `VSCode` and `File->Open Folder...` and choose the folder of the checked out repository.
-* Folder `.vscode` contains two files: `c_cpp_properties.json` and `tasks.json`
-    * In `c_cpp_properties.json` it is added the include folder of the `SGDK`: `"includePath": ["${GDK}/inc"]`
-    * In `tasks.json` there are 2 tasks to help build and clean the project, `make` and `clean`. 
-        - To run `make` task press `Ctrl-Shift-B`.
-        - To run `make` or `clean` press `Ctrl-P` then write `task make` or `task clean`.
-
-# Project Title: [Your Project Name Here]
-
-## Table of Contents
-
-1.  [Introduction](#introduction)
-2.  [About SEGA Mega Drive / Genesis](#about-sega-mega-drive--genesis)
-3.  [About SGDK](#about-sgdk)
-4.  [Project Structure](#project-structure)
-5.  [Building the Project](#building-the-project)
-6.  [Running the Project](#running-the-project)
-7.  [Gameplay / Features](#gameplay--features)
-8.  [Credits](#credits)
+1. Introduction  
+2. About SEGA Mega Drive / Genesis  
+3. About SGDK  
+4. Building the Project  
+5. Running the Project  
+6. Gameplay / Features  
+7. Credits  
 
 ---
 
-## 1. Introduction
+== 1. Introduction
 
-This repository contains the source code for **[Your Project Name Here]**, a game developed for the SEGA Mega Drive / Genesis console. This project aims to [briefly describe your game's core concept, genre, and any unique selling points]. Developed using the SGDK (Sega Genesis Development Kit), it showcases the capabilities of homebrew development on classic 16-bit hardware.
+This repository contains the source code for *BulbNightmare*, a game developed for the SEGA Mega Drive / Genesis console. It is a platformer where the player controls a small lightbulb that has fallen into the sewers — known as the *Firefly Sewage*. The game features play in darkness and gravity inversion mechanics.
 
-## 2. About SEGA Mega Drive / Genesis
+Developed using the SGDK (Sega Genesis Development Kit) for a college subject called *Legacy Platform Development* — the first Mega Drive development course in Brazil, taught by Marcos Silvano Almeida — this project showcases the capabilities of homebrew development on classic 16-bit hardware.
 
-The SEGA Mega Drive, known as the Genesis in North America, is a 16-bit video game console developed and sold by Sega. It was first released in Japan in 1988, followed by North America in 1989 (as the Genesis), and Europe in 1990. It became one of the most iconic consoles of its era, known for its powerful Motorola 68000 CPU, vibrant graphics, and distinctive sound capabilities provided by the Yamaha YM2612 FM synthesis chip and the Zilog Z80-controlled PSG. The console's fast processing speed and sprite-handling capabilities made it a popular platform for arcade-style games, particularly action and platformers.
+== 2. About SEGA Mega Drive / Genesis
 
-## 3. About SGDK
+The SEGA Mega Drive, known as the Genesis in North America, is a 16-bit video game console developed and sold by SEGA. It was first released in Japan in 1988, followed by North America in 1989 and Europe in 1990. It became one of the most iconic consoles of its era, known for its Motorola 68000 CPU, vibrant graphics, and audio powered by the Yamaha YM2612 FM synthesis chip. The console’s speed and sprite-handling capabilities made it ideal for arcade-style games.
 
-SGDK (Sega Genesis Development Kit) is a free, open-source development kit that allows programmers to create games and applications for the SEGA Mega Drive / Genesis console using the C programming language. It provides a comprehensive set of libraries and tools to interact with the console's hardware, including:
+== 3. About SGDK
 
-* **VDP (Video Display Processor) Control:** Functions for managing backgrounds, sprites, palettes, and scrolling.
-* **Sound Control:** Support for the YM2612 (FM Synthesis) and PSG (Programmable Sound Generator) chips, as well as PCM sample playback.
-* **Input Handling:** Reading input from Mega Drive controllers.
-* **Memory Management:** Utilities for efficient memory usage.
-* **Fixed-Point Math:** Essential for game physics on the console's integer-based CPU.
+SGDK (Sega Genesis Development Kit) is a free and open-source C development kit for the SEGA Mega Drive / Genesis. It provides a robust set of libraries and tools that simplify development for the platform, including:
 
-SGDK simplifies the complex process of low-level hardware programming, making Mega Drive homebrew development more accessible to a wider range of developers.
+- **VDP Control**: Manage sprites, backgrounds, palettes, and scrolling.  
+- **Sound Management**: Use the YM2612 and PSG chips, including PCM sample playback.  
+- **Input Handling**: Easily read controller input.  
+- **Fixed-Point Math & Memory Utilities**: Suitable for game physics and efficient memory use.
 
-## 4. Project Structure
+== 4. Building the Project
 
-This project is organized as follows:
+To build this project, ensure that the SGDK environment is properly set up on your system.
 
-* `res/`: Contains game assets such as sprites, tilemaps, and palettes. These are typically compiled into `.res` files by the SGDK tools.
-* `src/`: Contains the C source code files.
-    * `src/gameFlow/`: Core game management logic.
-        * `game.h`, `game.c`: Main game loop, initialization, state management.
-        * `menu.h`, `menu.c`: Main menu and options handling.
-        * `pause.h`, `pause.c`: Pause menu functionality.
-    * `src/screenElements/`: Visual and interactive elements on screen.
-        * `background.h`, `background.c`: Background image and plane management.
-        * `darkness.h`, `darkness.c`: Logic for dynamic lighting and darkness effects.
-        * `hud.h`, `hud.c`: Head-Up Display elements and updates.
-        * `level.h`, `level.c`: Level loading, collision detection, camera control.
-        * `objects.h`, `objects.c`: Interactive game objects (keys, switches, doors, sparks).
-    * `src/enemies/`: Enemy specific logic.
-        * `enemies.h`, `enemies.c`: General enemy management and AI.
-        * `boss.h`, `boss.c`: Boss character specific logic and phases.
-    * `src/player/`: Player character logic.
-        * `player.h`, `player.c`: Player movement, input, and collision handling.
-    * `src/utils/`: General utility functions and global definitions.
-        * `globals.h`: Global constants and external variable declarations.
-        * `gameobject.h`: Generic `GameObject` structure and related functions.
-        * `utils.h`: Miscellaneous utility functions (e.g., input polling, random numbers).
-* `main.c`: The entry point of the application.
-* `makefile`: SGDK's build script to compile the project.
-* `rescomp.txt`: Configuration file for SGDK's resource compiler.
+1. Install SGDK:  
+   Download and extract SGDK from https://github.com/Stephane-D/SGDK to your preferred location (e.g., `C:/dev/sgdk`).
 
-## 5. Building the Project
+2. Set Environment Variable:  
+   Add an environment variable `GDK` pointing to your SGDK path.
 
-To build this project, you will need to have the SGDK environment set up.
+3. Clone This Repository:
+[source, bash]
+----
+git clone https://github.com/MateusLyoshka/BulbNightmare.git
+----
 
-1.  **Install SGDK:** Follow the official SGDK installation guide for your operating system. [You can link to SGDK's official installation page here if desired]
-2.  **Navigate to Project Directory:** Open your terminal or command prompt and navigate to the root directory of this project where the `makefile` is located.
-3.  **Run Make:** Execute the `make` command:
-    ```bash
-    make
-    ```
-    This will compile the source code, process resources, and generate a `.bin` or `.md` file (a ROM image) in the `out/` directory.
+4. Open in Visual Studio Code:  
+   Launch VSCode and open the cloned folder.
 
-## 6. Running the Project
+5. Build the Project:  
+   - Press `Ctrl+Shift+B` to build.  
+   - Or use `Ctrl+P → task make` to build or `task clean` to clean.
 
-Once the ROM file (`.bin` or `.md`) is generated, you can run the game using:
+A `.bin` or `.md` ROM file will be generated in the `out/` folder.
 
-* **An Emulator:** Popular SEGA Mega Drive / Genesis emulators include:
-    * Fusion (Windows)
-    * Kega Fusion (Cross-platform)
-    * Gens (Cross-platform)
-    * RetroArch (with Genesis Plus GX core)
-* **Flash Cartridge:** Load the ROM onto a flash cartridge (e.g., EverDrive, Mega EverDrive) and play it on real Mega Drive / Genesis hardware.
+== 5. Running the Project
 
-## 7. Gameplay / Features
+Once built, the game can be played using:
 
-* **[Feature 1]:** [e.g., Dynamic gravity inversion mechanic that changes gameplay].
-* **[Feature 2]:** [e.g., Interactive environment objects like keys, switches, and doors].
-* **[Feature 3]:** [e.g., Multiple levels with unique layouts and challenges].
-* **[Feature 4]:** [e.g., Custom enemy types with distinct behaviors (ground and flying)].
-* **[Feature 5]:** [e.g., A multi-phase boss fight with unique attacks and animations].
-* **[Feature 6]:** [e.g., Immersive darkness effects that react to light switches].
-* **[Feature 7]:** [e.g., Comprehensive HUD displaying lives, keys, and activated switches].
-* **[Feature 8]:** [e.g., In-game pause menu with options to resume, restart level, or exit].
-* **[Feature 9]:** [e.g., Custom sound effects and music (if applicable)].
+.Emulators
+- Gens (recommended)  
+- Kega Fusion  
+- RetroArch (Genesis Plus GX core)  
+- BlastEm  
 
-### Controls
+.Real Hardware
+Use a flash cartridge such as *EverDrive* or *Mega EverDrive* to play on an actual Mega Drive / Genesis console.
 
-* **D-Pad:** Move character (Left/Right).
-* **Button A:** [Action, e.g., Jump / Interact with gravity].
-* **Button B:** [Action, e.g., Activate switch / Confirm dialog].
-* **Button C:** [Action, e.g., Toggle cheat mode].
-* **Start Button:** Pause game / Confirm selection in menus.
+== 6. Gameplay / Features
 
-## 8. Credits
+- *Feature 1*: Dynamic gravity inversion mechanic that changes gameplay.  
+- *Feature 2*: Interactive environmental objects like keys, switches, and doors.  
+- *Feature 3*: Multiple levels with unique layouts and challenges.  
+- *Feature 4*: Custom enemy types with distinct behaviors (ground and flying).  
+- *Feature 5*: A multi-phase boss fight with unique attacks and animations.  
+- *Feature 6*: Immersive darkness effects that respond to light switches.  
+- *Feature 7*: HUD displaying lives, keys, and switch states.  
+- *Feature 8*: Pause menu with resume, restart, and exit options.  
+- *Feature 9*: Sound effects.
 
-* **Developer(s):** [Your Name(s) / Team Name]
-* **Tools Used:** SGDK, [Any other specific tools like Aseprite for art, Famitracker for music, etc.]
-* **Special Thanks:** [Optional: Anyone you'd like to thank for their support, resources, or inspiration]
-* **Contact:** [Your Contact Information, e.g., Email, GitHub Profile]
+.Controls
+- **D-Pad**: Move (left/right)  
+- **Button A**: Jump / Invert gravity (`A` on keyboard)  
+- **Button B**: Interact / Confirm (`S` on keyboard)  
+- **Button C**: Toggle cheat (`D` on keyboard)  
+- **Start**: Pause / Menu navigation
+
+== 7. Credits
+
+- *Developer(s)*: Mateus Santos Fernandes  
+- *Tools Used*: SGDK, Aseprite, Audacity  
+- *Contact*: mateussantosf04@gmail.com or https://linkedin.com/in/mateuslyoshka  

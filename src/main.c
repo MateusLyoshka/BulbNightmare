@@ -27,20 +27,20 @@ int main(bool resetType)
 	player_spawn.initial_x = intToFix16(2 * METATILE_W);  // X-coordinate: 2 metatiles.
 	player_spawn.initial_y = intToFix16(12 * METATILE_W); // Y-coordinate: 12 metatiles.
 
-	GAME_init_sounds();		// Initializes all sound effects for the game.
-	GAME_init_palettes();	// Initializes the game's palettes.
-	ENEMY_params();			// Sets up the parameters for all enemies.
-	GAME_update_palletes(); // Applies the initial game palettes.
-	OBJECT_params();		// Sets up the parameters for all interactive objects.
-	GAME_menu_init();		// Initializes and displays the main menu.
-	GAME_init();			// Initializes the game state (levels, player, enemies, etc.).
+	GAME_init_sounds();
+	GAME_init_palettes();
+	ENEMY_params();
+	GAME_update_palletes();
+	OBJECT_params();
+	GAME_menu_init();
+	GAME_init();
 
 	while (true) // Main game loop, continues indefinitely.
 	{
-		GAME_update();		   // Updates all game logic (player, enemies, collisions, etc.).
-		SPR_update();		   // Updates the sprite engine, sending sprite data to VDP.
-		SYS_doVBlankProcess(); // Waits for the V-blank period, synchronizing with screen refresh.
+		GAME_update();
+		SPR_update();
+		SYS_doVBlankProcess();
 	}
 
-	return 0; // Should theoretically never be reached in a continuous game loop.
+	return 0;
 }
