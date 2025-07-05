@@ -16,7 +16,7 @@
 
 This repository contains the source code for *BulbNightmare*, a game developed for the SEGA Mega Drive / Genesis console. It is a platformer where the player controls a small lightbulb that has fallen into the sewers — known as the *Firefly Sewage*. The game features play in darkness and gravity inversion mechanics.
 
-Developed using the SGDK (Sega Genesis Development Kit) for a college subject called *Legacy Platform Development* — the first Mega Drive development course in Brazil, taught by Marcos Silvano Almeida — this project showcases the capabilities of homebrew development on classic 16-bit hardware.
+Developed using the SGDK (Sega Genesis Development Kit) for a college subject called *Legacy Platform Development* — the first Mega Drive development subject in Brazil, taught by Marcos Silvano Almeida — this project showcases the capabilities of homebrew development on classic 16-bit hardware.
 
 == 2. About SEGA Mega Drive / Genesis
 
